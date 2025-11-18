@@ -1,8 +1,8 @@
 
 import axios from "axios";
-import type { UserDTO } from "../types/types";
+import type { LoginDTO, UserDTO } from "../types/types";
 
-const apiUrl = import.meta.env.BACKEND_URL;
+const apiUrl = "http://localhost:5047/api";
 
 const api = axios.create({
     baseURL:apiUrl,
@@ -11,4 +11,5 @@ const api = axios.create({
     }
 });
 
-export const createUser = (payload:UserDTO) => api.post("/create",payload)
+export const createUser = (payload:UserDTO) => api.post("/User", payload)
+export const login = (payload:LoginDTO) => api.post("/Auth/login", payload)

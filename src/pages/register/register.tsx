@@ -2,6 +2,9 @@ import { useState } from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { ToastContainer, toast } from 'react-toastify';
+import { createUser } from "../../api/api";
+import type { UserDTO } from "../../types/types";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [userType, setUserType] = useState("pf");
@@ -10,28 +13,30 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const user: UserDTO = { fullName: name, email, cpfCnpj, password: senha}
 
-    const newUser = {
-      tipo: userType,
-      identificador: cpfCnpj,
-      nome: name,
-      email: email,
-      senha: senha,
-      confirmarSenha: confirmarSenha
-    };
-
-      if (senha !== confirmarSenha) {
-          toast.error("Senha e Confirmar senha não correspondem!");
-          return;
-      }
-      else
+    try 
+    {
+      if (senha !== confirmarSenha) 
       {
-          toast.success("Conta criada com sucesso!");
-          console.log("Usuário criado:", newUser);
+        toast.error("Senha e Confirmar senha não correspondem!");
+        return;
       }
+
+      createUser(user)
+      .then(() => navigate("/login"))
+      .catch(() => toast.error("Erro ao criar usuário"));
+    } 
+    catch (error) 
+    {
+      toast.error("Credenciais inválidas!");
+    }
+
+
   };
 
   return (
@@ -56,7 +61,7 @@ export default function Register() {
 
             <div className="max-w-[80%] w-full flex flex-col">
                 <label>Confirmar Senha</label>
-                <input onChange={(event) => setConfirmarSenha(event.target.value)}  type="confirm_password" className="form-input" />
+                <input onChange={(event) => setConfirmarSenha(event.target.value)} type="password" className="form-input" />
             </div>
 
             <div className="max-w-[80%] w-full flex user_type">
