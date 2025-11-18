@@ -1,73 +1,720 @@
-# React + TypeScript + Vite
+# Documentação do Sistema de Leads - Receita Federal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. Visão Geral do Projeto
 
-Currently, two official plugins are available:
+### 1.1 Descrição
+Sistema automatizado para importação, processamento e comercialização de dados públicos da Receita Federal do Brasil, permitindo que empresas adquiram leads qualificados e atualizados através de filtros personalizados.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 1.2 Objetivos
+- Automatizar a coleta diária de dados da Receita Federal
+- Processar e normalizar informações empresariais
+- Disponibilizar interface de busca e filtros avançados
+- Comercializar pacotes de leads segmentados
+- Garantir atualização constante da base de dados
 
-## React Compiler
+### 1.3 Stack Tecnológica
+- **Backend:** ASP.NET Core (C#) - API RESTful
+- **Frontend:** React
+- **Banco de Dados:** MongoDB
+- **Backup:** Sistema automatizado com retenção
+- **Infraestrutura:** Cloud-ready architecture
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 2. Personas
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Persona 1: Gerente de Vendas B2B
+**Nome:** Ricardo Silva  
+**Idade:** 38 anos  
+**Cargo:** Gerente Comercial  
+**Empresa:** Empresa de software B2B (50 funcionários)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**Objetivos:**
+- Encontrar empresas recém-abertas para prospecção
+- Filtrar empresas por segmento e localização
+- Obter dados atualizados de contato
+- Reduzir tempo de pesquisa manual
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+**Dores:**
+- Bases de dados desatualizadas
+- Dificuldade em segmentar leads qualificados
+- Alto custo de ferramentas de prospecção
+- Perda de tempo com dados incorretos
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Como o sistema ajuda:**
+- Acesso a dados sempre atualizados da Receita Federal
+- Filtros por CNAE, localização, porte e data de abertura
+- Export de leads em formatos prontos para CRM
+- Preço acessível por pacotes de leads
+
+### Persona 2: Analista de Inteligência de Mercado
+**Nome:** Mariana Costa  
+**Idade:** 32 anos  
+**Cargo:** Analista de Market Intelligence  
+**Empresa:** Consultoria estratégica (200 funcionários)
+
+**Objetivos:**
+- Mapear novos entrantes em mercados específicos
+- Analisar tendências de abertura de empresas
+- Gerar relatórios setoriais
+- Identificar oportunidades de negócio
+
+**Dores:**
+- Dados fragmentados em múltiplas fontes
+- Dificuldade em análises temporais
+- Falta de APIs para integração
+- Processos manuais demorados
+
+**Como o sistema ajuda:**
+- API para integração com ferramentas de BI
+- Histórico completo de alterações cadastrais
+- Filtros avançados por múltiplos critérios
+- Exportação em diversos formatos (CSV, JSON, Excel)
+
+---
+
+## 3. Histórias de Usuário
+
+### HU-001: Busca de Leads por Filtros
+**Como** gerente comercial  
+**Eu quero** buscar empresas usando múltiplos filtros (CNAE, localização, porte, data de abertura)  
+**Para que** eu possa encontrar leads qualificados para minha equipe de vendas
+
+**Critérios de Aceitação:**
+- Sistema permite filtrar por um ou mais CNAEs
+- Filtro por estado, cidade ou região
+- Filtro por porte da empresa (ME, EPP, demais)
+- Filtro por data de abertura (últimos 30, 60, 90 dias ou personalizado)
+- Resultados exibidos com paginação
+- Preview dos dados antes da compra
+
+### HU-002: Compra de Pacotes de Leads
+**Como** usuário autenticado  
+**Eu quero** comprar pacotes de leads selecionados  
+**Para que** eu possa usar os dados nas minhas estratégias comerciais
+
+**Critérios de Aceitação:**
+- Sistema oferece diferentes tamanhos de pacotes (100, 500, 1000, 5000 leads)
+- Cálculo automático do valor baseado no pacote
+- Checkout com múltiplas formas de pagamento
+- Geração de nota fiscal automática
+- Download imediato após confirmação de pagamento
+- Histórico de compras acessível
+
+### HU-003: Download de Leads em Múltiplos Formatos
+**Como** usuário que comprou leads  
+**Eu quero** baixar os dados em diferentes formatos  
+**Para que** eu possa integrar com minhas ferramentas de trabalho
+
+**Critérios de Aceitação:**
+- Download em CSV com separador configurável
+- Download em Excel (.xlsx)
+- Download em JSON para APIs
+- Campos selecionáveis para exportação
+- Download disponível por 30 dias após compra
+
+### HU-004: Monitoramento de Atualizações
+**Como** usuário recorrente  
+**Eu quero** ser notificado sobre novas empresas que atendem meus critérios  
+**Para que** eu possa agir rapidamente em oportunidades
+
+**Critérios de Aceitação:**
+- Criação de alertas personalizados
+- Notificação por email quando novos leads aparecem
+- Dashboard com resumo de atualizações
+- Limite de 5 alertas ativos por usuário
+
+### HU-005: Visualização de Histórico Empresarial
+**Como** analista de mercado  
+**Eu quero** ver o histórico de alterações de uma empresa  
+**Para que** eu possa avaliar sua credibilidade e trajetória
+
+**Critérios de Aceitação:**
+- Timeline de alterações cadastrais
+- Histórico de mudanças de endereço
+- Alterações de quadro societário
+- Mudanças de atividade econômica
+
+---
+
+## 4. Requisitos Funcionais
+
+### RF-001: Importação Automática de Dados
+Sistema deve importar automaticamente dados públicos da Receita Federal diariamente, processando:
+- Dados cadastrais de empresas
+- CNAEs primários e secundários
+- Endereços completos
+- Quadro societário
+- Situação cadastral
+- Datas de abertura e alterações
+
+### RF-002: Processamento e Normalização
+Sistema deve processar e normalizar dados importados:
+- Validação de CNPJs
+- Normalização de endereços (CEP, estado, cidade)
+- Categorização por porte empresarial
+- Limpeza de caracteres especiais
+- Detecção de duplicatas
+
+### RF-003: Sistema de Busca e Filtros
+Interface de busca com filtros:
+- Razão social ou nome fantasia
+- CNPJ
+- CNAE (múltipla seleção)
+- Estado, cidade
+- Porte (ME, EPP, demais)
+- Situação cadastral (ativa, baixada, suspensa)
+- Data de abertura (período)
+- Capital social (faixa)
+
+### RF-004: Autenticação e Autorização
+Sistema de usuários com níveis de acesso:
+- Cadastro de usuários (email + senha)
+- Login com JWT
+- Recuperação de senha
+- Perfis: Admin, Cliente Premium, Cliente Basic
+- Controle de permissões por perfil
+
+### RF-005: Sistema de Créditos/Pacotes
+Modelo de comercialização:
+- Pacotes de créditos (1 crédito = 1 lead)
+- Diferentes tamanhos de pacotes com desconto progressivo
+- Expiração de créditos (90 dias)
+- Histórico de consumo
+- Relatório de créditos disponíveis
+
+### RF-006: Checkout e Pagamentos
+Integração com gateway de pagamento:
+- Pagamento via cartão de crédito
+- Pagamento via PIX
+- Boleto bancário
+- Emissão de nota fiscal automática
+- Confirmação por email
+
+### RF-007: Exportação de Dados
+Sistema de download de leads:
+- Exportação em CSV
+- Exportação em Excel
+- Exportação em JSON
+- Seleção de campos para exportação
+- Limite de downloads por tempo
+
+### RF-008: Dashboard Administrativo
+Painel para administradores:
+- Estatísticas de importação
+- Total de registros no banco
+- Usuários ativos
+- Vendas do período
+- Status de serviços
+- Logs de importação
+
+### RF-009: API Pública
+Endpoints REST para integração:
+- Autenticação via API Key
+- Busca de empresas
+- Consulta de CNPJ específico
+- Rate limiting (100 requisições/minuto)
+- Documentação Swagger
+
+### RF-010: Sistema de Alertas
+Notificações personalizadas:
+- Criação de alertas com filtros salvos
+- Envio de email com novas empresas
+- Frequência configurável (diária, semanal)
+- Limite de alertas ativos por usuário
+
+---
+
+## 5. Requisitos Não Funcionais
+
+### RNF-001: Performance
+- Busca de leads deve retornar resultados em menos de 2 segundos
+- API deve suportar 1000 requisições simultâneas
+- Importação diária deve processar 100.000+ registros em até 2 horas
+- Tempo de resposta médio da API < 500ms
+
+### RNF-002: Escalabilidade
+- Arquitetura preparada para escala horizontal
+- Banco de dados com sharding habilitado
+- Cache em memória (Redis) para consultas frequentes
+- CDN para servir assets estáticos
+- Auto-scaling baseado em carga
+
+### RNF-003: Disponibilidade
+- SLA de 99.5% de uptime
+- Backups automáticos a cada 6 horas
+- Retenção de backups por 30 dias
+- Plano de disaster recovery com RTO de 4 horas
+- Monitoramento 24/7 com alertas
+
+### RNF-004: Segurança
+- Criptografia TLS 1.3 para todas as comunicações
+- Senhas armazenadas com bcrypt (cost factor 12)
+- Tokens JWT com expiração de 24 horas
+- Rate limiting em todas as rotas públicas
+- Validação e sanitização de inputs
+- Proteção contra SQL Injection, XSS, CSRF
+- Logs de auditoria para ações críticas
+- Conformidade com LGPD
+
+### RNF-005: Usabilidade
+- Interface responsiva (mobile-first)
+- Tempo de aprendizado < 15 minutos
+- Acessibilidade WCAG 2.1 nível AA
+- Suporte a navegadores modernos (Chrome, Firefox, Safari, Edge)
+- Feedback visual para todas as ações
+
+### RNF-006: Manutenibilidade
+- Código com cobertura de testes > 80%
+- Documentação técnica atualizada
+- Logs estruturados (JSON)
+- Versionamento de API (semântico)
+- CI/CD pipeline automatizado
+
+### RNF-007: Confiabilidade
+- Taxa de erro < 0.1%
+- Validação de dados em múltiplas camadas
+- Fallback para serviços críticos
+- Circuit breaker em integrações externas
+- Idempotência em operações críticas
+
+### RNF-008: Conformidade Legal
+- Uso exclusivo de dados públicos
+- Respeito à LGPD (dados de empresas, não pessoas físicas)
+- Termos de uso claros
+- Política de privacidade
+- Consentimento explícito para marketing
+
+---
+
+## 6. Arquitetura do Sistema
+
+### 6.1 Arquitetura em Camadas
+
+```
+┌─────────────────────────────────────┐
+│         Frontend (React)            │
+│  - Interface do usuário             │
+│  - Gerenciamento de estado          │
+│  - Requisições HTTP                 │
+└─────────────────────────────────────┘
+              ↓ HTTPS
+┌─────────────────────────────────────┐
+│      API Gateway / Load Balancer    │
+└─────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────┐
+│     API REST (ASP.NET Core)         │
+│  - Controllers                      │
+│  - Middleware de autenticação       │
+│  - Validação de entrada             │
+│  - Rate limiting                    │
+└─────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────┐
+│      Camada de Serviços             │
+│  - Lógica de negócio                │
+│  - Serviços de domínio              │
+│  - Orquestração                     │
+└─────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────┐
+│    Camada de Repositório            │
+│  - Acesso a dados                   │
+│  - Queries otimizadas               │
+│  - Padrão Repository                │
+└─────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────┐
+│        MongoDB (Cluster)            │
+│  - Dados empresariais               │
+│  - Usuários e transações            │
+│  - Logs e auditoria                 │
+└─────────────────────────────────────┘
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 6.2 Componentes do Sistema
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+**Worker de Importação:**
+- Serviço background independente
+- Agendamento via Cron
+- Download de dados da Receita Federal
+- Processamento em batch
+- Validação e normalização
+- Inserção no MongoDB
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
+**Cache Layer:**
+- Redis para cache de consultas
+- TTL de 1 hora para dados de empresas
+- Cache de sessões de usuário
+- Cache de resultados de busca frequentes
+
+**Fila de Processamento:**
+- RabbitMQ ou Azure Service Bus
+- Processamento assíncrono de exports
+- Envio de emails
+- Geração de relatórios
+
+**Storage:**
+- Armazenamento de arquivos exportados
+- Backup de banco de dados
+- Logs de aplicação
+
+---
+
+## 7. Modelo de Dados
+
+### 7.1 Coleção: Companies
+
+```javascript
+{
+  _id: ObjectId,
+  cnpj: String (indexed, unique),
+  razaoSocial: String,
+  nomeFantasia: String,
+  cnaesPrincipal: String,
+  cnaesSecundarios: [String],
+  dataAbertura: Date (indexed),
+  situacaoCadastral: String (indexed),
+  dataSituacaoCadastral: Date,
+  endereco: {
+    logradouro: String,
+    numero: String,
+    complemento: String,
+    bairro: String,
+    cidade: String (indexed),
+    estado: String (indexed),
+    cep: String,
+    pais: String
   },
-])
+  porte: String (indexed), 
+  capitalSocial: Decimal,
+  quadroSocietario: [{
+    nome: String,
+    qualificacao: String,
+    dataEntrada: Date
+  }],
+  historicoAlteracoes: [{
+    data: Date,
+    tipo: String,
+    descricao: String
+  }],
+  telefones: [String],
+  emails: [String],
+  website: String,
+  createdAt: Date,
+  updatedAt: Date (indexed),
+  importedAt: Date
+}
 ```
+
+### 7.2 Coleção: Users
+
+```javascript
+{
+  _id: ObjectId,
+  email: String (indexed, unique),
+  passwordHash: String,
+  nome: String,
+  empresa: String,
+  telefone: String,
+  role: String, // admin, premium, basic
+  creditos: Number,
+  creditosExpiram: Date,
+  alertas: [{
+    nome: String,
+    filtros: Object,
+    ativo: Boolean,
+    frequencia: String // daily, weekly
+  }],
+  createdAt: Date,
+  lastLogin: Date,
+  emailVerificado: Boolean
+}
+```
+
+### 7.3 Coleção: Transactions
+
+```javascript
+{
+  _id: ObjectId,
+  userId: ObjectId (indexed),
+  tipo: String, // compra_creditos, consumo_lead
+  valor: Decimal,
+  creditos: Number,
+  descricao: String,
+  formaPagamento: String,
+  status: String, // pending, completed, failed
+  metadata: Object,
+  createdAt: Date (indexed)
+}
+```
+
+### 7.4 Coleção: LeadExports
+
+```javascript
+{
+  _id: ObjectId,
+  userId: ObjectId (indexed),
+  filtros: Object,
+  quantidadeLeads: Number,
+  creditosUsados: Number,
+  formato: String, // csv, excel, json
+  campos: [String],
+  downloadUrl: String,
+  expiresAt: Date,
+  createdAt: Date (indexed)
+}
+```
+
+### 7.5 Coleção: ImportLogs
+
+```javascript
+{
+  _id: ObjectId,
+  dataImportacao: Date (indexed),
+  registrosProcessados: Number,
+  registrosNovos: Number,
+  registrosAtualizados: Number,
+  erros: Number,
+  detalhesErros: [String],
+  tempoProcessamento: Number, // segundos
+  status: String, // success, partial, failed
+  arquivoFonte: String
+}
+```
+
+### 7.6 Índices Principais
+
+```javascript
+// Companies
+db.companies.createIndex({ cnpj: 1 }, { unique: true })
+db.companies.createIndex({ estado: 1, cidade: 1 })
+db.companies.createIndex({ cnaesPrincipal: 1 })
+db.companies.createIndex({ dataAbertura: -1 })
+db.companies.createIndex({ updatedAt: -1 })
+db.companies.createIndex({ situacaoCadastral: 1 })
+db.companies.createIndex({ porte: 1 })
+
+// Índice composto para buscas complexas
+db.companies.createIndex({ 
+  estado: 1, 
+  cnaesPrincipal: 1, 
+  dataAbertura: -1 
+})
+
+// Users
+db.users.createIndex({ email: 1 }, { unique: true })
+
+// Transactions
+db.transactions.createIndex({ userId: 1, createdAt: -1 })
+
+// LeadExports
+db.leadExports.createIndex({ userId: 1, createdAt: -1 })
+db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
+```
+
+---
+
+## 8. Fluxos do Sistema
+
+### 8.1 Fluxo de Importação Diária
+
+1. Worker inicia execução (scheduled - 02:00 AM)
+2. Faz download do arquivo de dados da Receita Federal
+3. Valida integridade do arquivo (checksum)
+4. Processa arquivo em lotes de 10.000 registros
+5. Para cada registro:
+   - Valida CNPJ
+   - Normaliza dados
+   - Verifica se empresa já existe (upsert)
+   - Registra no histórico se houver alterações
+6. Registra log de importação
+7. Notifica administradores sobre o resultado
+8. Marca empresas não atualizadas há 90 dias como "verificar"
+
+### 8.2 Fluxo de Busca e Compra de Leads
+
+1. Usuário acessa página de busca
+2. Define filtros desejados
+3. Sistema consulta MongoDB (com cache)
+4. Exibe preview dos resultados (primeiros 10)
+5. Usuário seleciona quantidade de leads
+6. Sistema calcula valor baseado em créditos
+7. Verifica créditos disponíveis:
+   - Se suficientes: prossegue para confirmação
+   - Se insuficientes: redireciona para compra de créditos
+8. Usuário confirma compra
+9. Sistema:
+   - Debita créditos
+   - Gera arquivo de export (job assíncrono)
+   - Registra transação
+   - Envia email com link de download
+10. Arquivo disponível por 30 dias
+
+### 8.3 Fluxo de Processamento de Alertas
+
+1. Job diário executa às 08:00 AM
+2. Busca usuários com alertas ativos
+3. Para cada alerta:
+   - Busca novas empresas desde último envio
+   - Se encontrou resultados:
+     - Gera resumo
+     - Envia email ao usuário
+     - Registra envio
+4. Desativa alertas com mais de 90 dias sem resultados
+
+---
+
+## 9. Segurança e Conformidade
+
+### 9.1 Segurança da Aplicação
+
+**Autenticação:**
+- JWT com refresh token
+- Expiração de 24h para access token
+- Expiração de 30 dias para refresh token
+- Rotação de tokens a cada renovação
+
+**Autorização:**
+- Role-based access control (RBAC)
+- Validação de permissões em cada endpoint
+- Segregação de dados por usuário
+
+**Proteções:**
+- Rate limiting: 100 req/min por IP
+- Captcha em cadastro e login após 3 tentativas
+- Validação de entrada em todos os endpoints
+- Sanitização de queries
+- Headers de segurança (HSTS, CSP, X-Frame-Options)
+
+### 9.2 LGPD e Privacidade
+
+**Dados Tratados:**
+- Sistema trabalha com dados públicos de empresas (CNPJ)
+- Dados pessoais limitados a usuários da plataforma
+
+**Direitos dos Usuários:**
+- Acesso aos próprios dados
+- Correção de dados cadastrais
+- Exclusão de conta (direito ao esquecimento)
+- Portabilidade de dados
+
+**Medidas de Conformidade:**
+- Termos de uso explícitos
+- Política de privacidade clara
+- Consentimento para uso de cookies
+- Registro de operações de tratamento
+- DPO designado
+
+### 9.3 Backup e Recuperação
+
+**Estratégia de Backup:**
+- Backup incremental a cada 6 horas
+- Backup completo semanal
+- Retenção de 30 dias
+- Armazenamento em região geográfica diferente
+- Criptografia AES-256 dos backups
+
+**Testes de Recuperação:**
+- Teste mensal de restore
+- Documentação de procedimentos
+- RTO: 4 horas
+- RPO: 6 horas
+
+---
+
+## 10. Integrações
+
+### 10.1 Gateway de Pagamento
+- Stripe ou Mercado Pago
+- Webhooks para confirmação automática
+- Suporte a cartão, PIX e boleto
+
+### 10.2 Serviço de Email
+- SendGrid ou AWS SES
+- Templates transacionais
+- Tracking de aberturas e cliques
+
+### 10.3 Emissão de Nota Fiscal
+- Integração com API de NFe
+- Geração automática pós-pagamento
+
+### 10.4 Monitoramento
+- Application Insights ou New Relic
+- Logs centralizados (ELK Stack)
+- Alertas em Slack/Teams
+
+---
+
+## 11. Roadmap de Desenvolvimento
+
+### Fase 1 - MVP (3 meses)
+- Importação manual de dados
+- CRUD de empresas
+- Sistema de usuários e autenticação
+- Busca básica com filtros
+- Sistema de créditos
+- Exportação CSV
+- Pagamento via PIX
+
+### Fase 2 - Automação (2 meses)
+- Importação automática diária
+- Worker de processamento
+- Sistema de alertas
+- Exportação múltiplos formatos
+- Dashboard administrativo
+- API pública básica
+
+### Fase 3 - Escala (2 meses)
+- Otimizações de performance
+- Cache distribuído
+- CDN
+- Sistema de filas
+- Melhorias de UI/UX
+- Painel analytics avançado
+
+### Fase 4 - Features Premium (ongoing)
+- Enriquecimento de dados (redes sociais)
+- Score de qualidade de leads
+- Integração com CRMs
+- Machine learning para recomendações
+- App mobile
+
+---
+
+## 12. Métricas de Sucesso
+
+### KPIs do Negócio
+- CAC (Custo de Aquisição de Cliente)
+- LTV (Lifetime Value)
+- Churn rate mensal
+- NPS (Net Promoter Score)
+- Revenue mensal recorrente (MRR)
+
+### KPIs Técnicos
+- Uptime do sistema
+- Tempo médio de resposta da API
+- Taxa de sucesso de importações
+- Cobertura de testes
+- Tempo de build e deploy
+
+### KPIs de Produto
+- Usuários ativos mensais (MAU)
+- Taxa de conversão (visitante → cliente)
+- Frequência de uso
+- Leads exportados por usuário
+- Taxa de renovação de créditos
+
+---
+
+## Conclusão
+
+Esta documentação serve como base para o desenvolvimento do sistema de leads da Receita Federal. Deve ser atualizada conforme o projeto evolui e novos requisitos são identificados.
+
+**Próximos Passos:**
+1. Validação dos requisitos com stakeholders
+2. Definição de cronograma detalhado
+3. Setup do ambiente de desenvolvimento
+4. Início do desenvolvimento do MVP
+5. Testes de integração com fonte de dados da Receita
