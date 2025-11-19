@@ -17,7 +17,7 @@ Sistema automatizado para importação, processamento e comercialização de dad
 - **Frontend:** React
 - **Banco de Dados:** MongoDB
 - **Backup:** Sistema automatizado com retenção
-- **Infraestrutura:** Cloud-ready architecture
+
 
 ---
 
@@ -122,7 +122,7 @@ Sistema automatizado para importação, processamento e comercialização de dad
 - Criação de alertas personalizados
 - Notificação por email quando novos leads aparecem
 - Dashboard com resumo de atualizações
-- Limite de 5 alertas ativos por usuário
+
 
 ### HU-005: Visualização de Histórico Empresarial
 **Como** analista de mercado  
@@ -172,16 +172,14 @@ Sistema de usuários com níveis de acesso:
 - Cadastro de usuários (email + senha)
 - Login com JWT
 - Recuperação de senha
-- Perfis: Admin, Cliente Premium, Cliente Basic
+- Perfis: Admin, Cliente 
 - Controle de permissões por perfil
 
 ### RF-005: Sistema de Créditos/Pacotes
 Modelo de comercialização:
-- Pacotes de créditos (1 crédito = 1 lead)
 - Diferentes tamanhos de pacotes com desconto progressivo
-- Expiração de créditos (90 dias)
 - Histórico de consumo
-- Relatório de créditos disponíveis
+
 
 ### RF-006: Checkout e Pagamentos
 Integração com gateway de pagamento:
@@ -216,12 +214,7 @@ Endpoints REST para integração:
 - Rate limiting (100 requisições/minuto)
 - Documentação Swagger
 
-### RF-010: Sistema de Alertas
-Notificações personalizadas:
-- Criação de alertas com filtros salvos
-- Envio de email com novas empresas
-- Frequência configurável (diária, semanal)
-- Limite de alertas ativos por usuário
+
 
 ---
 
@@ -235,48 +228,36 @@ Notificações personalizadas:
 
 ### RNF-002: Escalabilidade
 - Arquitetura preparada para escala horizontal
-- Banco de dados com sharding habilitado
-- Cache em memória (Redis) para consultas frequentes
-- CDN para servir assets estáticos
-- Auto-scaling baseado em carga
+
 
 ### RNF-003: Disponibilidade
-- SLA de 99.5% de uptime
-- Backups automáticos a cada 6 horas
-- Retenção de backups por 30 dias
-- Plano de disaster recovery com RTO de 4 horas
-- Monitoramento 24/7 com alertas
+- Backups automáticos a cada 24 horas
+- Retenção de backups por 60 dias
+
 
 ### RNF-004: Segurança
-- Criptografia TLS 1.3 para todas as comunicações
 - Senhas armazenadas com bcrypt (cost factor 12)
-- Tokens JWT com expiração de 24 horas
+- Tokens JWT com expiração de 4 horas
 - Rate limiting em todas as rotas públicas
 - Validação e sanitização de inputs
 - Proteção contra SQL Injection, XSS, CSRF
-- Logs de auditoria para ações críticas
 - Conformidade com LGPD
 
 ### RNF-005: Usabilidade
-- Interface responsiva (mobile-first)
 - Tempo de aprendizado < 15 minutos
-- Acessibilidade WCAG 2.1 nível AA
 - Suporte a navegadores modernos (Chrome, Firefox, Safari, Edge)
-- Feedback visual para todas as ações
+
 
 ### RNF-006: Manutenibilidade
-- Código com cobertura de testes > 80%
 - Documentação técnica atualizada
 - Logs estruturados (JSON)
 - Versionamento de API (semântico)
-- CI/CD pipeline automatizado
+
 
 ### RNF-007: Confiabilidade
 - Taxa de erro < 0.1%
 - Validação de dados em múltiplas camadas
-- Fallback para serviços críticos
-- Circuit breaker em integrações externas
-- Idempotência em operações críticas
+
 
 ### RNF-008: Conformidade Legal
 - Uso exclusivo de dados públicos
@@ -326,7 +307,7 @@ Notificações personalizadas:
 └─────────────────────────────────────┘
               ↓
 ┌─────────────────────────────────────┐
-│        MongoDB (Cluster)            │
+│        MongoDB                      │  
 │  - Dados empresariais               │
 │  - Usuários e transações            │
 │  - Logs e auditoria                 │
@@ -337,23 +318,11 @@ Notificações personalizadas:
 
 **Worker de Importação:**
 - Serviço background independente
-- Agendamento via Cron
 - Download de dados da Receita Federal
 - Processamento em batch
 - Validação e normalização
 - Inserção no MongoDB
 
-**Cache Layer:**
-- Redis para cache de consultas
-- TTL de 1 hora para dados de empresas
-- Cache de sessões de usuário
-- Cache de resultados de busca frequentes
-
-**Fila de Processamento:**
-- RabbitMQ ou Azure Service Bus
-- Processamento assíncrono de exports
-- Envio de emails
-- Geração de relatórios
 
 **Storage:**
 - Armazenamento de arquivos exportados
@@ -518,20 +487,19 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 
 ## 8. Fluxos do Sistema
 
-### 8.1 Fluxo de Importação Diária
+### 8.1 Fluxo de Importação Mensal
 
-1. Worker inicia execução (scheduled - 02:00 AM)
+1. Worker inicia execução (scheduled - 03:00 AM do ultimo dia do mes)
 2. Faz download do arquivo de dados da Receita Federal
 3. Valida integridade do arquivo (checksum)
-4. Processa arquivo em lotes de 10.000 registros
+4. Processa arquivo em lotes de 10.000 registros por Stream
 5. Para cada registro:
    - Valida CNPJ
    - Normaliza dados
    - Verifica se empresa já existe (upsert)
    - Registra no histórico se houver alterações
 6. Registra log de importação
-7. Notifica administradores sobre o resultado
-8. Marca empresas não atualizadas há 90 dias como "verificar"
+
 
 ### 8.2 Fluxo de Busca e Compra de Leads
 
@@ -552,17 +520,7 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
    - Envia email com link de download
 10. Arquivo disponível por 30 dias
 
-### 8.3 Fluxo de Processamento de Alertas
 
-1. Job diário executa às 08:00 AM
-2. Busca usuários com alertas ativos
-3. Para cada alerta:
-   - Busca novas empresas desde último envio
-   - Se encontrou resultados:
-     - Gera resumo
-     - Envia email ao usuário
-     - Registra envio
-4. Desativa alertas com mais de 90 dias sem resultados
 
 ---
 
@@ -572,8 +530,7 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 
 **Autenticação:**
 - JWT com refresh token
-- Expiração de 24h para access token
-- Expiração de 30 dias para refresh token
+- Expiração de 4h para access token
 - Rotação de tokens a cada renovação
 
 **Autorização:**
@@ -583,10 +540,9 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 
 **Proteções:**
 - Rate limiting: 100 req/min por IP
-- Captcha em cadastro e login após 3 tentativas
 - Validação de entrada em todos os endpoints
 - Sanitização de queries
-- Headers de segurança (HSTS, CSP, X-Frame-Options)
+
 
 ### 9.2 LGPD e Privacidade
 
@@ -603,9 +559,8 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 **Medidas de Conformidade:**
 - Termos de uso explícitos
 - Política de privacidade clara
-- Consentimento para uso de cookies
 - Registro de operações de tratamento
-- DPO designado
+
 
 ### 9.3 Backup e Recuperação
 
@@ -627,23 +582,17 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 ## 10. Integrações
 
 ### 10.1 Gateway de Pagamento
-- Stripe ou Mercado Pago
+- Paypal
 - Webhooks para confirmação automática
 - Suporte a cartão, PIX e boleto
 
 ### 10.2 Serviço de Email
-- SendGrid ou AWS SES
+- MimeKit
 - Templates transacionais
 - Tracking de aberturas e cliques
 
-### 10.3 Emissão de Nota Fiscal
-- Integração com API de NFe
-- Geração automática pós-pagamento
 
-### 10.4 Monitoramento
-- Application Insights ou New Relic
-- Logs centralizados (ELK Stack)
-- Alertas em Slack/Teams
+
 
 ---
 
@@ -661,7 +610,6 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 ### Fase 2 - Automação (2 meses)
 - Importação automática diária
 - Worker de processamento
-- Sistema de alertas
 - Exportação múltiplos formatos
 - Dashboard administrativo
 - API pública básica
@@ -669,9 +617,6 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 ### Fase 3 - Escala (2 meses)
 - Otimizações de performance
 - Cache distribuído
-- CDN
-- Sistema de filas
-- Melhorias de UI/UX
 - Painel analytics avançado
 
 ### Fase 4 - Features Premium (ongoing)
@@ -683,30 +628,8 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 
 ---
 
-## 12. Métricas de Sucesso
 
-### KPIs do Negócio
-- CAC (Custo de Aquisição de Cliente)
-- LTV (Lifetime Value)
-- Churn rate mensal
-- NPS (Net Promoter Score)
-- Revenue mensal recorrente (MRR)
 
-### KPIs Técnicos
-- Uptime do sistema
-- Tempo médio de resposta da API
-- Taxa de sucesso de importações
-- Cobertura de testes
-- Tempo de build e deploy
-
-### KPIs de Produto
-- Usuários ativos mensais (MAU)
-- Taxa de conversão (visitante → cliente)
-- Frequência de uso
-- Leads exportados por usuário
-- Taxa de renovação de créditos
-
----
 
 ## Conclusão
 
