@@ -2,21 +2,43 @@ import { useState } from "react";
 import Footer from "../components/footer";
 import Header from "../components/header";
 import { ToastContainer, toast } from 'react-toastify';
+import type { LoginDTO } from "../../types/types";
+import { login } from "../../api/api";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
-    const handleSubmit = async (event:any) => {
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
 
-        if (email === "" || password === "") {
+        if (email === "" || password === "") 
+        {
             toast.error("Email ou senha inválidos.");
             return;
-        }
-        else
+        } 
+        else 
         {
-            toast.success("Login realizado com sucesso!");
+            const user: LoginDTO = { username: email, password };
+            try {
+                const element: any = await login(user);
+                console.log(element);
+
+                const token = element.data.token;
+                Cookies.set("token", token, { expires: 7 }); 
+
+                toast.success("Login realizado com sucesso!");
+                
+                navigate("/");
+            } 
+            catch (error) 
+            {
+                console.error(error);
+                toast.error("Erro ao realizar login");
+            }
         }
     };
 

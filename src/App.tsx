@@ -11,9 +11,7 @@ import ProtectedRoute from './middlewares/protect-route.tsx'
 
 function App() {
 
-
   return (
-
     <Routes>
       <Route path="/"element={<Home />}/>
       <Route path="/register" element={<Register/>} />
@@ -22,7 +20,6 @@ function App() {
       <Route path='/about' element={<About/>}/>
       <Route path='/devs' element={<Devs/>}></Route>
     </Routes>
-
   )
 }
 

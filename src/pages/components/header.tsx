@@ -1,8 +1,21 @@
 import { useState } from "react"
+import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 export default function Header()
 {
-    const [isloged,setIsLoged] = useState<boolean>(true);
+    const [isloged,setIsLoged] = useState<boolean>(false);
+    const handleLogout = () => {
+        Cookies.remove("token");
+        setIsLoged(false);
+    }
+
+    useEffect(()=>{
+        const cookie = Cookies.get("token");
+        if (cookie) {
+            setIsLoged(true);
+        }
+    }, [])
 
     return(<>
         <nav id="nav"
@@ -54,7 +67,7 @@ export default function Header()
                             </a>
                             <div className="submenu">
                                 <a className="nav-link text-dark" href="/account">Conta</a>
-                                <a className="nav-link text-dark back" onClick={()=>{setIsLoged(!isloged)}}>Sair</a>
+                                <a className="nav-link text-dark back" onClick={handleLogout}>Sair</a>
                             </div>
                         </div>: <div id="user">                           
                                 <a className="nav-link text-dark" href="/login">Entrar</a>

@@ -2,6 +2,10 @@ import { useState } from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { ToastContainer, toast } from 'react-toastify';
+import { createUser } from "../../api/api";
+import type { UserDTO } from "../../types/types";
+import { useNavigate } from "react-router-dom";
+import { InputMask, type MaskOptions } from '@react-input/mask';
 
 export default function Register() {
   const [userType, setUserType] = useState("pf");
@@ -10,28 +14,40 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
+  const navigate = useNavigate();
+
+    const cpfMaskOptions: MaskOptions = {
+      mask: "999.999.999-99",
+      replacement: { "9": /\d/ }
+    };
+  
+    const cnpjMaskOptions: MaskOptions = {
+      mask: "99.999.999/9999-99",
+      replacement: { "9": /\d/ }
+    };
+
+  const maskOptions = userType === "pf" ? cpfMaskOptions : cnpjMaskOptions;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const user: UserDTO = { fullName: name, email, cpfCnpj, password: senha}
 
-    const newUser = {
-      tipo: userType,
-      identificador: cpfCnpj,
-      nome: name,
-      email: email,
-      senha: senha,
-      confirmarSenha: confirmarSenha
-    };
-
-      if (senha !== confirmarSenha) {
-          toast.error("Senha e Confirmar senha não correspondem!");
-          return;
-      }
-      else
+    try 
+    {
+      if (senha !== confirmarSenha) 
       {
-          toast.success("Conta criada com sucesso!");
-          console.log("Usuário criado:", newUser);
+        toast.error("Senha e Confirmar senha não correspondem!");
+        return;
       }
+
+      createUser(user)
+      .then(() => navigate("/login"))
+      .catch(() => toast.error("Erro ao criar usuário"));
+    } 
+    catch (error) 
+    {
+      toast.error("Credenciais inválidas!");
+    }
   };
 
   return (
@@ -56,17 +72,29 @@ export default function Register() {
 
             <div className="max-w-[80%] w-full flex flex-col">
                 <label>Confirmar Senha</label>
-                <input onChange={(event) => setConfirmarSenha(event.target.value)}  type="confirm_password" className="form-input" />
+                <input onChange={(event) => setConfirmarSenha(event.target.value)} type="password" className="form-input" />
             </div>
 
             <div className="max-w-[80%] w-full flex user_type">
               <label>Selecione o tipo de pessoa:</label>
                 <label className="flex items-center gap-1">
-                  <input onChange={(event) => setUserType(event.target.value)} type="radio" name="user_type" value="user_common" className="form-imput" checked />
+                <input
+                  type="radio"
+                  name="user_type"
+                  value="pf"
+                  checked={userType === "pf"}
+                  onChange={(event) => { setUserType(event.target.value); setCpfCnpj("");}}
+                />
                   PF
                 </label>
                 <label className="flex items-center gap-1">
-                  <input onChange={(event) => setUserType(event.target.value)} type="radio" value="user_company" className="form-imput"/>
+                <input
+                  type="radio"
+                  name="user_type"
+                  value="pj"
+                  checked={userType === "pj"}
+                  onChange={(event) => { setUserType(event.target.value); setCpfCnpj("");}}
+                />
                   PJ
                 </label>
             </div>
@@ -76,10 +104,18 @@ export default function Register() {
                 <input onChange={(event) => setName(event.target.value)} type="text" className="form-input" />
             </div>
 
-            <div className="max-w-[80%] w-full flex flex-col">
-                <label>CPF/CNPJ</label>
-                <input onChange={(event) => setCpfCnpj(event.target.value)} type="text" className="form-input" />
+            <div className="max-w-[80%] w-full flex flex-col mt-4">
+              <label>CPF/CNPJ</label>
+              <InputMask
+                mask={maskOptions.mask}
+                replacement={maskOptions.replacement}
+                value={cpfCnpj}
+                onChange={(e) => setCpfCnpj(e.target.value)}
+                type="text"
+                className="form-input"
+              />
             </div>
+
 
             <button type="submit" id="botao-principal" className="py-3 px-12 rounded">
                 Cadastrar
@@ -115,61 +151,6 @@ export default function Register() {
                 </div>
             </div>
     </section>
-
-      {/*
-      <form onSubmit={handleSubmit}>
-        <label>
-          Tipo de Usuário
-          <select
-            value={userType}
-            onChange={(e) => {
-              setUserType(e.target.value);
-              setCpfCnpj(""); // limpa o campo ao trocar tipo
-            }}
-          >
-            <option value="pf">Pessoa Física (CPF)</option>
-            <option value="pj">Pessoa Jurídica (CNPJ)</option>
-          </select>
-        </label>
-        <br />
-
-        <label>
-          {userType === "pf" ? "CPF:" : "CNPJ:"}
-          <input
-            classNameName="form-input"
-            type="text"
-            placeholder={userType === "pf" ? "Digite o CPF" : "Digite o CNPJ"}
-            value={cpfCnpj}
-            onChange={(e) => setCpfCnpj(e.target.value)}
-          />
-        </label>
-        <br />
-
-        <label>
-          Nome/Razão Social
-          <input
-            classNameName="form-input"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
-        <br />
-
-        <label>
-          Email
-          <input
-            classNameName="form-input"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
-        <br />
-
-        <button type="submit">Cadastrar</button>
-      </form>
-        */}
       <Footer></Footer>
       <ToastContainer></ToastContainer>
     </div>
