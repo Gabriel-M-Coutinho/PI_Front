@@ -1,20 +1,21 @@
 import axios from "axios";
-import type { UserDTO, ResponseDTO, LeadFilters } from "../types/types";
+import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO } from "../types/types";
 
-const apiUrl = "http://localhost:5047";
+
 
 const api = axios.create({
-  baseURL: apiUrl,
+  baseURL: "http://localhost:5047",
   headers: {
     "Content-Type": "application/json"
   }
 });
 
-export const createUser = (payload: UserDTO) => api.post("/create", payload);
+export const createUser = (payload:UserDTO) => api.post("/api/User", payload)
+export const login = (payload:LoginDTO) => api.post("/api/Auth/login", payload)
 
 // Usando a interface de filtros tipada
 export const getLeads = (filters: LeadFilters) => {
-  return api.get<ResponseDTO>("/api/Lead", { // Note: "/api/lead" baseado no [Route("api/[controller]")]
+  return api.get<ResponseDTO>("/api/Lead", {
     params: filters
   });
 };
