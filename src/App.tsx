@@ -10,9 +10,7 @@ import Devs from './pages/secondary/devs.tsx'
 
 function App() {
 
-
   return (
-
     <Routes>
       <Route path="/"element={<Home />}/>
       <Route path="/register" element={<Register/>} />
@@ -21,7 +19,6 @@ function App() {
       <Route path='/about' element={<About/>}/>
       <Route path='/devs' element={<Devs/>}/>
     </Routes>
-
   )
 }
 

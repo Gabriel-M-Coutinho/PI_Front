@@ -70,7 +70,6 @@ export default function Header()
                                 <a className="nav-link text-dark back" onClick={handleLogout}>Sair</a>
                             </div>
                         </div>: <div id="user">                           
-                                <a className="nav-link text-dark" href="/register">Registrar</a>
                                 <a className="nav-link text-dark" href="/login">Entrar</a>
                             </div>                           
                         }
