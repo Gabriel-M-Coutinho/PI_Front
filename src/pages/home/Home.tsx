@@ -92,7 +92,8 @@ export default function Home() {
 
 
   return (
-    <div>
+    <>
+    <div className="min-h-screen">
       <Header />
 
       <form onSubmit={handleFilter}>
@@ -136,7 +137,7 @@ export default function Home() {
 
 
 
-      {/* Botões de paginação */}
+
     
       {/* Mapeando os leads */}
       {leads.map((element: Estabelecimento) => (
@@ -179,7 +180,9 @@ export default function Home() {
         </div>
       )}
 
-      <Footer />
+
     </div>
+      <Footer />
+    </>
   );
 }
