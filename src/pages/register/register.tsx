@@ -85,7 +85,7 @@ export default function Register() {
                   checked={userType === "pf"}
                   onChange={(event) => { setUserType(event.target.value); setCpfCnpj("");}}
                 />
-                  PF
+                  PF (Pessoa Física)
                 </label>
                 <label className="flex items-center gap-1">
                 <input
@@ -95,7 +95,7 @@ export default function Register() {
                   checked={userType === "pj"}
                   onChange={(event) => { setUserType(event.target.value); setCpfCnpj("");}}
                 />
-                  PJ
+                  PJ (Pessoa Jurídica)
                 </label>
             </div>
 
@@ -123,7 +123,7 @@ export default function Register() {
 
             <p className="text-center">
                 Já tem uma conta?
-                <a className="font-bold hover:underline" href="/login">Entrar</a>
+                <a className="font-bold hover:underline" href="/login"> Entrar</a>
             </p>
 
         </form>

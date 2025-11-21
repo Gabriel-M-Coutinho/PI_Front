@@ -135,10 +135,6 @@ export default function Home() {
         <button type="submit">Pesquisar</button>
       </form>
 
-
-
-
-    
       {/* Mapeando os leads */}
       {leads.map((element: Estabelecimento) => (
         <LeadCard
@@ -179,8 +175,6 @@ export default function Home() {
           </button>
         </div>
       )}
-
-
     </div>
       <Footer />
     </>

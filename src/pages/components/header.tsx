@@ -43,8 +43,11 @@ export default function Header()
                             <a className="nav-link text-dark" href="/">Ínicio</a>                       
                             <a className="nav-link text-dark" href="/about">Sobre</a>
                             <a className="nav-link text-dark" href="/devs">Devs</a>
+                            <a className="nav-link text-dark" href="/dashboards">Dashboards</a>
                        </div>
-    
+ 
+                        
+
                         {isloged ?
                         <div id="user" className="flex md:gap-4 icon_user">
                             <a>
@@ -69,7 +72,9 @@ export default function Header()
                                 <a className="nav-link text-dark" href="/account">Conta</a>
                                 <a className="nav-link text-dark back" onClick={handleLogout}>Sair</a>
                             </div>
-                        </div>: <div id="user">                           
+                        </div>: 
+                            <div id="user" className="flex items-center gap-4">  
+                                <a className="nav-link text-dark" href="/register">Registrar</a>
                                 <a className="nav-link text-dark" href="/login">Entrar</a>
                             </div>                           
                         }

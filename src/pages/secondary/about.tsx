@@ -6,7 +6,7 @@ export default function About()
     return(<>
       <Header/>
         <div
-        className="w-full h-full flex flex-col items-center bg-gradient-to-b from-primary to-[#0d2434]"
+        className="min-h-screen w-full h-full flex flex-col items-center bg-gradient-to-b from-primary to-[#0d2434]"
       >
         <section
           id="sobre"
@@ -34,16 +34,15 @@ export default function About()
           <div className="flex flex-col h-fit w-full py-6 ps-6 pe-10 gap-8">
             <h3 className="text-4xl font-bold text-text">Sobre nós</h3>
             <p className="text-lg text-text">
-              <span>Nós da</span>
-              <span className="font-bold">LeadSearch</span> oferecemos soluções
-              inovadoras para quem busca leads de alta qualidade. Diferente de
-              outras empresas que vendem grandes volumes de leads genéricos, nós
-              nos especializamos em fornecer packs de leads altamente
-              segmentados, de acordo com as necessidades específicas dos nossos
-              clientes. Com nossa plataforma, você pode adquirir leads de uma
-              cidade, bairro ou até mesmo um segmento de mercado específico,
-              garantindo uma abordagem mais assertiva e eficaz para suas
-              campanhas
+              <span>Nós da </span>
+              <span className="font-bold">LeadSearch </span> 
+              buscamos oferecer soluções inovadoras para aqueles que buscam Leads de alta qualidade! <br></br><br></br>
+
+              Diferentemente de empresas que vendem grandes volumes de Leads genéricos, a equipe se especializou em fornecer pacotes de Leads altamente
+              segmentados, de acordo com as necessidades específicas dos nossos clientes. <br></br><br></br>
+              
+              Com a nossa plataforma, você pode adquirir Leads de uma cidade, bairro ou até mesmo um segmento de mercado específico, 
+              garantindo uma abordagem mais assertiva e eficaz para suas campanhas
             </p>
           </div>
         </section>
@@ -79,11 +78,11 @@ export default function About()
               <h2 className="mt-2">O que é um Lead?</h2>
             </div>
             <p className="mt-3">
-              Um lead é uma pessoa ou empresa que pode ter um interesse sobre
-              seus serviços. Esse interesse pode ser demonstrado através de
+              Um Lead é uma pessoa ou empresa que pode ter um interesse sobre os
+              seus serviços. <br></br><br></br>Esse interesse pode ser demonstrado através de
               ações como preencher um formulário, se inscrever em uma newsletter
-              ou interagir com o conteúdo da empresa. Em marketing, o objetivo é
-              transformar leads em clientes ao nutrir esse relacionamento,
+              ou interagir com o conteúdo da empresa. <br></br><br></br>Em marketing, o objetivo é
+              transformar Leads em clientes ao nutrir esse relacionamento,
               oferecendo informações relevantes e personalizadas.
             </p>
           </div>
@@ -116,12 +115,13 @@ export default function About()
               <h2 className="mt-2">Por que Comprar Conosco?</h2>
             </div>
             <p className="mt-3">
-              Comprar conosco significa optar por qualidade, confiança e
-              resultados. Nosso compromisso é oferecer soluções personalizadas
-              para gerar e qualificar leads de maneira eficiente, ajudando sua
-              empresa a alcançar o público certo e a aumentar suas vendas.
-              Conosco, sua empresa se conecta com as melhores oportunidades de
+              Comprar com a nossa equipe significa optar por qualidade, confiança e
+              resultados, pois a sua empresa se conectará com as melhores oportunidades de
               negócios de forma estratégica e assertiva.
+              
+              <br></br><br></br>Nosso compromisso é oferecer soluções personalizadas
+              para gerar e qualificar Leads de maneira eficiente, ajudando os seus negócios a alcançarem o público certo 
+              e a aumentar as vendas dos nossos usuários.
             </p>
           </div>
         </section>

@@ -18,6 +18,16 @@ export interface CnaeSecundario {
   [key: string]: any;
 }
 
+export interface MunicipioData {
+  municipio: string,
+  quantidade: number
+}
+
+export interface GraphData {
+  categorias: string[],
+  valores: number[]
+}
+
 export interface Estabelecimento {
   _id: string;
   bairro: string;

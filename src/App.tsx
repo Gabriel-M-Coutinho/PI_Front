@@ -7,6 +7,7 @@ import Login from './pages/login/login.tsx'
 import Lead from './pages/lead/Lead.tsx'
 import About from './pages/secondary/about.tsx'
 import Devs from './pages/secondary/devs.tsx'
+import Graph from './pages/graphs/graph.tsx'
 import ProtectedRoute from './middlewares/protect-route.tsx'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Route path="/lead" element={<Lead/>}/>
       <Route path='/about' element={<About/>}/>
       <Route path='/devs' element={<Devs/>}></Route>
+      <Route path='/dashboards' element={<Graph/>}></Route>
     </Routes>
   )
 }
