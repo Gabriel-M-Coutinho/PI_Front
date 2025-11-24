@@ -22,7 +22,7 @@ export default function Devs()
               className="flex flex-col items-center justify-center gap-2 rounded-xl px-6 py-10"
             >
               <img
-                src="https://avatars.githubusercontent.com/u/122622768?v=4"
+                src="https://upload-os-bbs.hoyolab.com/upload/2025/03/04/61901450/53a26c8da0e91087e1e106c99f9edfa2_1491023333332984928.jpg?x-oss-process=image%2Fresize%2Cs_1000%2Fauto-orient%2C0%2Finterlace%2C1%2Fformat%2Cwebp%2Fquality%2Cq_70"
                 alt="Gabriel Magina"
                 className="w-2/3 h-auto rounded-full"
               />
