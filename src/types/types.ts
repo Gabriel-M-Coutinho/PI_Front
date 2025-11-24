@@ -30,36 +30,47 @@ export interface GraphData {
 
 export interface Estabelecimento {
   _id: string;
-  bairro: string;
-  cep: string;
+
+  cnpjBase: string;
+  cnpjOrdem: string;
+  cnpjDV: string;
+
+  matrizFilial: string;
+
+  nomeFantasia: string;
+  situacaoCadastral: string;
+  motivoSituacaoCadastral: string;
+
+  dataSituacaoCadastral: string;
+  dataInicioAtividade: string;
+  dataSituacaoEspecial: string;
+
   cidadeExterior: string;
+  pais: string;
+
   cnaePrincipal: string;
   cnaeSecundario: string[];
-  cnpjBase: string;
-  cnpjDV: string;
-  cnpjOrdem: string;
+
+  tipoLogradouro: string;
+  logradouro: string;
+  numero: string;
   complemento: string;
-  correioEletronico: string;
-  dataInicioAtividade: string;
-  dataSituacaoCadastral: string;
-  dataSituacaoEspecial: string;
+  bairro: string;
+  cep: string;
+
+  uf: string;
+  municipio: string;
+
   ddd1: string;
+  telefone1: string;
   ddd2: string;
+  telefone2: string;
   dddFAX: string;
   fax: string;
-  logradouro: string;
-  matrizFilial: string;
-  motivoSituacaoCadastral: string;
-  municipio: string;
-  nomeFantasia: string;
-  numero: string;
-  pais: string;
-  situacaoCadastral: string;
+
+  correioEletronico: string;
+
   situacaoEspecial: string;
-  telefone1: string;
-  telefone2: string;
-  tipoLogradouro: string;
-  uf: string;
 }
 
 export interface ResponseDTO {
