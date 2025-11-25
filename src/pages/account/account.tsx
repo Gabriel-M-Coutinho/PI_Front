@@ -2,9 +2,10 @@ import Footer from "../components/footer";
 import Header from "../components/header";
 import { toast, ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
-import { deleteProfile, getProfile } from "../../api/api";
+import { deleteProfile, getProfile, changePassword } from "../../api/api";
 import { redirect, useNavigate } from "react-router-dom";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import PasswordField from "./passwordfield";
+import type { ChangePasswordDTO } from "../../types/types";
 
 import Cookies from "js-cookie";
             <ToastContainer/>
@@ -12,20 +13,10 @@ import Cookies from "js-cookie";
 export default function Account() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditPasswordModal, setShowEditPasswordModal] = useState(false);
-    const [visible1, setVisible1] = useState(false);
-    const [visible2, setVisible2] = useState(false);
-    const [visible3, setVisible3] = useState(false);
     const [user, setProfile] = useState<any>();
     const navigate  = useNavigate()
 
-  const changeVisibility1 = () => setVisible1(v => !v);
-  const changeVisibility2 = () => setVisible2(v => !v);
-  const changeVisibility3 = () => setVisible3(v => !v);
-
   // 1️⃣ Choose which icon to use
-  const Icon1 = visible1 ? EyeSlashIcon : EyeIcon;
-  const Icon2 = visible2 ? EyeSlashIcon : EyeIcon;
-  const Icon3 = visible3 ? EyeSlashIcon : EyeIcon;
 
     const editAccount = () => {
         navigate("/account/edit");
@@ -35,6 +26,40 @@ export default function Account() {
     }
     const deleteProcediment = async () => {
         setShowDeleteModal(true);
+    }
+    const handleSubmitPassword = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
+
+        const currentPassword = formData.get("current-password")?.toString().trim();
+        const newPassword = formData.get("new-password")?.toString().trim();
+        const confirmPassword = formData.get("confirm-password")?.toString().trim();
+
+        if (!currentPassword) return toast.error("Senha Atual é Requerido.");
+        if (!newPassword) return toast.error("Nova Senha é Requerido.");
+        if (!confirmPassword) return toast.error("Confirmar Senha é Requerido.");
+
+        if (newPassword !== confirmPassword) 
+        {
+            toast.error("Nova Senha e Confirmar Senha não correspondem.");
+            return;
+        }
+    
+        const changePasswordDto:ChangePasswordDTO = {
+            currentPassword: currentPassword,
+            newPassword: newPassword,
+            confirmPassword: confirmPassword
+        }
+        await changePassword(changePasswordDto).then(() => {
+            setShowEditPasswordModal(false)
+            toast.success("Senha alterada com Sucesso")
+        }).catch(err => {
+            //console.log(err)
+            err.response.data.map((data: any) =>{
+                toast.error(data.description);
+            })
+        });
     }
 
     useEffect(() => {
@@ -111,15 +136,14 @@ export default function Account() {
 
                         <button
                             onClick={async () => {
-                                try {
-                                    await deleteProfile();
-                                    toast.success("Conta excluída com sucesso!");
+                                await deleteProfile().then(()=>{
                                     Cookies.remove("token");
                                     navigate("/login");
-                                } catch (err) {
+                                    toast.success("Conta excluída com sucesso!");
+                                }).catch(err => {
                                     toast.error("Erro ao excluir conta.");
-                                    console.error(err);
-                                }
+                                    console.error(err)
+                                });
                             }}
                             className="py-2 px-5 rounded bg-red-600 hover:bg-red-500"
                         >
@@ -132,31 +156,19 @@ export default function Account() {
             <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
                 <div className="bg-gray-800 text-gray-100 px-16 py-12 rounded-lg w-[700px] max-w-[80%] shadow-xl">
                     <h2 className="text-xl font-semibold mb-4">Mudar Senha</h2>
-                    <form action="">
+                    <form action="" onSubmit={handleSubmitPassword}>
                         <div className="space-y-8 my-12">
-                        <div className="relative">
-                            <label htmlFor="current-password">Senha Atual</label>
-                            <input className="w-full" type={visible1 ? "text" : "password"} name="current-password" id="current-password" />
-                            <Icon1 onClick={changeVisibility1} className="w-6 h-6 absolute right-[0] bottom-3 hover:cursor-pointer"/>
-                        </div>
-                        <div className="relative">
-                            <label htmlFor="">Nova Senha</label>
-                            <input className="w-full" type={visible2 ? "text" : "password"} name="new-password" id="" />
-                            <Icon2 onClick={changeVisibility2} className="w-6 h-6 absolute right-[0] bottom-3 hover:cursor-pointer"/>
-                        </div>
-                        <div className="relative">
-                            <label htmlFor="">Confirmar Senha</label>
-                            <input className="w-full" type={visible3 ? "text" : "password"} name="confirm-password" id="" />
-                            <Icon3 onClick={changeVisibility3} className="w-6 h-6 absolute right-[0] bottom-3 hover:cursor-pointer"/>
-                        </div>
+                            <PasswordField label="Senha Atual" name="current-password" id="current-password" />
+                            <PasswordField label="Nova Senha" name="new-password" id="new-password" />
+                            <PasswordField label="Confirmar Senha" name="confirm-password" id="confirm-password" />
                         </div>
                         <div>
                         <div className="flex justify-end gap-3">
                         <button type="button" onClick={() => setShowEditPasswordModal(false)} className="py-2 px-5 rounded bg-gray-600 hover:bg-gray-500">
                             Cancelar
                         </button>
-                        <button type="submit" className="py-2 px-5 rounded bg-red-600 hover:bg-red-500">
-                            Excluir
+                        <button type="submit" className="py-2 px-5 rounded bg-blue-600 hover:bg-blue-500">
+                            Mudar Senha
                         </button>
                         </div>
                     </div>

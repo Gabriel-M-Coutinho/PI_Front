@@ -1,13 +1,18 @@
 import { useState } from "react"
 import { useEffect } from "react";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Header()
 {
     const [isloged,setIsLoged] = useState<boolean>(false);
+    const navigate  = useNavigate()
     const handleLogout = () => {
         Cookies.remove("token");
         setIsLoged(false);
+        navigate("/login");
+        toast.success("Deslogado com Sucesso");
     }
 
     useEffect(()=>{

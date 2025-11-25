@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO, Estabelecimento, UserProfile, FullLead } from "../types/types";
+import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO, Estabelecimento, UserProfile, FullLead, ChangePasswordDTO } from "../types/types";
 import Cookies from "js-cookie";
 
 const api = axios.create({
@@ -68,6 +68,9 @@ export async function setProfileApi(user:UserDTO){
     throw new Error(err?.response?.data?.message || "Usuário não alterado");
   }
 }
+
+export const changePassword = async (changePasswordDto:ChangePasswordDTO) => api.post<ChangePasswordDTO>(`/api/Auth/changePassword/`, changePasswordDto)
+
 export async function deleteProfile(){
   try {
     await api.delete<UserProfile>(`/api/User/`);
