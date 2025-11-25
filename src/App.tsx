@@ -13,11 +13,8 @@ import Graph from './pages/graphs/graph.tsx'
 import Account from './pages/account/account.tsx'
 import EditAccount from './pages/account/edit.tsx'
 import ProtectedRoute from './middlewares/protect-route.tsx'
-<<<<<<< HEAD
 import Support from './pages/secondary/support.tsx'
-=======
 import { Thanks } from './pages/thanks/thanks.tsx'
->>>>>>> a2adeb47d2d935859c0eb53d7e950128ac3801a4
 
 function App() {
 
@@ -33,12 +30,9 @@ function App() {
       <Route path='/devs' element={<Devs/>}></Route>
       <Route path='/account' element={<Account/>}></Route>
       <Route path='/account/edit' element={<EditAccount/>}></Route>
-<<<<<<< HEAD
       <Route path='/support' element={<Support/>}></Route>
-=======
       <Route path='/dashboards' element={<Graph/>}></Route>
-       <Route path='/success' element={<Thanks/>} ></Route>
->>>>>>> a2adeb47d2d935859c0eb53d7e950128ac3801a4
+      <Route path='/success' element={<Thanks/>} ></Route>
     </Routes>
   )      
 }
