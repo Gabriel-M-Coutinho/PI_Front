@@ -2,12 +2,14 @@ import Header from "../components/header";
 import Footer from "../components/footer";
 import { redirect, useNavigate } from "react-router-dom";
 
-export default function Home({
-  cnpj}: any
-  
-) {
+export default function Home() {
   const navigate  = useNavigate()
-  const handleClick= ()=>{
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+
+    const cnpj = formData.get("area-pesquisa")?.toString().trim();
     navigate(`/lead/${cnpj}`)
   }
 
@@ -30,7 +32,7 @@ export default function Home({
           <h1 className="mb-4">
             Potencialize suas vendas com leads qualificados
           </h1>
-          <form id="form-pesquisa" className="max-w-[70%] mb-4 w-full">
+          <form id="form-pesquisa" onSubmit={handleSubmit} className="max-w-[70%] mb-4 w-full">
           <label
             id="pesquisa"
             className="mb-2 text-sm font-medium sr-only"
@@ -58,11 +60,12 @@ export default function Home({
             <input
               type="search"
               id="area-pesquisa"
+              name="area-pesquisa"
               className="block w-full p-4 ps-12 text-sm rounded-lg h-12"
               placeholder="Procurar pelo CNPJ..."
             />
             <button
-              onClick={handleClick}
+              type="submit"
               id="botao-principal"
               className="absolute end-2 bottom-2.5 rounded-lg text-sm px-4 py-1.5 font-semibold"
             >
