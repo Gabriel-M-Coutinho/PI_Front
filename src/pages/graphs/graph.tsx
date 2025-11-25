@@ -8,7 +8,8 @@ import Footer from "../components/footer";
 export default function Graph() {
   const [graphData, setGraphData] = useState<GraphData>({ categorias: [], valores: [] });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(false);
+  const hasData = graphData.categorias.length > 0 && graphData.valores.length > 0;
 
   const [totalLeads, setTotalLeads] = useState(0);
   const [maiorMunicipio, setMaiorMunicipio] = useState("");
@@ -37,30 +38,36 @@ export default function Graph() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        setError(null);
+        setError(false);
         const response = await graphLeads({});
         const data = response.data as MunicipioData[];
 
-        const categorias = data.map(item => item.municipio);
-        const valores = data.map(item => Number(item.quantidade) || 0);
+        if (Array.isArray(data)) 
+        {
+          const categorias = data.map(item => item.municipio);
+          const valores = data.map(item => Number(item.quantidade) || 0);
 
-        setGraphData({ categorias, valores });
+          setGraphData({ categorias, valores });
 
-        const total = valores.reduce((sum, v) => sum + v, 0);
-        setTotalLeads(total);
+          const total = valores.reduce((sum, v) => sum + v, 0);
+          setTotalLeads(total);
 
-        if (data.length > 0) {
-          const maior = data.reduce((prev, curr) => {
-            const prevQtd = Number(prev.quantidade) || 0;
-            const currQtd = Number(curr.quantidade) || 0;
-            return currQtd > prevQtd ? curr : prev;
-          }, data[0]);
-          setMaiorMunicipio(maior.municipio);
-        }
-      } catch (err: any) {
-        console.error("Erro ao buscar os dados:", err);
-        setError(err.message || "Erro ao carregar dados");
-      } finally {
+          if (data.length > 0) {
+            const maior = data.reduce((prev, curr) => {
+              const prevQtd = Number(prev.quantidade) || 0;
+              const currQtd = Number(curr.quantidade) || 0;
+              return currQtd > prevQtd ? curr : prev;
+            }, data[0]);
+            setMaiorMunicipio(maior.municipio);
+          }
+      } else {
+        setGraphData({ categorias: [], valores: [] });
+      }
+    } catch (error: any) {
+        setError(true);
+        console.error("Erro ao buscar os dados:", error);
+        setGraphData({ categorias: [], valores: [] });
+    } finally {
         setLoading(false);
       }
     };
@@ -73,26 +80,6 @@ export default function Graph() {
       <div className="min-h-screen bg-gradient-to-b from-primary to-[#0d2434] flex flex-col">
         <Header />
         <div className="flex-1 flex items-center justify-center text-white text-lg">Carregando gráfico...</div>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-primary to-[#0d2434] flex flex-col">
-        <Header />
-        <div className="flex-1 flex items-center justify-center text-red-500 text-lg">{error}</div>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (!graphData.categorias.length || !graphData.valores.length) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-primary to-[#0d2434] flex flex-col">
-        <Header />
-        <div className="flex-1 flex items-center justify-center text-gray-300 text-lg">Nenhum dado disponível para exibição</div>
         <Footer />
       </div>
     );
@@ -118,7 +105,13 @@ export default function Graph() {
 
         {/* Gráfico */}
         <div className="bg-white rounded-lg shadow-md p-6">
-          <Chart options={optionsPie} series={optionsPie.series} type="pie" height={400} />
+          {hasData ? (
+            <Chart options={optionsPie} series={optionsPie.series} type="pie" height={400} />
+          ) : (
+            <div className="flex items-center justify-center h-80 text-gray-500 text-lg">
+              Sem dados
+            </div>
+          )}
         </div>
       </div>
 
