@@ -49,10 +49,28 @@ export async function getLeadByCnpj(cnpj: string):Promise<Estabelecimento> {
 
 export async function getProfile(): Promise<UserProfile> {
   try {
-    const response = await api.get<UserProfile>("/api/User/profile");
+    const response = await api.get<UserProfile>("/api/User/profile/");
     return response.data;
   } catch (err: any) {
     console.error(err);
     throw new Error(err?.response?.data?.message || "Usuário não encontrado");
+  }
+}
+
+export async function setProfileApi(user:UserDTO){
+  try {
+    console.log("to aqui");
+    await api.put<UserProfile>(`/api/User/`, user);
+  } catch (err: any) {
+    console.error(err);
+    throw new Error(err?.response?.data?.message || "Usuário não alterado");
+  }
+}
+export async function deleteProfile(){
+  try {
+    await api.delete<UserProfile>(`/api/User/`);
+  } catch (err: any) {
+    console.error(err);
+    throw new Error(err?.response?.data?.message || "Usuário não deletado");
   }
 }
