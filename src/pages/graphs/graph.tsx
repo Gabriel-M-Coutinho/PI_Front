@@ -2,148 +2,129 @@ import { useEffect, useState } from "react";
 import Chart from 'react-apexcharts';
 import { graphLeads } from "../../api/api";
 import type { MunicipioData, GraphData } from "../../types/types";
-import styles from './graph.module.css';
 import Header from "../components/header";
 import Footer from "../components/footer";
 
-export default function Graph()
-{
-    const [graphData, setGraphData] = useState<GraphData>({
-        categorias: [],
-        valores: []
-    });
+export default function Graph() {
+  const [graphData, setGraphData] = useState<GraphData>({ categorias: [], valores: [] });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+  const [totalLeads, setTotalLeads] = useState(0);
+  const [maiorMunicipio, setMaiorMunicipio] = useState("");
 
-    // Configurações do Gráfico
-    const optionsPie = {
-        series: graphData.valores,
-        chart: {
-            height: 400,
-            type: 'pie' as const, // gráfico de pizza
-        },
-        labels: graphData.categorias,
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 300
-                },
-                legend: {
-                    position: 'bottom' as const
-                }
-            }
-        }],
-        colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#546E7A', '#26a69a', '#D10CE8'],
-        legend: {
-            position: 'bottom' as const,
-            fontSize: '14px',
-            fontFamily: 'Arial, sans-serif'
-        },
-        title: {
-            text: 'Estabelecimentos por Município',
-            align: 'center' as const,
-            style: {
-                fontSize: '20px',
-                fontWeight: 'bold',
-                color: '#333'
-            }
-        },
-        plotOptions: {
-            pie: {
-                donut: {
-                    size: '45%'
-                },
-                dataLabels: {
-                    offset: -5
-                }
-            }
-        },
-         dataLabels: {
-            enabled: true,
-            style: {
-                fontSize: '12px',
-                fontWeight: 'bold'
-            },
-            dropShadow: {
-                enabled: false
-            }
-        },
-        tooltip: {
-            y: {
-                formatter: function (value: number){
-                    return `${value} estabelecimentos`
-                }
-            }
+  const optionsPie = {
+    series: graphData.valores,
+    chart: { height: 400, type: 'pie' as const },
+    labels: graphData.categorias,
+    responsive: [{
+      breakpoint: 480,
+      options: { chart: { width: 300 }, legend: { position: 'bottom' as const } }
+    }],
+    colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#546E7A', '#26a69a', '#D10CE8'],
+    legend: { position: 'bottom' as const, fontSize: '14px' },
+    title: {
+      text: 'Estabelecimentos por Município',
+      align: 'center' as const,
+      style: { fontSize: '20px', fontWeight: 'bold', color: '#333' }
+    },
+    plotOptions: { pie: { donut: { size: '45%' }, dataLabels: { offset: -5 } }},
+    dataLabels: { enabled: true, style: { fontSize: '12px', fontWeight: 'bold' }},
+    tooltip: { y: { formatter: (value: number) => `${value} estabelecimentos` }}
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await graphLeads({});
+        const data = response.data as MunicipioData[];
+
+        const categorias = data.map(item => item.municipio);
+        const valores = data.map(item => Number(item.quantidade) || 0);
+
+        setGraphData({ categorias, valores });
+
+        const total = valores.reduce((sum, v) => sum + v, 0);
+        setTotalLeads(total);
+
+        if (data.length > 0) {
+          const maior = data.reduce((prev, curr) => {
+            const prevQtd = Number(prev.quantidade) || 0;
+            const currQtd = Number(curr.quantidade) || 0;
+            return currQtd > prevQtd ? curr : prev;
+          }, data[0]);
+          setMaiorMunicipio(maior.municipio);
         }
+      } catch (err: any) {
+        console.error("Erro ao buscar os dados:", err);
+        setError(err.message || "Erro ao carregar dados");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    // Buscar dados da API
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                setError(null);
+    fetchData();
+  }, []);
 
-                const response = await graphLeads({});
-                const data = response.data as MunicipioData[];
-
-                console.log('Dados recebidos: ', data);
-
-                const categorias = data.map(item => item.municipio);
-                const valores = data.map(item => item.quantidade);
-
-                setGraphData({
-                    categorias,
-                    valores
-                });
-            }
-            catch(erro: any) 
-            {
-                console.error(`Erro ao buscar os dados: ${erro}`);
-                setError(erro.message || 'Erro ao carregar dados');
-            }
-            finally 
-            {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    // Tela de carregamento
-    if (loading) 
-    {
-        return (
-            <div className={styles.loading}>
-                <div>Carregando gráfico...</div>
-            </div>
-        );
-    }
-
-    // Em caso de inexistência de dados
-    if (!graphData.categorias.length || !graphData.valores.length) {
-        return (
-            <div className={styles.emptyData}>
-                <div>Nenhum dado disponível para exibição</div>
-            </div>
-        );
-    }
-
-    // Retorno padrão
+  if (loading) {
     return (
-        <>
-        <div className="min-h-screen bg-gradient-to-b from-primary to-[#0d2434]">
-            <Header />
-            <div className={styles.container}>
-                <div className={styles.box}>
-                    <Chart options={optionsPie} series={optionsPie.series} type="pie" height={400} />
-                </div>
-            </div>
-        </div>
+      <div className="min-h-screen bg-gradient-to-b from-primary to-[#0d2434] flex flex-col">
+        <Header />
+        <div className="flex-1 flex items-center justify-center text-white text-lg">Carregando gráfico...</div>
         <Footer />
-        </>
+      </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-primary to-[#0d2434] flex flex-col">
+        <Header />
+        <div className="flex-1 flex items-center justify-center text-red-500 text-lg">{error}</div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!graphData.categorias.length || !graphData.valores.length) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-primary to-[#0d2434] flex flex-col">
+        <Header />
+        <div className="flex-1 flex items-center justify-center text-gray-300 text-lg">Nenhum dado disponível para exibição</div>
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <>
+    <div className="min-h-screen bg-gradient-to-b from-primary to-[#0d2434] text-gray-900 flex flex-col">
+      <Header />
+      
+      <div className="max-w-5xl w-full mx-auto px-4 py-8">
+        {/* Cards de métricas */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <div className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between">
+            <span className="text-sm text-gray-500">Total de Leads</span>
+            <span className="text-3xl font-bold text-gray-800">{totalLeads || 0}</span>
+          </div>
+          <div className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between">
+            <span className="text-sm text-gray-500">Município com mais Estabelecimentos</span>
+            <span className="text-2xl font-bold text-gray-800">{maiorMunicipio || "-"}</span>
+          </div>
+        </div>
+
+        {/* Gráfico */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <Chart options={optionsPie} series={optionsPie.series} type="pie" height={400} />
+        </div>
+      </div>
+
+      
+    </div>
+    <Footer />
+    </>
+  );
 }

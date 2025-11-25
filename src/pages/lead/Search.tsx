@@ -9,7 +9,6 @@ export default function Search() {
   const [nomefantasia, setNomeFantasia] = useState("");
   const [cnae, setCnae] = useState("");
   const [situacaocadastral, setSituacaoCadastral] = useState("");
-
   const [uf, setUf] = useState("");
   const [municipio, setMunicipio] = useState("");
   const [bairro, setBairro] = useState("");
@@ -21,6 +20,7 @@ export default function Search() {
 
   const [page, setPage] = useState("");
   const [pageSize, setPageSize] = useState("");
+  const [searchError, setSearchError] = useState(false);
 
   const [leads, setLeads] = useState<Estabelecimento[]>([]);
   const [pagination, setPagination] = useState({
@@ -55,9 +55,9 @@ export default function Search() {
       const result = await searchLeads(filters);
       console.log("API:", result);
 
-      if (result.data.success && result.data.data) {
+      if (result.data.success && result.data.data && result.data.data.length > 0) {
         setLeads(result.data.data);
-
+        setSearchError(false);
         setPagination({
           page: result.data.page || 1,
           pageSize: result.data.pageSize || 20,
@@ -66,6 +66,7 @@ export default function Search() {
         });
       } else {
         setLeads([]);
+        setSearchError(true);
       }
     } catch (error) {
       console.error("Erro ao buscar:", error);
@@ -117,13 +118,13 @@ export default function Search() {
           <input type="text" className="w-full" placeholder="CNAE Principal" value={cnae}
             onChange={(e) => setCnae(e.target.value)} />
 
-            <input type="text" className="w-full" placeholder="CEP (sem máscara)" value={cep}
+            <input type="text" className="w-full" placeholder="CEP (apenas números)" value={cep}
             onChange={(e) => setCep(e.target.value)} />
           </div>  
           
         <div className="max-w-[100%] text-lg justify-start gap-20 w-full flex">
             <select className="text-gray-400 border-white-400 w-[20%] focus:outline-none" value={uf} onChange={(e) => setUf(e.target.value)}>
-              <option value="">UF (SP, RJ,...)</option>
+              <option value="">Unidade Federativa (UF)</option>
               <option value="AC">AC</option>
               <option value="AL">AL</option>
               <option value="AP">AP</option>
@@ -170,10 +171,10 @@ export default function Search() {
             </div>
 
         <div className="max-w-[100%] text-lg justify-start gap-20 flex">
-          <input className="w-[70%]" type="text" placeholder="Capital Social (ex: 10000:50000)" value={capitalSocial}
+          <input className="w-[70%]" type="text" placeholder="Capital Social (ex: 10000)" value={capitalSocial}
             onChange={(e) => setCapitalSocial(e.target.value)} />
 
-          <input className="w-[70%]" type="text" placeholder="Data Abertura (dd/mm/yyyy)" value={dataAbertura}
+          <input className="w-[70%]" type="text" placeholder="Data de Abertura (dd/mm/yyyy)" value={dataAbertura}
             onChange={(e) => setDataAbertura(e.target.value)} />
         </div>
 
@@ -191,54 +192,57 @@ export default function Search() {
           </div>
         </form>
 
-        <div className="bg-white shadow-md rounded-lg overflow-hidden m-10">
-        <table className="w-full text-sm text-left text-gray-500">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-100">
-                <tr>
-                    <th className="px-6 py-3">Razão Social</th>
-                    <th className="px-6 py-3">CNPJ</th>
-                </tr>
-            </thead>
-            </table>
-            <tbody>
-              <td>
-              {/* LISTA DE LEADS */}
-                  {leads.map((element: Estabelecimento) => (
-                    <LeadCard
-                      key={element._id}
-                      cnpj={`${element.cnpjBase}${element.cnpjOrdem}${element.cnpjDV}`}
-                      razao_social={element.nomeFantasia}
-                      telefone={element.telefone1 ? `(${element.ddd1}) ${element.telefone1}` : ""}
-                      email={element.correioEletronico}
-                      endereco={`${element.logradouro}, ${element.numero} - ${element.bairro}, ${element.municipio}/${element.uf}`}
-                      situacao_cadastral={element.situacaoCadastral}
-                    />
-                  ))}
-                  </td>
-                  <td>
-                    
-                  </td>
-            </tbody>
-            </div>
+        <div className="bg-white shadow-md rounded-lg overflow-hidden m-10 p-6 max-w-4xl mx-auto">
+          {/* Cabeçalho da "tabela" */}
+          <div className="flex bg-gray-100 p-3 rounded-t-lg font-bold text-gray-700">
+            <span className="flex-1 text-center">Razão Social</span>
+            <span className="flex-1 text-center">CNPJ</span>
+          </div>
+
+          {/* Lista de cards */}
+          <div className="flex flex-col divide-y divide-gray-200">
+            {leads.map((element: Estabelecimento) => (
+              <LeadCard
+                key={element._id}
+                cnpj={`${element.cnpjBase}${element.cnpjOrdem}${element.cnpjDV}`}
+                razao_social={element.nomeFantasia ? element.nomeFantasia : "Não informado"}
+                telefone={element.telefone1 ? `(${element.ddd1}) ${element.telefone1}` : ""}
+                email={element.correioEletronico}
+                endereco={`${element.logradouro}, ${element.numero} - ${element.bairro}, ${element.municipio}/${element.uf}`}
+                situacao_cadastral={element.situacaoCadastral}
+              />
+            ))}
+          </div>
+        </div>
                   
-
-        
-
         {/* Nenhum resultado */}
-        {leads.length === 0 && (
+        {searchError == true && (
           <p style={{ textAlign: "center", margin: "20px 0", color: "#F55151" }}>Nenhum resultado encontrado</p>
         )}
 
         {/* PAGINAÇÃO */}
         {pagination.totalPages > 1 && (
-          <div style={{ display: "flex", justifyContent: "center", gap: "10px", margin: "20px 0", flexWrap: "wrap" }}>
-            <button className="bg-[#3B5668] hover:bg-[#2A3E4B] rounded-lg text-white px-2 py-1 rounded text-lg" onClick={goToFirstPage} disabled={pagination.page === 1}>1°</button>
-            <button className="bg-[#3B5668] hover:bg-[#2A3E4B] rounded-2xl text-white px-3 py-1 rounded text-lg" onClick={goToPrevPage} disabled={pagination.page === 1}>{"<"}</button>
+          <div className="flex justify-center gap-2 mb-5 flex-wrap">
+            <button onClick={goToFirstPage} disabled={pagination.page === 1} className="px-5 py-2 text-sm rounded bg-gray-800 
+            text-gray-200 disabled:bg-gray-900 disabled:text-gray-500 hover:bg-gray-700 transition">
+              Início
+            </button>
 
-            <p>{pagination.page} de {pagination.totalPages}</p>
+            <button onClick={goToPrevPage} disabled={pagination.page === 1} className="px-3 py-2 text-sm rounded bg-gray-800 
+            text-gray-100 disabled:bg-gray-900 disabled:text-gray-500 hover:bg-gray-700 transition">
+              Anterior
+            </button>
 
-            <button className="bg-[#3B5668] hover:bg-[#2A3E4B] rounded-2xl text-white px-3 py-1 rounded text-lg" onClick={goToNextPage} disabled={pagination.page === pagination.totalPages}>{">"}</button>
-            <button className="bg-[#3B5668] hover:bg-[#2A3E4B] rounded-lg text-white px-2 py-1 rounded text-lg" onClick={goToLastPage} disabled={pagination.page === pagination.totalPages}>N°</button>
+            <span className="text-gray-300 text-base px-2 py-1">{pagination.page} de {pagination.totalPages}</span>
+            <button onClick={goToNextPage} disabled={pagination.page === pagination.totalPages} className="px-3 py-2 text-sm rounded 
+            bg-gray-800 text-gray-200 disabled:bg-gray-900 disabled:text-gray-500 hover:bg-gray-700 transition">
+              Próximo
+            </button>
+
+            <button onClick={goToLastPage} disabled={pagination.page === pagination.totalPages} className="px-3 py-2 text-sm rounded bg-gray-800 
+            text-gray-200 disabled:bg-gray-900 disabled:text-gray-500 hover:bg-gray-700 transition">
+              Último
+            </button>
           </div>
         )}
       </div>

@@ -14,9 +14,9 @@ export default function LeadCard({
     navigate(`/lead/${cnpj}`)
   }
   return (
-    <div onClick={handleClick} className="transition transform hover:scale-[1.02] hover:cursor-pointer flex flex-row bg-gray-50 pl-28 pr-28 justify-between p-3 border border-gray-200 ml-10 mr-10">
-      <span className="text-gray-800 font-medium">{razao_social ? <span className="tex-gray-800 font-medium">{razao_social}</span> : <span className="text-gray-800">---------------------------------------------</span>}</span>
-      <span className="text-gray-800 font-medium">{cnpj}</span>
+    <div onClick={handleClick} className="transition transform hover:scale-105 hover:cursor-pointer flex justify-between bg-gray-50 p-4 border border-gray-200">
+      <span className="text-gray-800 font-medium text-center flex-1">{razao_social}</span>
+      <span className="text-gray-600 text-center flex-1">{cnpj}</span>
     </div>
   );
 }
