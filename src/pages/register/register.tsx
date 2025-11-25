@@ -33,21 +33,20 @@ export default function Register() {
     event.preventDefault();
     const user: UserDTO = { fullName: name, email, cpfCnpj, password: senha}
 
-    try 
+    if (senha !== confirmarSenha) 
     {
-      if (senha !== confirmarSenha) 
-      {
-        toast.error("Senha e Confirmar senha não correspondem.");
-        return;
-      }
-
-      createUser(user).then(() => navigate("/login"));
-      toast.success("Conta criada com sucesso!")
-    } 
-    catch (error) 
-    {
-      toast.error("Erro ao criar a conta.");
+      toast.error("Senha e Confirmar senha não correspondem.");
+      return;
     }
+
+    createUser(user).then(() => {
+      navigate("/login");
+      toast.success("Conta criada com sucesso!")
+    }).catch(err => {
+      err.response.data.map((data: any) =>{
+        toast.error(data.description);
+      })
+    });
   };
 
   return (
