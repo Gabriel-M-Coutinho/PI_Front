@@ -117,7 +117,7 @@ export default function Register() {
             </div>
 
 
-            <button type="submit" id="botao-principal" className="py-3 px-12 rounded">
+            <button type="submit" id="botao-principal" className="py-3 px-6 rounded">
                 Cadastrar
             </button>
 

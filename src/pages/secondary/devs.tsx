@@ -6,7 +6,7 @@ export default function Devs()
     return(<>
         <Header></Header>
         <section
-        className="flex min-h-screen flex-col justify-center items-center w-full px-6 pt-10 pb-20 gap-8 text-text bg-gradient-to-br from-primary to-[#273550]"
+        className="flex min-h-screen flex-col justify-center items-center w-full px-6 pt-10 pb-20 gap-8 text-text bg-gradient-to-b from-primary to-[#0d2434]"
       >
         <h3 id="devs-titulo" className="mb-4">Desenvolvedores</h3>
         <div

@@ -135,7 +135,7 @@ export default function Graph()
     // Retorno padrão
     return (
         <>
-        <div className="min-h-screen">
+        <div className="min-h-screen bg-gradient-to-b from-primary to-[#0d2434]">
             <Header />
             <div className={styles.container}>
                 <div className={styles.box}>

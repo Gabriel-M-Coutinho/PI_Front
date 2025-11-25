@@ -38,16 +38,14 @@ export default function Header()
                     </svg>
                 </a>
             </div>
-   
                        <div id="links" className="flex md:gap-16 gap-6">
-                            <a className="nav-link text-dark text-lg hover:text-blue-500" href="/">Ínicio</a>                       
+                            <a className="nav-link text-dark text-lg hover:text-blue-500" href="/">Ínicio</a>
+                            <a className="nav-link text-dark text-lg hover:text-blue-500" href="/search">Buscar</a>                   
                             <a className="nav-link text-dark text-lg hover:text-blue-500" href="/about">Sobre</a>
                             <a className="nav-link text-dark text-lg hover:text-blue-500" href="/devs">Devs</a>
                             <a className="nav-link text-dark text-lg hover:text-blue-500" href="/dashboards">Dashboards</a>
                        </div>
- 
-                        
-
+  
                         {isloged ?
                         <div id="user" className="flex md:gap-4 icon_user">
                             <a>

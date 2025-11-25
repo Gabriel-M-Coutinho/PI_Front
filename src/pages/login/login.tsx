@@ -73,7 +73,7 @@ export default function Login() {
                                     value={password} // Boa prática para inputs controlados
                                 />
                             </div>
-                            <button type="submit" id="botao-principal" className="py-3 px-12 rounded">Entrar</button>
+                            <button type="submit" id="botao-principal" className="py-3 px-6 rounded">Entrar</button>
                             <p className="text-center">
                                 Não possui uma conta?
                                 <a href="/register" className="font-bold hover:underline"> Cadastre-se</a>

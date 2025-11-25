@@ -66,7 +66,9 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+h4,
+button {
   font-weight: 600 !important;
   color: var(--text-color);
 }
@@ -78,6 +80,10 @@ h3 {
 
   h2 {
       font-size: 36px !important;
+  }
+
+  h4 {
+    font-size: 46px !important;
   }
 
   h3 {
@@ -96,6 +102,10 @@ h3 {
 
   h2 {
       font-size: 28px !important;
+  }
+
+  h4 {
+    font-size: 36px !important;
   }
 
   h3 {
@@ -167,7 +177,6 @@ select option {
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  font-size: 15px;
 }
 
 #botao-red {
