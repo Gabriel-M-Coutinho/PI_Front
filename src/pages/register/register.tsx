@@ -85,7 +85,7 @@ export default function Register() {
                   checked={userType === "pf"}
                   onChange={(event) => { setUserType(event.target.value); setCpfCnpj("");}}
                 />
-                  PF (Pessoa Física)
+                  PF
                 </label>
                 <label className="flex items-center gap-1">
                 <input
@@ -95,7 +95,7 @@ export default function Register() {
                   checked={userType === "pj"}
                   onChange={(event) => { setUserType(event.target.value); setCpfCnpj("");}}
                 />
-                  PJ (Pessoa Jurídica)
+                  PJ
                 </label>
             </div>
 

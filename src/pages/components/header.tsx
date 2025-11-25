@@ -40,10 +40,10 @@ export default function Header()
             </div>
    
                        <div id="links" className="flex md:gap-16 gap-6">
-                            <a className="nav-link text-dark" href="/">Ínicio</a>                       
-                            <a className="nav-link text-dark" href="/about">Sobre</a>
-                            <a className="nav-link text-dark" href="/devs">Devs</a>
-                            <a className="nav-link text-dark" href="/dashboards">Dashboards</a>
+                            <a className="nav-link text-dark text-lg hover:text-blue-500" href="/">Ínicio</a>                       
+                            <a className="nav-link text-dark text-lg hover:text-blue-500" href="/about">Sobre</a>
+                            <a className="nav-link text-dark text-lg hover:text-blue-500" href="/devs">Devs</a>
+                            <a className="nav-link text-dark text-lg hover:text-blue-500" href="/dashboards">Dashboards</a>
                        </div>
  
                         
@@ -74,7 +74,7 @@ export default function Header()
                             </div>
                         </div>: 
                             <div id="user" className="flex items-center gap-4">
-                                <a className="nav-link text-dark" href="/login">Entrar</a>
+                                <a className="nav-link text-dark hover:text-blue-500" href="/login">Entrar</a>
                             </div>                           
                         }
         </nav>

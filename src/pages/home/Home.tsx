@@ -102,7 +102,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-gradient-to-r from-primary to-[#0d2434]">
         <Header />
 
         {/* LOGO */}
@@ -207,9 +207,20 @@ export default function Home() {
 
           <button id="botao-principal" className="mx-auto block py-2 px-1 rounded max-w-[10%] justify-center flex w-full" type="submit">Buscar</button>
           </div>
-
         </form>
-                  {/* LISTA DE LEADS */}
+
+        <div className="bg-white shadow-md rounded-lg overflow-hidden m-10">
+        <table className="w-full text-sm text-left text-gray-500">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-100">
+                <tr>
+                    <th className="px-6 py-3">Razão Social</th>
+                    <th className="px-6 py-3">CNPJ</th>
+                </tr>
+            </thead>
+            </table>
+            <tbody>
+              <td>
+              {/* LISTA DE LEADS */}
                   {leads.map((element: Estabelecimento) => (
                     <LeadCard
                       key={element._id}
@@ -221,6 +232,13 @@ export default function Home() {
                       situacao_cadastral={element.situacaoCadastral}
                     />
                   ))}
+                  </td>
+                  <td>
+                    
+                  </td>
+            </tbody>
+            </div>
+                  
 
         
 
@@ -232,13 +250,13 @@ export default function Home() {
         {/* PAGINAÇÃO */}
         {pagination.totalPages > 1 && (
           <div style={{ display: "flex", justifyContent: "center", gap: "10px", margin: "20px 0", flexWrap: "wrap" }}>
-            <button onClick={goToFirstPage} disabled={pagination.page === 1}>Primeira</button>
-            <button onClick={goToPrevPage} disabled={pagination.page === 1}>Anterior</button>
+            <button className="bg-[#3B5668] hover:bg-[#2A3E4B] rounded-lg text-white px-2 py-1 rounded text-lg" onClick={goToFirstPage} disabled={pagination.page === 1}>1°</button>
+            <button className="bg-[#3B5668] hover:bg-[#2A3E4B] rounded-2xl text-white px-3 py-1 rounded text-lg" onClick={goToPrevPage} disabled={pagination.page === 1}>{"<"}</button>
 
-            <span>Página {pagination.page} de {pagination.totalPages}</span>
+            <p>{pagination.page} de {pagination.totalPages}</p>
 
-            <button onClick={goToNextPage} disabled={pagination.page === pagination.totalPages}>Próxima</button>
-            <button onClick={goToLastPage} disabled={pagination.page === pagination.totalPages}>Última</button>
+            <button className="bg-[#3B5668] hover:bg-[#2A3E4B] rounded-2xl text-white px-3 py-1 rounded text-lg" onClick={goToNextPage} disabled={pagination.page === pagination.totalPages}>{">"}</button>
+            <button className="bg-[#3B5668] hover:bg-[#2A3E4B] rounded-lg text-white px-2 py-1 rounded text-lg" onClick={goToLastPage} disabled={pagination.page === pagination.totalPages}>N°</button>
           </div>
         )}
       </div>

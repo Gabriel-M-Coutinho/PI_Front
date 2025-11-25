@@ -6,6 +6,7 @@ import type { LoginDTO } from "../../types/types";
 import { login } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+            <ToastContainer/>
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -105,7 +106,6 @@ export default function Login() {
                 </section>
             </main>
             <Footer />
-            <ToastContainer/>
         </div>
     );
 }
