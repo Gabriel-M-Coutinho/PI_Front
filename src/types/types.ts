@@ -41,9 +41,9 @@ export interface Estabelecimento {
   situacaoCadastral: string;
   motivoSituacaoCadastral: string;
 
-  dataSituacaoCadastral: string;
-  dataInicioAtividade: string;
-  dataSituacaoEspecial: string;
+  dataInicioAtividade: Date;
+  dataSituacaoCadastral: Date;
+  dataSituacaoEspecial: Date;
 
   cidadeExterior: string;
   pais: string;
@@ -57,10 +57,8 @@ export interface Estabelecimento {
   complemento: string;
   bairro: string;
   cep: string;
-
   uf: string;
   municipio: string;
-
   ddd1: string;
   telefone1: string;
   ddd2: string;
@@ -92,4 +90,47 @@ export interface LeadFilters {
   pageSize?: number;
   // Você pode adicionar outros campos que seu backend suporta
   // baseado no switch case do controller C#
+}
+
+export interface UserProfile {
+  id: string;
+  userName: string;
+  normalizedUserName: string;
+  email: string;
+  normalizedEmail: string;
+  emailConfirmed: boolean;
+  passwordHash: string;
+  securityStamp: string;
+  concurrencyStamp: string;
+  phoneNumber: string;
+  phoneNumberConfirmed: boolean;
+  twoFactorEnabled: boolean;
+  lockoutEnd: string | null;
+  lockoutEnabled: boolean;
+  accessFailedCount: number;
+  version: number;
+  createdOn: string;
+  claims: Array<{
+    type: string;
+    value: string;
+    issuer: string;
+  }>;
+  roles: string[];
+  logins: Array<{
+    loginProvider: string;
+    providerKey: string;
+    providerDisplayName: string;
+  }>;
+  tokens: Array<{
+    loginProvider: string;
+    name: string;
+    value: string;
+  }>;
+  fullName: string;
+  cpfCnpj: string;
+  tipo: string;
+  active: boolean;
+  role: number;
+  createdAt: string;
+  updatedAt: string;
 }

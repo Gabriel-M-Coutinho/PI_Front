@@ -1,11 +1,27 @@
 import axios from "axios";
-import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO, Estabelecimento } from "../types/types";
+import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO, Estabelecimento, UserProfile } from "../types/types";
+import Cookies from "js-cookie";
 
 const api = axios.create({
+<<<<<<< HEAD
   baseURL: "http://localhost:5000",
+=======
+  baseURL: "http://localhost:5047",
+  withCredentials: true,
+>>>>>>> 8a68120a4e18a783c082a6f0c8ced0db8f5a2de5
   headers: {
     "Content-Type": "application/json"
   }
+});
+
+api.interceptors.request.use(config => {
+  const token = Cookies.get("token"); // pega o token do cookie
+  if (token && config.headers) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
 });
 
 export const createUser = (payload:UserDTO) => api.post("/api/User", payload)
@@ -32,5 +48,15 @@ export async function getLeadByCnpj(cnpj: string):Promise<Estabelecimento> {
     return response.data.data;      
   } catch (err: any) {
     throw new Error(err?.response?.data?.message || "Lead não encontrado");
+  }
+}
+
+export async function getProfile(): Promise<UserProfile> {
+  try {
+    const response = await api.get<UserProfile>("/api/User/profile");
+    return response.data;
+  } catch (err: any) {
+    console.error(err);
+    throw new Error(err?.response?.data?.message || "Usuário não encontrado");
   }
 }
