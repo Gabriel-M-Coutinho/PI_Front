@@ -73,8 +73,7 @@ export default function Header()
                                 <a className="nav-link text-dark back" onClick={handleLogout}>Sair</a>
                             </div>
                         </div>: 
-                            <div id="user" className="flex items-center gap-4">  
-                                <a className="nav-link text-dark" href="/register">Registrar</a>
+                            <div id="user" className="flex items-center gap-4">
                                 <a className="nav-link text-dark" href="/login">Entrar</a>
                             </div>                           
                         }

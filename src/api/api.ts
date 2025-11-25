@@ -3,8 +3,12 @@ import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO, Estabelecimento, UserP
 import Cookies from "js-cookie";
 
 const api = axios.create({
+<<<<<<< HEAD
+  baseURL: "http://localhost:5000",
+=======
   baseURL: "http://localhost:5047",
   withCredentials: true,
+>>>>>>> 8a68120a4e18a783c082a6f0c8ced0db8f5a2de5
   headers: {
     "Content-Type": "application/json"
   }

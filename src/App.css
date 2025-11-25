@@ -1,7 +1,8 @@
 /* VARS */
 :root {
   --text-color: rgb(210, 212, 214);
-  --accent-color: rgb(116, 128, 255);
+  --accent-color: rgb(68, 81, 223);
+  --accent-color-hover: rgb(42, 48, 157);
   --primary-color: rgb(28, 34, 41);
   --secondary-color: rgb(50, 60, 74);
   --opacity-primary-color: rgba(29, 35, 42, 0.85);
@@ -120,6 +121,20 @@ textarea:focus {
   border-bottom: var(--text-color) 2px solid;
 }
 
+select {
+  background-color: transparent;
+  border-bottom: 2px solid var(--text-color);
+  height: 40px;
+  padding: 0px 2px;
+  cursor: pointer;
+}
+
+select option {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+}
+
 #hero {
   background-image: linear-gradient( var(--opacity-primary-color), var(--opacity-primary-color) ), url("../assets/imgs/hero.png");
   background-size: cover;
@@ -170,7 +185,7 @@ textarea:focus {
 
 #botao-principal:hover,
 #botao-principal-var:hover {
-  mix-blend-mode: hard-light;
+  background-color: var(--accent-color-hover);
 }
 
 #botao-principal-var {

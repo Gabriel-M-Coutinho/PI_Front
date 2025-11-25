@@ -6,7 +6,7 @@ export default function LeadCard({
   telefone, 
   email, 
   endereco,
-  situacao_cadastral 
+  situacao_cadastral,
 }: any) {
 
   const navigate  = useNavigate()
@@ -15,7 +15,6 @@ export default function LeadCard({
   }
   return (
     <div onClick={handleClick}   className="
-    lead-card 
     hover:cursor-pointer 
     transition-all 
     duration-200 
@@ -23,14 +22,18 @@ export default function LeadCard({
     shadow-md 
     hover:shadow-xl 
     hover:-translate-y-1
-    p-4
     border
-  " style={{ border: '1px solid #ccc', padding: '16px', margin: '10px', borderRadius: '8px' }}>
-      <h1>Razão Social</h1>
-      <h2>{razao_social}</h2>
-      
-      <h1>CNPJ</h1>
-      <h3>{cnpj}</h3>
+    flex flex-col border-gray-600 mb-2 ml-10 mr-10 p-14 pt-4 pb-4
+  ">
+    <div className="flex gap-5">
+        <h1>Razão Social:</h1>
+        {razao_social ? <h1>{razao_social}</h1> : <h1>---------------------------------------------</h1>}
+    </div>
+        
+      <div className="flex gap-5">
+        <h1>CNPJ:</h1>
+        <h1>{cnpj}</h1>
+      </div>
 
     </div>
   );
