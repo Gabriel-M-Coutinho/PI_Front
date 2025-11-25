@@ -1,6 +1,7 @@
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { redirect, useNavigate } from "react-router-dom";
+import { InputMask, type MaskOptions } from "@react-input/mask";
 
 export default function Home() {
   const navigate  = useNavigate()
