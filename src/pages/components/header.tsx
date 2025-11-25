@@ -40,9 +40,9 @@ export default function Header()
             </div>
                        <div id="links" className="flex md:gap-16 gap-6">
                             <a className="nav-link text-dark hover:text-indigo-500" href="/">Início</a>
-                            <a className="nav-link text-dark hover:text-indigo-500" href="/search">Buscar</a>                   
+                            <a className="nav-link text-dark hover:text-indigo-500" href="/search">Buscar</a>
+                            <a className="nav-link text-dark hover:text-indigo-500" href="/plans">Planos</a>                   
                             <a className="nav-link text-dark hover:text-indigo-500" href="/about">Sobre</a>
-                            <a className="nav-link text-dark hover:text-indigo-500" href="/plans">Planos</a>
                             <a className="nav-link text-dark hover:text-indigo-500" href="/devs">Devs</a>
                             <a className="nav-link text-dark hover:text-indigo-500" href="/dashboards">Dashboards</a>
                        </div>
