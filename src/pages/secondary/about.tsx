@@ -12,10 +12,13 @@ export default function About()
           id="sobre"
           className="flex flex-row h-fit w-full max-w-[850px] pt-12"
         >
-          <div className="hidden md:block ps-10">
-            <svg
-              width="auto"
-              height="auto"
+          <div
+            className="flex border border-gray-500 flex-col justify-center items-center text-center w-full max-w-[800px] rounded-xl min-h-[350px] p-10"
+          >
+            <div className="flex flex-row items-center gap-8 pb-10">
+              <svg
+              width="70px"
+              height="70px"
               viewBox="0 0 71 57"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -29,10 +32,8 @@ export default function About()
                 stroke-linejoin="round"
               />
             </svg>
-          </div>
-
-          <div className="flex flex-col h-fit w-full py-6 ps-6 pe-10 gap-8">
-            <h3 className="text-4xl font-bold text-text">Sobre nós</h3>
+              <h3 className="text-4xl font-bold text-text">Sobre nós</h3>
+            </div>
             <p className="text-lg text-text">
               <span>Nós da </span>
               <span className="font-bold">LeadSearch </span> 

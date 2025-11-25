@@ -1,11 +1,12 @@
 /* VARS */
 :root {
   --text-color: rgb(210, 212, 214);
-  --accent-color: rgb(68, 81, 223);
-  --accent-color-hover: rgb(42, 48, 157);
+  --accent-color: #3B82F6;
+  --accent-color-hover: #2b62ba;
   --primary-color: rgb(28, 34, 41);
-  --secondary-color: rgb(50, 60, 74);
+  --secondary-color: rgb(37, 47, 59);
   --opacity-primary-color: rgba(29, 35, 42, 0.85);
+  --bg-color-card: rgb(36, 51, 68);
 }
 
 /* PADRÕES */
@@ -65,7 +66,9 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+h4,
+button {
   font-weight: 600 !important;
   color: var(--text-color);
 }
@@ -77,6 +80,10 @@ h3 {
 
   h2 {
       font-size: 36px !important;
+  }
+
+  h4 {
+    font-size: 46px !important;
   }
 
   h3 {
@@ -95,6 +102,10 @@ h3 {
 
   h2 {
       font-size: 28px !important;
+  }
+
+  h4 {
+    font-size: 36px !important;
   }
 
   h3 {
@@ -166,7 +177,6 @@ select option {
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  font-size: 15px;
 }
 
 #botao-red {
@@ -199,7 +209,7 @@ select option {
 }
 
 #card {
-  background-color: var(--secondary-color);
+  background-color: var(--bg-color-card);
   color: var(--text-color);
   border-radius: 10px;
   border-bottom: 2px solid var(--primary-color);
