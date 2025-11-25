@@ -259,3 +259,23 @@ select option {
 .input-alt{
   border-bottom: none;
 }
+
+.leadGroupFieldFormat {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+
+.leadGroupFieldFormat > div {
+  min-width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+}
+
+.leadGroupFieldFormat > div > p {
+  font-weight: 100;
+  color: #c4c8d1;
+}
