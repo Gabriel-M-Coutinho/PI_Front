@@ -2,7 +2,7 @@ import axios from "axios";
 import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO, Estabelecimento } from "../types/types";
 
 const api = axios.create({
-  baseURL: "http://localhost:5047",
+  baseURL: "http://localhost:5000",
   headers: {
     "Content-Type": "application/json"
   }
