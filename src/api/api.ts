@@ -1,11 +1,23 @@
 import axios from "axios";
-import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO } from "../types/types";
+import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO, UserProfile } from "../types/types";
+import Cookies from "js-cookie";
 
 const api = axios.create({
   baseURL: "http://localhost:5047",
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json"
   }
+});
+
+api.interceptors.request.use(config => {
+  const token = Cookies.get("token"); // pega o token do cookie
+  if (token && config.headers) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
 });
 
 export const createUser = (payload:UserDTO) => api.post("/api/User", payload)
@@ -26,3 +38,12 @@ export const searchLeads = (filters:any) => {
   });
 };
 
+export async function getProfile(): Promise<UserProfile> {
+  try {
+    const response = await api.get<UserProfile>("/api/User/profile");
+    return response.data;
+  } catch (err: any) {
+    console.error(err);
+    throw new Error(err?.response?.data?.message || "Usuário não encontrado");
+  }
+}
