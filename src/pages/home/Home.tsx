@@ -74,7 +74,7 @@ export default function Home() {
             <button
               type="submit"
               id="botao-principal"
-              className="absolute end-2 bottom-2.5 rounded-lg text-sm px-4 py-1.5 font-semibold"
+              className="bg-indigo-600 hover:bg-indigo-500 absolute end-2 bottom-2.5 rounded-lg text-sm px-4 py-1.5 font-semibold"
             >
               Buscar
             </button>
