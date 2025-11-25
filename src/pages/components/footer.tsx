@@ -2,12 +2,12 @@ export default function Footer()
 {
     return(
         <footer id="footer"
-                className="flex flex-col justify-center items-center h-fit w-full p-6 gap-8 bg-secondary text-text border-t-2 border-primary">
+                className="flex flex-col justify-center items-center h-fit w-full p-6 gap-8 color-indigo text-text border-t-2 border-primary">
        
             <div id="links" className="flex gap-8 pt-5">
-                <a className="nav-link text-dark hover:text-[var(--accent-color)]" href="/support">Suporte</a>
-                <a className="nav-link text-dark hover:text-[var(--accent-color)]" href="/about">Sobre</a>
-                <a className="nav-link text-dark hover:text-[var(--accent-color)]" href="/devs">Devs</a>
+                <a className="nav-link text-dark hover:text-indigo-500" href="/support">Suporte</a>
+                <a className="nav-link text-dark hover:text-indigo-500" href="/about">Sobre</a>
+                <a className="nav-link text-dark hover:text-indigo-500" href="/devs">Devs</a>
             </div>
        
             <div id="icons" className="flex gap-8">

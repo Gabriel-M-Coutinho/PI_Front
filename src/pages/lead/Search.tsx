@@ -4,6 +4,7 @@ import Header from "../components/header";
 import Footer from "../components/footer";
 import { searchLeads } from "../../api/api";
 import type { Estabelecimento } from "../../types/types";
+import Home from "../home/Home";
 
 export default function Search() {
   const [nomefantasia, setNomeFantasia] = useState("");
@@ -97,7 +98,7 @@ export default function Search() {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-b from-primary to-[#0d2434]">
+      <div className="min-h-screen bg-gradient-to-l from-primary to-[#080C14]">
         <Header />
 <       h4 className="flex flex-row justify-center mt-10">Busque os Leads:</h4>
 

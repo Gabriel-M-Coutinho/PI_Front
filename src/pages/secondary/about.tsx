@@ -6,7 +6,7 @@ export default function About()
     return(<>
       <Header/>
         <div
-        className="min-h-screen w-full h-full flex flex-col items-center bg-gradient-to-b from-primary to-[#0d2434]"
+        className="min-h-screen w-full h-full flex flex-col items-center bg-gradient-to-l from-primary to-[#080C14]"
       >
         <section
           id="sobre"

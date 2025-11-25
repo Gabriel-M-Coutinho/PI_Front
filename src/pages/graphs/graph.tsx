@@ -77,7 +77,7 @@ export default function Graph() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-primary to-[#0d2434] flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <Header />
         <div className="flex-1 flex items-center justify-center text-white text-lg">Carregando gráfico...</div>
         <Footer />
@@ -87,24 +87,24 @@ export default function Graph() {
 
   return (
     <>
-    <div className="min-h-screen bg-gradient-to-b from-primary to-[#0d2434] text-gray-900 flex flex-col">
+    <div className="min-h-screen text-gray-900 flex flex-col">
       <Header />
       
       <div className="max-w-5xl w-full mx-auto px-4 py-8">
         {/* Cards de métricas */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <div className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between">
+          <div className="bg-gray-300 rounded-lg shadow-md p-6 flex flex-col justify-between">
             <span className="text-sm text-gray-500">Total de Leads</span>
             <span className="text-3xl font-bold text-gray-800">{totalLeads || 0}</span>
           </div>
-          <div className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between">
+          <div className="bg-gray-300 rounded-lg shadow-md p-6 flex flex-col justify-between">
             <span className="text-sm text-gray-500">Município com mais Estabelecimentos</span>
             <span className="text-2xl font-bold text-gray-800">{maiorMunicipio || "-"}</span>
           </div>
         </div>
 
         {/* Gráfico */}
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-gray-300 rounded-lg shadow-md p-6">
           {hasData ? (
             <Chart options={optionsPie} series={optionsPie.series} type="pie" height={400} />
           ) : (

@@ -13,9 +13,14 @@ export default function Home() {
     navigate(`/lead/${cnpj}`)
   }
 
+  const cnpjMaskOptions: MaskOptions = {
+      mask: "cc.ccc.ccc/cccc-cc",
+      replacement: { "c": /\d/ }
+    };
+
   return (
   <>
-      <div className="min-h-screen bg-gradient-to-b from-primary to-[#0d2434]">
+      <div className="min-h-screen bg-gradient-to-l from-primary to-[#080C14]">
         <Header />
         <div className="flex flex-col items-center justify-center min-h-screen text-center pb-20">
 
@@ -57,7 +62,9 @@ export default function Home() {
                 />
               </svg>
             </div>
-            <input
+            <InputMask
+              mask={cnpjMaskOptions.mask}
+              replacement={cnpjMaskOptions.replacement}
               type="search"
               id="area-pesquisa"
               name="area-pesquisa"
@@ -75,7 +82,7 @@ export default function Home() {
         </form>
 
           <a href="/search">
-            <button type="submit" id="botao-principal" className="px-3 py-2">
+            <button type="submit" className="bg-indigo-600 hover:bg-indigo-500 end-2 bottom-2.5 rounded-lg text-sm px-4 py-2 font-semibold">
               Pesquisa avançada
             </button>
           </a>
