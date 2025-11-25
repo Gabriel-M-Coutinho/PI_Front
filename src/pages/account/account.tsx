@@ -1,12 +1,23 @@
 import Footer from "../components/footer";
 import Header from "../components/header";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
-import type { UserDTO, UserProfile } from "../../types/types";
-import { getProfile } from "../../api/api";
+import { deleteProfile, getProfile } from "../../api/api";
+import { redirect, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+
 
 export default function Account() {
-    const [user, setProfile] = useState<UserProfile>();
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [user, setProfile] = useState<any>();
+    const navigate  = useNavigate()
+
+    const editAccount = () => {
+        navigate("/account/edit");
+    }
+    const deleteProcediment = async () => {
+        setShowDeleteModal(true);
+    }
 
     useEffect(() => {
         async function load() {
@@ -16,135 +27,85 @@ export default function Account() {
 
         load();
     }, []);
-
+    
     if (!user) return <p>Loading...</p>;
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    // Pega todos os campos do formulário
-    const formData = new FormData(event.currentTarget);
-
-    const nome = formData.get("nome"); // valor do input com name="email"
-    const email = formData.get("email");
-    const password = formData.get("password"); // valor do input com name="password"
-    const cpfCnpj = formData.get("cpfCnpj"); // valor do input com name="email"
-
-    console.log("Nome:", nome);
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("cnpCnpj:", cpfCnpj);
-
-
-    // Aqui você pode chamar sua API, por exemplo:
-    // login({ username: email, password });
-    };
     return (
         <div>
             <Header />
 
-            <main>
-                <h2 id="devs-titulo" className="justify-self-center pt-10">
-                    Conta
-                </h2>
+            <main className="flex flex-col items-center w-full">
+            <div className="px-12 my-24 w-full max-w-[800px]">
+            <h3 className="font-semibold mb-8 text-gray-100">Conta</h3>
 
-                <form action="/user" id="form-register" onSubmit={handleSubmit} method="POST" className="max-w-sm mx-auto py-4 pb-8">
-                    {/* Nome */}
-                    <div className="mb-5">
-                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Nome
-                            </label>
+            <div className="space-y-12">
 
-                            <input
-                                type="text"
-                                name="nome"
-                                id="name"
-                                defaultValue={user.userName}
-                                className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                            />
-                        </div>
-                    {/* EMAIL */}
-                    <div className="mb-5">
-                        <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            Email
-                        </label>
+                <div className="flex justify-between items-start">
+                <p className="text-gray-400 font-medium w-40">Nome</p>
+                <p className="text-gray-200">{user.userName}</p>
+                </div>
 
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            defaultValue={user.email}
-                            required
-                            className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                        />
-                    </div>
+                <div className="flex justify-between items-start">
+                <p className="text-gray-400 font-medium w-40">Email</p>
+                <p className="text-gray-200">{user.email}</p>
+                </div>
 
-                    {/* PASSWORD */}
-                    <div className="mb-5">
-                        <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            Senha
-                        </label>
+                <div className="flex justify-between items-start">
+                <p className="text-gray-400 font-medium w-40">CPF/CNPJ</p>
+                <p className="text-gray-200">{user.cpfCnpj}</p>
+                </div>
 
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                        />
+                <div className="flex justify-end gap-3 pt-6">
+                <button className="py-2 px-7 rounded bg-blue-600 text-white hover:bg-blue-500"
+                onClick={editAccount}>
+                    Editar
+                </button>
 
-                        <p className="mt-2 text-xs text-red-600 dark:text-red-500">error</p>
-                    </div>
+                <button className="py-2 px-7 rounded bg-red-600 text-white hover:bg-red-500"
+                onClick={deleteProcediment}>
+                    Excluir
+                </button>
+                </div>
 
-                    {/* CONFIRM PASSWORD */}
-                    <div className="mb-5">
-                        <label htmlFor="password_confirm" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            Confirmar Senha
-                        </label>
+            </div>
+            </div>
+            </main>
+            {showDeleteModal && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
+                <div className="bg-gray-800 text-gray-100 p-10 py-12 rounded-lg w-[550px] max-w-[80%] shadow-xl">
+                    <h2 className="text-xl font-semibold mb-4">Confirmar Exclusão</h2>
+                    <p className="my-8">Tem certeza de que deseja excluir sua conta? Esta ação é irreversível.</p>
 
-                        <input
-                            type="password"
-                            name="password_confirm"
-                            id="password_confirm"
-                            className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                        />
-
-                        <p className="mt-2 text-xs text-red-600 dark:text-red-500">error</p>
-                    </div>
-
-                    {/* PF FIELDS */}
-                    <div>
-                        
-
-                        <div className="mb-5">
-                            <label htmlFor="cpf" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                CPF
-                            </label>
-
-                            <input
-                                type="text"
-                                name="cpfCnpj"
-                                id="cpf"
-                                placeholder="000.000.000-00"
-                                defaultValue={user.cpfCnpj}
-                                className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col items-start gap-3">
-                        <button type="submit" name="action" value="edit" id="botao-principal" className="py-2 px-7 rounded">
-                            Editar
+                    <div className="flex justify-end gap-3">
+                        <button
+                            onClick={() => setShowDeleteModal(false)}
+                            className="py-2 px-5 rounded bg-gray-600 hover:bg-gray-500"
+                        >
+                            Cancelar
                         </button>
 
-                        <button type="submit" name="action" value="delete" id="botao-red" className="py-2 px-7 rounded">
+                        <button
+                            onClick={async () => {
+                                try {
+                                    await deleteProfile();
+                                    toast.success("Conta excluída com sucesso!");
+                                    Cookies.remove("token");
+                                    navigate("/login");
+                                } catch (err) {
+                                    toast.error("Erro ao excluir conta.");
+                                    console.error(err);
+                                }
+                            }}
+                            className="py-2 px-5 rounded bg-red-600 hover:bg-red-500"
+                        >
                             Excluir
                         </button>
                     </div>
-                </form>
-            </main>
+                </div>
+            </div>
+        )}
 
             <Footer />
-            <ToastContainer />
+            <ToastContainer/>
         </div>
     );
 }

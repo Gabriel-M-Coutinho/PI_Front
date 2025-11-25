@@ -17,13 +17,13 @@ export default function Register() {
   const navigate = useNavigate();
 
     const cpfMaskOptions: MaskOptions = {
-      mask: "999.999.999-99",
-      replacement: { "9": /\d/ }
+      mask: "ccc.ccc.ccc-cc",
+      replacement: { "c": /\d/ }
     };
   
     const cnpjMaskOptions: MaskOptions = {
-      mask: "99.999.999/9999-99",
-      replacement: { "9": /\d/ }
+      mask: "cc.ccc.ccc/cccc-cc",
+      replacement: { "c": /\d/ }
     };
 
   const maskOptions = userType === "pf" ? cpfMaskOptions : cnpjMaskOptions;
