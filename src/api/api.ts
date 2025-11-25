@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO, UserProfile } from "../types/types";
+import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO, Estabelecimento, UserProfile } from "../types/types";
 import Cookies from "js-cookie";
 
 const api = axios.create({
@@ -24,19 +24,28 @@ export const createUser = (payload:UserDTO) => api.post("/api/User", payload)
 export const login = (payload:LoginDTO) => api.post("/api/Auth/login", payload)
 export const graphLeads = (payload:any) => api.get("/api/Lead/LeadsGraph", payload)
 
-// Usando a interface de filtros tipada
+
 export const getLeads = (filters: LeadFilters) => {
   return api.get<ResponseDTO>("/api/Lead", {
     params: filters
   });
 };
 
-// Versão mais específica se quiser
+
 export const searchLeads = (filters:any) => {
   return api.get<any>("/api/Lead", {
     params: filters
   });
 };
+
+export async function getLeadByCnpj(cnpj: string):Promise<Estabelecimento> {
+  try {
+    const response = await api.get(`/api/lead/${cnpj}`);
+    return response.data.data;      
+  } catch (err: any) {
+    throw new Error(err?.response?.data?.message || "Lead não encontrado");
+  }
+}
 
 export async function getProfile(): Promise<UserProfile> {
   try {
