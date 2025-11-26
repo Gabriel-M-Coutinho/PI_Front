@@ -171,9 +171,6 @@ export default function Search() {
           <input type="text" className="w-full block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="Nome Fantasia" value={nomefantasia}
             onChange={(e) => setNomeFantasia(e.target.value)} />
 
-          {/*<input type="text" className="w-full block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="CNAE Principal" value={cnae}
-            onChange={(e) => setCnae(e.target.value)} />*/}
-
             <select className="text-gray-400 border-white-400 w-[60%] focus:outline-none" value={cnae} onChange={(e) => setCnae(e.target.value)}>
               <option value="">Cnae</option>
               {allCnaes.map((singleCnae:any) => {
