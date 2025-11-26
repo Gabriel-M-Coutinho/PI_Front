@@ -6,7 +6,7 @@ export default function Plans(){
     <Header/>
 {/* PRICES - START */}
       <div
-        className="flex flex-col justify-center items-center w-full px-6 py-10 gap-8 text-text bg-gradient-to-b from-primary to-[#0d2434]"
+        className="flex flex-col justify-center items-center w-full px-6 py-10 gap-8 text-text bg-gradient-to-l from-primary to-[#080C14]"
       >
         <h3 id="precos-titulo">Preços</h3>
         <h1 id="precos-subtitulo" className="-mt-6 mb-4">Planos de assinatura</h1>
@@ -53,7 +53,7 @@ export default function Plans(){
               className="flex flex-col items-center justify-center gap-6 rounded-xl px-6 py-8"
             >
               {/* textos */}
-              <span className="text-md uppercase text-primary font-bold"
+              <span className="text-md uppercase font-bold"
                 >plano mestre</span>
               <h2 className="mt-3 scale-150">R$499,90</h2>
               <p className="mt-3 mx-10">

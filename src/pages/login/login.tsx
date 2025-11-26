@@ -44,7 +44,7 @@ export default function Login() {
     };
 
     return (
-        <div className="bg-gradient-to-b from-primary to-[#0d2434]">
+        <div className="bg-gradient-to-l from-primary to-[#080C14]">
             <Header />
             <main>
                 <section className="flex flex-row justify-center items-center h-screen w-full">
@@ -52,33 +52,37 @@ export default function Login() {
                         <h2 className="font-bold">Login</h2>
                         <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-full gap-8">
                             <div className="max-w-[80%] w-full flex flex-col">
-                                <label className="">Email</label>
+                                <label className="block text-lg font-semibold">Email</label>
+                                <div className="mt-2.5">
                                 <input 
                                     type="email" 
                                     onChange={(event) => setEmail(event.target.value)} 
                                     name="email" 
                                     id="email" 
-                                    className="form-imput" 
+                                    className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" 
                                     value={email} // Boa prática para inputs controlados
                                 />
+                                </div>
                             </div>
                             <div className="max-w-[80%] w-full flex flex-col">
-                                <label className="">Password</label>
+                                <label className="block text-lg font-semibold">Password</label>
+                                <div className="mt-2.5">
                                 <input 
                                     type="password" 
                                     onChange={(event) => setPassword(event.target.value)} 
                                     name="password" 
                                     id="password" 
-                                    className="form-imput" 
+                                    className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" 
                                     value={password} // Boa prática para inputs controlados
                                 />
+                                </div>
                             </div>
                             <button type="submit" id="botao-principal" className="py-3 px-6 rounded">Entrar</button>
                             <p className="text-center">
                                 Não possui uma conta?
-                                <a href="/register" className="font-bold hover:underline"> Cadastre-se</a>
+                                <a href="/register" className="font-bold hover:no-underline hover:text-indigo-500"> Cadastre-se</a>
                             </p>
-                            <a href="/resetPassword" className="font-bold hover:underline">Esqueci minha senha</a>
+                            <a href="/resetPassword" className="font-bold hover:no-underline hover:text-indigo-500">Esqueci minha senha</a>
                         </form>
                     </div>
                     <div className="md:flex flex-col justify-center items-center h-full w-1/2 hidden">

@@ -51,7 +51,7 @@ export default function Register() {
   };
 
   return (
-    <div className="bg-gradient-to-b from-primary to-[#0d2434]">
+    <div className="bg-gradient-to-l from-primary to-[#080C14]">
       <Header/>
 
       <section className="flex flex-row justify-center items-center h-screen w-full">
@@ -61,22 +61,22 @@ export default function Register() {
         <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-full gap-6">
 
             <div className="max-w-[80%] w-full flex flex-col">
-                <label>Email</label>
-                <input onChange={(event) => setEmail(event.target.value)} type="email" className="form-input" />
+                <label className="block text-lg font-semibold mb-2.5">Email</label>
+                <input onChange={(event) => setEmail(event.target.value)} type="email" className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" />
             </div>
 
             <div className="max-w-[80%] w-full flex flex-col">
-                <label>Senha</label>
-                <input onChange={(event) => setSenha(event.target.value)} type="password" className="form-input" />
+                <label className="block text-lg font-semibold mb-2.5">Senha</label>
+                <input onChange={(event) => setSenha(event.target.value)} type="password" className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" />
             </div>
 
             <div className="max-w-[80%] w-full flex flex-col">
-                <label>Confirmar Senha</label>
-                <input onChange={(event) => setConfirmarSenha(event.target.value)} type="password" className="form-input" />
+                <label className="block text-lg font-semibold mb-2.5">Confirmar Senha</label>
+                <input onChange={(event) => setConfirmarSenha(event.target.value)} type="password" className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" />
             </div>
 
             <div className="max-w-[80%] w-full flex user_type">
-              <label>Selecione o tipo de pessoa:</label>
+              <label className="block text-lg font-semibold mb-2.5">Selecione o tipo de pessoa:</label>
                 <label className="flex items-center gap-1">
                 <input
                   type="radio"
@@ -100,19 +100,19 @@ export default function Register() {
             </div>
 
             <div className="max-w-[80%] w-full flex flex-col">
-                <label>Nome/Razão Social</label>
-                <input onChange={(event) => setName(event.target.value)} type="text" className="form-input" />
+                <label className="block text-lg font-semibold mb-2.5">Nome / Razão-Social</label>
+                <input onChange={(event) => setName(event.target.value)} type="text" className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" />
             </div>
 
             <div className="max-w-[80%] w-full flex flex-col mt-4">
-              <label>CPF/CNPJ</label>
+              <label className="block text-lg font-semibold mb-2.5">CPF / CNPJ</label>
               <InputMask
                 mask={maskOptions.mask}
                 replacement={maskOptions.replacement}
                 value={cpfCnpj}
                 onChange={(e) => setCpfCnpj(e.target.value)}
                 type="text"
-                className="form-input"
+                className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500"
               />
             </div>
 
@@ -123,7 +123,7 @@ export default function Register() {
 
             <p className="text-center">
                 Já tem uma conta?
-                <a className="font-bold hover:underline" href="/login"> Entrar</a>
+                <a className="font-bold hover:no-underline hover:text-indigo-500" href="/login"> Entrar</a>
             </p>
 
         </form>
