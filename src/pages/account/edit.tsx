@@ -52,7 +52,7 @@ export default function Account() {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) return toast.error("Email em Formato inválido");
-
+        
     if (!cpfCnpjSend) return toast.error((userType == "PF" ? "CPF" : "CNPJ") + " é requerido!");
     if (!(cpfCnpjSend.length === 11 || cpfCnpjSend.length === 14))
         return toast.error("CPF/CNPJ must be 11 or 14 digits.");
