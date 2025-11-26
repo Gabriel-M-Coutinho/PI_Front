@@ -25,6 +25,9 @@ export default function Search() {
   const [pageSize, setPageSize] = useState("");
   const [searchError, setSearchError] = useState(false);
 
+  const filters: any = {};
+  const [quantidadeLeadsModal, setQuantidadeLeadsModal] = useState(false);
+
   const [leads, setLeads] = useState<Estabelecimento[]>([]);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -32,11 +35,45 @@ export default function Search() {
     totalItems: 0,
     totalPages: 0
   });
+  const handleBuscaSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
+    const formData = new FormData(event.currentTarget);
+    const quantity = formData.get("quantidade-leads")?.toString().trim();
+    if (quantity) {
+      filters.quantity = quantity;
+    } else {
+      filters.quantity = 0;
+    }
+
+    try {
+      console.log("Cheguei")
+      const result = await searchLeads(filters);
+      console.log("API:", result);
+
+      if (result.data.success && result.data.data && result.data.data.length > 0) {
+        setLeads(result.data.data);
+        setSearchError(false);
+        setPagination({
+          page: result.data.page || 1,
+          pageSize: result.data.pageSize || 20,
+          totalItems: result.data.totalItems || 0,
+          totalPages: result.data.totalPages || 0
+        });
+        toast.success("Busca Realizada com Sucesso");
+      } else {
+        setLeads([]);
+        setSearchError(true);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar:", error);
+      setLeads([]);
+    }
+    setQuantidadeLeadsModal(false)
+  }
   // Função para chamar a API
   const fetchLeads = async (pageNumber: number = 1) => {
-    const filters: any = {};
-    if (quantity) filters.quantity = quantity;
+    //const filters: any = {};
     if (nomefantasia) filters.nomeFantasia = nomefantasia;
     if (cnae) filters.cnae = cnae;
     if (situacaocadastral) filters.situacaoCadastral = situacaocadastral;
@@ -54,27 +91,7 @@ export default function Search() {
     if (pageSize) filters.pageSize = parseInt(pageSize);
     filters.page = pageNumber;
 
-    try {
-      const result = await searchLeads(filters);
-      console.log("API:", result);
-
-      if (result.data.success && result.data.data && result.data.data.length > 0) {
-        setLeads(result.data.data);
-        setSearchError(false);
-        setPagination({
-          page: result.data.page || 1,
-          pageSize: result.data.pageSize || 20,
-          totalItems: result.data.totalItems || 0,
-          totalPages: result.data.totalPages || 0
-        });
-      } else {
-        setLeads([]);
-        setSearchError(true);
-      }
-    } catch (error) {
-      console.error("Erro ao buscar:", error);
-      setLeads([]);
-    }
+    setQuantidadeLeadsModal(true);
   };
 
   const handleFilter = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -125,12 +142,6 @@ export default function Search() {
         <form onSubmit={handleFilter} className="color-indigo flex flex-col gap-8 border border-gray-600 m-10 p-14 pt-10 pb-10 rounded-lg">
             <h2 className="flex flex-row justify-center">Filtros</h2>
 
-       <input
-  placeholder="quantidade de leads"
-  type="number"
-  name="quantity"
-  onChange={handleValidateCoins}
-/>
         <div className="max-w-[100%] text-lg justify-start gap-20 w-full flex">
           <input type="text" className="w-full block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="Nome Fantasia" value={nomefantasia}
             onChange={(e) => setNomeFantasia(e.target.value)} />
@@ -263,6 +274,32 @@ export default function Search() {
             text-gray-200 disabled:bg-gray-900 disabled:text-gray-500 hover:bg-gray-700 transition">
               Último
             </button>
+          </div>
+        )}
+        {quantidadeLeadsModal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
+              <div className="bg-[#25263b] text-gray-100 px-16 py-12 rounded-lg w-[550px] max-w-[80%] shadow-xl">
+                  <h2 className="text-xl font-semibold mb-4">Busca</h2>
+                  <p className="my-8">Quantos Leads quer buscar? (Os leads custam Creditos)</p>
+                  <form action="" onSubmit={handleBuscaSubmit}>
+                      <div className="flex my-12 justify-between">
+                          <label htmlFor="quantidade-leads" className="flex items-center text-lg font-semibold">Quantidade de Leads</label>
+                          <input type="number" name="quantidade-leads" min="0" className="flex w-fit px-4 rounded-md bg-white/5 border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" />
+                      </div>
+                      <div>
+                      <div className="flex justify-end gap-3">
+                      <button type="button" onClick={() => setQuantidadeLeadsModal(false)} className="rounded-lg py-2 px-5 rounded bg-gray-600 hover:bg-gray-500">
+                          Cancelar
+                      </button>
+                      <button id="botao-principal" type="submit" className="py-2 px-5 rounded bg-blue-600 hover:bg-blue-500">
+                          Confirmar
+                      </button>
+                      </div>
+                  </div>
+                  </form>
+
+                  
+              </div>
           </div>
         )}
       </div>
