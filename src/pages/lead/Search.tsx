@@ -25,6 +25,8 @@ export default function Search() {
   const [pageSize, setPageSize] = useState("");
   const [searchError, setSearchError] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   const filters: any = {};
   const [quantidadeLeadsModal, setQuantidadeLeadsModal] = useState(false);
 
@@ -47,9 +49,12 @@ export default function Search() {
     }
 
     try {
-      console.log("Cheguei")
+      console.log("estou pesuisando leads")
+      setLoading(true);
       const result = await searchLeads(filters);
+      setLoading(false);
       console.log("API:", result);
+      setQuantidadeLeadsModal(false)
 
       if (result.data.success && result.data.data && result.data.data.length > 0) {
         setLeads(result.data.data);
@@ -69,7 +74,6 @@ export default function Search() {
       console.error("Erro ao buscar:", error);
       setLeads([]);
     }
-    setQuantidadeLeadsModal(false)
   }
   // Função para chamar a API
   const fetchLeads = async (pageNumber: number = 1) => {
@@ -277,7 +281,7 @@ export default function Search() {
           </div>
         )}
         {quantidadeLeadsModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
+          <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-1">
               <div className="bg-[#25263b] text-gray-100 px-16 py-12 rounded-lg w-[550px] max-w-[80%] shadow-xl">
                   <h2 className="text-xl font-semibold mb-4">Busca</h2>
                   <p className="my-8">Quantos Leads quer buscar? (Os leads custam Creditos)</p>
@@ -302,8 +306,11 @@ export default function Search() {
               </div>
           </div>
         )}
+        {loading && (
+            <p className="fixed z-2 bottom-[5px] right-[5px]">Buscando Leads <span className="loading loading-spinner loading-lg ml-2"></span></p>
+        )}
       </div>
-
+        
       <Footer />
     </>
   );
