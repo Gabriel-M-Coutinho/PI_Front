@@ -6,24 +6,29 @@ import type { LoginDTO } from "../../types/types";
 import { login } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-            <ToastContainer/>
+import PasswordField from "../components/passwordfield";
+<ToastContainer/>
 
 export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    //const [email, setEmail] = useState("");
+    //const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const handleSubmit = async (event: any) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (email === "" || password === "") 
+        const formData = new FormData(event.currentTarget);
+        const email = formData.get("email")?.toString().trim()
+        const password = formData.get("password")?.toString().trim()
+
+        if (!email || !password) 
         {
             toast.error("Email ou senha inválidos.");
             return;
         } 
         else 
         {
-            const user: LoginDTO = { username: email, password };
+            const user: LoginDTO = { username: email, password: password };
             try {
                 const element: any = await login(user);
                 console.log(element);
@@ -56,26 +61,14 @@ export default function Login() {
                                 <div className="mt-2.5">
                                 <input 
                                     type="email" 
-                                    onChange={(event) => setEmail(event.target.value)} 
                                     name="email" 
                                     id="email" 
                                     className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" 
-                                    value={email} // Boa prática para inputs controlados
                                 />
                                 </div>
                             </div>
                             <div className="max-w-[80%] w-full flex flex-col">
-                                <label className="block text-lg font-semibold">Password</label>
-                                <div className="mt-2.5">
-                                <input 
-                                    type="password" 
-                                    onChange={(event) => setPassword(event.target.value)} 
-                                    name="password" 
-                                    id="password" 
-                                    className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" 
-                                    value={password} // Boa prática para inputs controlados
-                                />
-                                </div>
+                                <PasswordField label="Password" name="password" id="password" />
                             </div>
                             <button type="submit" id="botao-principal" className="py-3 px-6 rounded">Entrar</button>
                             <p className="text-center">

@@ -3,49 +3,48 @@ import Header from "../components/header";
 import Footer from "../components/footer";
 import { ToastContainer, toast } from 'react-toastify';
 import { createUser } from "../../api/api";
-import type { UserDTO } from "../../types/types";
+import { type UserDTO, cpfMaskOptions, cnpjMaskOptions } from "../../types/types";
 import { useNavigate } from "react-router-dom";
-import { InputMask, type MaskOptions } from '@react-input/mask';
+import { InputMask } from '@react-input/mask';
+import PasswordField from "../components/passwordfield";
       <ToastContainer/>
 
 export default function Register() {
-  const [userType, setUserType] = useState("pf");
+  const [userType, setUserType] = useState("PF");
   const [cpfCnpj, setCpfCnpj] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [confirmarSenha, setConfirmarSenha] = useState("");
+  //const [name, setName] = useState("");
+  //const [email, setEmail] = useState("");
+  //const [senha, setSenha] = useState("");
+  //const [confirmarSenha, setConfirmarSenha] = useState("");
   const navigate = useNavigate();
-
-    const cpfMaskOptions: MaskOptions = {
-      mask: "ccc.ccc.ccc-cc",
-      replacement: { "c": /\d/ }
-    };
   
-    const cnpjMaskOptions: MaskOptions = {
-      mask: "cc.ccc.ccc/cccc-cc",
-      replacement: { "c": /\d/ }
-    };
-
-  const maskOptions = userType === "pf" ? cpfMaskOptions : cnpjMaskOptions;
+  const maskOptions = userType === "PF" ? cpfMaskOptions : cnpjMaskOptions;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const user: UserDTO = { fullName: name, email, cpfCnpj, password: senha}
+    event.preventDefault()
 
-    if (senha !== confirmarSenha) 
-    {
-      toast.error("Senha e Confirmar senha não correspondem.");
-      return;
-    }
+    const formData = new FormData(event.currentTarget);
+
+    const email = formData.get("email")?.toString().trim();
+    const password = formData.get("password")?.toString().trim();
+    const confirmPassword = formData.get("confirm-password")?.toString().trim();
+    const fullName = formData.get("fullname")?.toString().trim();
+
+    if (!email) return toast.error("Email é Requerido!");
+    if (!password) return toast.error("Senha é Requerido!");
+    if (!confirmPassword) return toast.error("Confirmar Senha é Requerido!");
+    if (!fullName) return toast.error("Nome / Razão Social é Requerido!");
+
+    if (!cpfCnpj) return toast.error((userType == "PF" ? "CPF" : "CNPJ") + " é Requerido!");
+    if (!userType) return toast.error("Tipo de Usuário é Requerido!");
+    if (password !== confirmPassword) return toast.error("Senha e Confirmar senha não correspondem!")
+    const user: UserDTO = { fullName: fullName, email: email, cpfCnpj: cpfCnpj.replaceAll(".","").replaceAll("/","").replaceAll("-",""), password: password, tipo: userType}
 
     createUser(user).then(() => {
       navigate("/login");
       toast.success("Conta criada com sucesso!")
     }).catch(err => {
-      err.response.data.map((data: any) =>{
-        toast.error(data.description);
-      })
+      toast.error(err.response.data);
     });
   };
 
@@ -60,18 +59,16 @@ export default function Register() {
         <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-full gap-6">
 
             <div className="max-w-[80%] w-full flex flex-col">
-                <label className="block text-lg font-semibold mb-2.5">Email</label>
-                <input onChange={(event) => setEmail(event.target.value)} type="email" className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" />
+              <label className="block text-lg font-semibold mb-2.5">Email</label>
+              <input name="email" type="email" className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" />
             </div>
 
             <div className="max-w-[80%] w-full flex flex-col">
-                <label className="block text-lg font-semibold mb-2.5">Senha</label>
-                <input onChange={(event) => setSenha(event.target.value)} type="password" className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" />
+              <PasswordField label="Senha" name="password"  id="password" />
             </div>
 
             <div className="max-w-[80%] w-full flex flex-col">
-                <label className="block text-lg font-semibold mb-2.5">Confirmar Senha</label>
-                <input onChange={(event) => setConfirmarSenha(event.target.value)} type="password" className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" />
+              <PasswordField label="Confirmar Senha" name="confirm-password"  id="confirm-password" />
             </div>
 
             <div className="max-w-[80%] w-full flex user_type">
@@ -79,42 +76,42 @@ export default function Register() {
                 <label className="flex items-center gap-1">
                 <input
                   type="radio"
-                  name="user_type"
-                  value="pf"
-                  checked={userType === "pf"}
-                  onChange={(event) => { setUserType(event.target.value); setCpfCnpj("");}}
+                  name="user-type"
+                  value="PF"
+                  checked={userType === "PF"}
+                  onChange={(event) => { setUserType(event.target.value), setCpfCnpj("")}}
                 />
                   PF
                 </label>
                 <label className="flex items-center gap-1">
                 <input
                   type="radio"
-                  name="user_type"
-                  value="pj"
-                  checked={userType === "pj"}
-                  onChange={(event) => { setUserType(event.target.value); setCpfCnpj("");}}
+                  name="user-type"
+                  value="PJ"
+                  checked={userType === "PJ"}
+                  onChange={(event) => { setUserType(event.target.value), setCpfCnpj("")}}
                 />
                   PJ
                 </label>
             </div>
+            
+              <div className="max-w-[80%] w-full flex flex-col">
+                  <label className="block text-lg font-semibold mb-2.5">{userType == "PF" ? "Nome" : "Razão-Social"}</label>
+                  <input name="fullname" type="text" className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" />
+              </div>
 
-            <div className="max-w-[80%] w-full flex flex-col">
-                <label className="block text-lg font-semibold mb-2.5">Nome / Razão-Social</label>
-                <input onChange={(event) => setName(event.target.value)} type="text" className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" />
-            </div>
-
-            <div className="max-w-[80%] w-full flex flex-col mt-4">
-              <label className="block text-lg font-semibold mb-2.5">CPF / CNPJ</label>
-              <InputMask
-                mask={maskOptions.mask}
-                replacement={maskOptions.replacement}
-                value={cpfCnpj}
-                onChange={(e) => setCpfCnpj(e.target.value)}
-                type="text"
-                className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500"
-              />
-            </div>
-
+              <div className="max-w-[80%] w-full flex flex-col mt-4">
+                <label className="block text-lg font-semibold mb-2.5">{userType == "PF" ? "CPF" : "CNPJ"}</label>
+                <InputMask
+                  mask={maskOptions.mask}
+                  replacement={maskOptions.replacement}
+                  name="cpf-cnpj"
+                  value={cpfCnpj}
+                  onChange={(e) => setCpfCnpj(e.target.value)}
+                  type="text"
+                  className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500"
+                />
+              </div>
 
             <button type="submit" id="botao-principal" className="py-3 px-6 rounded">
                 Cadastrar
@@ -124,7 +121,6 @@ export default function Register() {
                 Já tem uma conta?
                 <a className="font-bold hover:no-underline hover:text-indigo-500" href="/login"> Entrar</a>
             </p>
-
         </form>
         </div>
             <div className="md:flex flex-col justify-center items-center h-full w-1/2 hidden">

@@ -8,12 +8,14 @@ import { getProfile } from "../../api/api";
 
 export default function Header()
 {
-    const [isloged,setIsLoged] = useState<boolean>(false);
-    const [coins,setCoins] = useState(100)
+    const [isLogged, setIsLogged] = useState<boolean>(false);
+    const [coins, setCoins] = useState(100)
+    const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
     const navigate  = useNavigate()
     const handleLogout = () => {
         Cookies.remove("token");
-        setIsLoged(false);
+        setIsLogged(false);
         navigate("/login");
         toast.success("Deslogado com Sucesso");
     }
@@ -22,18 +24,26 @@ useEffect(() => {
     const checkAuth = async () => {
         const cookie = Cookies.get("token");
         if (cookie) {
-            setIsLoged(true);
+            setIsLogged(true);
             try {
                 const user = await getProfile();
+                console.log("ROLES: " + user.roles);
+
+                if (user.roles && user.roles.includes("ADMIN")) {
+                    setIsLogged(true);
+                    setIsAdmin(true);
+                } else {
+                    setIsAdmin(false);
+                }
 
                 setCoins(user.credits);
             } catch (err) {
                 console.log(err);
                 Cookies.remove("token");
-                setIsLoged(false);
+                setIsLogged(false);
             }
         } else {
-            setIsLoged(false);
+            setIsLogged(false);
         }
     }
 
@@ -69,10 +79,12 @@ useEffect(() => {
                             <a className="nav-link text-dark hover:text-indigo-500" href="/plans">Planos</a>                   
                             <a className="nav-link text-dark hover:text-indigo-500" href="/about">Sobre</a>
                             <a className="nav-link text-dark hover:text-indigo-500" href="/devs">Devs</a>
-                            <a className="nav-link text-dark hover:text-indigo-500" href="/dashboards">Dashboards</a>
+                            {isAdmin && (
+                                <a className="nav-link text-dark hover:text-indigo-500" href="/dashboards">Dashboards</a>
+                            )}
                        </div>
   
-                        {isloged ?
+                        {isLogged ?
                         <div className="flex">
 
                         <div className="flex mr-8">

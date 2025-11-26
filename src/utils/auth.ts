@@ -34,7 +34,8 @@ export function clearToken() {
 
 // Limpa token se estiver velho
 export function clearTokenIfOld(maxMinutes: number = DEFAULT_VALIDITY_MINUTES) {
-  if (!isTokenValid(maxMinutes)) {
+  if (!isTokenValid(maxMinutes)) 
+  {
     clearToken();
     return false;
   }
@@ -42,6 +43,13 @@ export function clearTokenIfOld(maxMinutes: number = DEFAULT_VALIDITY_MINUTES) {
 }
 
 // Retorna se usuário está logado
-export function isLogged(maxMinutes: number = DEFAULT_VALIDITY_MINUTES) {
+export function isLogged(maxMinutes: number = DEFAULT_VALIDITY_MINUTES) 
+{
+  return isTokenValid(maxMinutes);
+}
+
+// Função separada para quando queremos verificar E limpar se necessário
+export function validateAndCleanToken(maxMinutes: number = DEFAULT_VALIDITY_MINUTES): boolean 
+{
   return clearTokenIfOld(maxMinutes);
 }

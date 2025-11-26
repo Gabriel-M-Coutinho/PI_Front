@@ -1,8 +1,11 @@
+import type { MaskOptions } from "@react-input/mask";
+
 export type UserDTO = {
     fullName: string,
     email: string,
     cpfCnpj: string,
-    password: string
+    password: string,
+    tipo: string,
   }
 
   export type LoginDTO = {
@@ -17,8 +20,6 @@ export interface CnaeSecundario {
   // Ou pode ter a estrutura do MongoDB com $numberInt, $numberDouble, etc.
   [key: string]: any;
 }
-
-
 
 export interface MunicipioData {
   municipio: string,
@@ -212,4 +213,31 @@ export interface ChangePasswordDTO {
   currentPassword:string;
   newPassword:string;
   confirmPassword:string;
+}
+
+export const cpfMaskOptions: MaskOptions = {
+    mask: "ccc.ccc.ccc-cc",
+    replacement: { "c": /\d/ }
+  };
+
+export const cnpjMaskOptions: MaskOptions = {
+    mask: "cc.ccc.ccc/cccc-cc",
+    replacement: { "c": /\d/ }
+  };
+
+ export function formatCPF(value: string) {
+  return value
+    .replace(/\D/g, "")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+}
+
+export function formatCNPJ(value: string) {
+  return value
+    .replace(/\D/g, "")
+    .replace(/(\d{2})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1/$2")
+    .replace(/(\d{4})(\d{1,2})$/, "$1-$2");
 }

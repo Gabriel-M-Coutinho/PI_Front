@@ -36,7 +36,7 @@ function App() {
       <Route path='/account' element={<Account/>}></Route>
       <Route path='/account/edit' element={<EditAccount/>}></Route>
       <Route path='/support' element={<Support/>}></Route>
-      <Route path='/dashboards' element={<Graph/>}></Route>
+      <Route path='/dashboards' element={<ProtectedRoute><Graph/></ProtectedRoute>}></Route>
       <Route path='/success' element={<Thanks/>} ></Route>
       <Route path='/myLeads' element={<MyLeads/>}/>
       <Route path='/myOrders' element={<MyOrders/>}/>

@@ -14,10 +14,10 @@ export default function PasswordField({ label, name, id }: PasswordFieldProps) {
 
   return (
     <div className="relative">
-      <label htmlFor={id}>{label}</label>
+      <label className="block text-lg font-semibold" htmlFor={id}>{label}</label>
 
       <input
-        className="w-full"
+        className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500"
         type={visible ? "text" : "password"}
         name={name}
         id={id}
@@ -25,7 +25,7 @@ export default function PasswordField({ label, name, id }: PasswordFieldProps) {
 
       <Icon
         onClick={() => setVisible(v => !v)}
-        className="w-6 h-6 absolute right-0 bottom-3 hover:cursor-pointer"
+        className="w-6 h-6 absolute right-3 bottom-2 hover:cursor-pointer"
       />
     </div>
   );

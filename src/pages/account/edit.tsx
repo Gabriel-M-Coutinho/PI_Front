@@ -2,15 +2,18 @@ import Footer from "../components/footer";
 import Header from "../components/header";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import type { UserDTO, UserProfile } from "../../types/types";
+import { cnpjMaskOptions, type UserDTO, type UserProfile, cpfMaskOptions, formatCNPJ, formatCPF } from "../../types/types";
 import { deleteProfile, setProfileApi,  getProfile } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import PasswordField from "../components/passwordfield";
+import { InputMask } from "@react-input/mask";
 
 <ToastContainer/>
 
 export default function Account() {
     const [user, setProfile] = useState<any>();
+    const [userType, setUserType] = useState("PF");
+    const [cpfCnpj, setCpfCnpj] = useState("");
     const [newUser, setNewUser] = useState<UserDTO | null>(null);
     const [confirmModal, setConfirmModal] = useState(false);
     const navigate  = useNavigate();
@@ -24,12 +27,15 @@ export default function Account() {
         async function load() {
             const data = await getProfile();   // <--- JSON comes here
             setProfile(data);
+            setUserType(data.tipo);
+            setCpfCnpj(data.cpfCnpj);
         }
 
         load();
     }, []);
 
     if (!user) return <p>Loading...</p>;
+    const maskOptions = userType === "PF" ? cpfMaskOptions : cnpjMaskOptions;
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -38,21 +44,21 @@ export default function Account() {
 
     const nome = formData.get("nome")?.toString().trim();
     const email = formData.get("email")?.toString().trim();
-    const cpfCnpj = formData.get("cpfCnpj")?.toString().replace(/\D/g, "");
+    const cpfCnpjSend = cpfCnpj.replaceAll(".","").replaceAll("/","").replaceAll("-","");
 
     // ---- VALIDATIONS ----
-    if (!nome) return toast.error("Nome é requirido.");
-    if (!email) return toast.error("Email é requirido");
+    if (!nome) return toast.error("Nome é Requerido!");
+    if (!email) return toast.error("Email é Requerido");
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) return toast.error("Formato de email invalido.");
-
-    if (!cpfCnpj) return toast.error("CPF/CNPJ é requirido.");
-    if (!(cpfCnpj.length === 11 || cpfCnpj.length === 14))
+    if (!emailRegex.test(email)) return toast.error("Email em Formato inválido");
+        
+    if (!cpfCnpjSend) return toast.error((userType == "PF" ? "CPF" : "CNPJ") + " é requerido!");
+    if (!(cpfCnpjSend.length === 11 || cpfCnpjSend.length === 14))
         return toast.error("CPF/CNPJ must be 11 or 14 digits.");
 
     // ---- SUCCESS ----
-    const newUser: UserDTO = { fullName: nome, email, cpfCnpj, password: ""};
+    const newUser: UserDTO = { fullName: nome, email, cpfCnpj: cpfCnpjSend, password: "", tipo: userType};
     setNewUser(newUser);
     setConfirmModal(true);
     };
@@ -103,7 +109,7 @@ export default function Account() {
                 <div className="flex flex-col justify-between items-start">
                     <label
                     htmlFor="name"
-                    className="ml-1 mb-2.5 text-gray-400 font-medium w-40"
+                    className="text-lg font-semibold"
                     >
                     Nome
                     </label>
@@ -122,7 +128,7 @@ export default function Account() {
                 <div className="flex flex-col justify-between items-start">
                     <label
                     htmlFor="email"
-                    className="ml-1 mb-2.5 text-gray-400 font-medium w-40"
+                    className="text-lg font-semibold"
                     >
                     Email
                     </label>
@@ -139,29 +145,48 @@ export default function Account() {
                 </div>
 
                 {/* CPF */}
-                <div className="flex flex-col justify-between items-start">
-                    <label
-                    htmlFor="cpf"
-                    className="ml-1 mb-2.5 text-gray-400 font-medium w-40"
-                    >
-                    CPF
-                    </label>
-
+                <div className="w-full flex user_type">
+                    <label className="flex items-center text-lg font-semibold">Tipo de pessoa:</label>
+                    <div className="flex gap-20">
+                    <label className="flex items-center gap-1">
                     <input
-                    type="text"
-                    name="cpfCnpj"
-                    id="cpf"
-                    defaultValue={user.cpfCnpj}
-                    placeholder="000.000.000-00"
-                    className="block w-full rounded-md bg-white/5 px-3.5 py-2 border border-white/10 focus:border-indigo-500 placeholder:text-gray-500"
+                    type="radio"
+                    name="user-type"
+                    value="PF"
+                    checked={userType == "PF"}
+                    onChange={(event) => { setUserType(event.target.value), user.tipo == "PF" ? setCpfCnpj(user.cpfCnpj) : setCpfCnpj("")}}
                     />
-                    <p id="error_name"></p>
+                    PF
+                    </label>
+                    <label className="flex items-center gap-1">
+                    <input
+                    type="radio"
+                    name="user-type"
+                    value="PJ"
+                    checked={userType == "PJ"}
+                    onChange={(event) => { setUserType(event.target.value), user.tipo == "PJ" ? setCpfCnpj(user.cpfCnpj) : setCpfCnpj("")}}
+                    />
+                    PJ
+                    </label>
+                    </div>
                 </div>
-                <div className="py-2">
-                </div>
+
+              <div className="w-full flex flex-col mt-4">
+                <label className="block text-lg font-semibold">{userType == "PF" ? "CPF" : "CNPJ"}</label>
+                <InputMask
+                  mask={maskOptions.mask}
+                  replacement={maskOptions.replacement}
+                  name="cpf-cnpj"
+
+                  value={userType == "PF" ? formatCPF(cpfCnpj) : formatCNPJ(cpfCnpj)}
+                  onChange={(e) => setCpfCnpj(e.target.value)}
+                  type="text"
+                  className="block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500"
+                />
+              </div>
 
                 {/* Buttons */}
-                <div className="flex justify-end gap-3">
+                <div className="flex justify-end gap-3 pt-3">
                     <button
                     type="button"
                     value="edit"

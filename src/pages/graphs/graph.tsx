@@ -1,23 +1,28 @@
 import { useEffect, useState } from "react";
 import Chart from 'react-apexcharts';
-import { graphLeads } from "../../api/api";
+import { establishmentsGraph, ordersGraph } from "../../api/api";
 import type { MunicipioData, GraphData } from "../../types/types";
 import Header from "../components/header";
 import Footer from "../components/footer";
 
 export default function Graph() {
-  const [graphData, setGraphData] = useState<GraphData>({ categorias: [], valores: [] });
+  const [establishmentsGraphData, setEstablishmentsGraphData] = useState<GraphData>({ categorias: [], valores: [] });
+  const [ordersGraphData, setOrdersGraphData] = useState<GraphData>({ categorias: [], valores: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const hasData = graphData.categorias.length > 0 && graphData.valores.length > 0;
 
-  const [totalLeads, setTotalLeads] = useState(0);
+  const hasEstablishmentsData = establishmentsGraphData.categorias.length > 0 && establishmentsGraphData.valores.length > 0;
+  const hasOrderData = ordersGraphData.categorias.length > 0 && ordersGraphData.valores.length > 0;
+
+  const [totalEstabelecimentos, setTotalEstabelecimentos] = useState(0);
+   const [totalPedidos, setTotalPedidos] = useState(0);
   const [maiorMunicipio, setMaiorMunicipio] = useState("");
 
-  const optionsPie = {
-    series: graphData.valores,
-    chart: { height: 400, type: 'pie' as const },
-    labels: graphData.categorias,
+  // Opções de Gráfico dos Estabelecimentos
+  const establishmentsOptionsPie = {
+    series: establishmentsGraphData.valores,
+    chart: { height: 400, type: 'pie' as const, toolbar: { show: true } },
+    labels: establishmentsGraphData.categorias,
     responsive: [{
       breakpoint: 480,
       options: { chart: { width: 300 }, legend: { position: 'bottom' as const } }
@@ -34,12 +39,28 @@ export default function Graph() {
     tooltip: { y: { formatter: (value: number) => `${value} estabelecimentos` }}
   };
 
+  // Opções de Gráfico dos Pedidos
+  const ordersOptionsBar = {
+    series: [{ name: "Pedidos", data: ordersGraphData.valores }],
+    chart: { height: 400, type: 'bar' as const },
+    xaxis: { categories: ordersGraphData.categorias },
+    title: {
+      text: "Pedidos feitos nas últimas 24h",
+      align: 'center' as const,
+      style: { fontSize: '20px', fontWeight: 'bold', color: '#333' }
+    },
+    dataLabels: { enabled: true },
+    tooltip: { y: { formatter: (value: number) => `${value} pedidos` } }
+  };
+
+  // UseEffect dos Estabelecimentos
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchEstablishments = async () => {
       try {
         setLoading(true);
         setError(false);
-        const response = await graphLeads({});
+
+        const response = await establishmentsGraph();
         const data = response.data as MunicipioData[];
 
         if (Array.isArray(data)) 
@@ -47,10 +68,10 @@ export default function Graph() {
           const categorias = data.map(item => item.municipio);
           const valores = data.map(item => Number(item.quantidade) || 0);
 
-          setGraphData({ categorias, valores });
+          setEstablishmentsGraphData({ categorias, valores });
 
           const total = valores.reduce((sum, v) => sum + v, 0);
-          setTotalLeads(total);
+          setTotalEstabelecimentos(total);
 
           if (data.length > 0) {
             const maior = data.reduce((prev, curr) => {
@@ -61,19 +82,55 @@ export default function Graph() {
             setMaiorMunicipio(maior.municipio);
           }
       } else {
-        setGraphData({ categorias: [], valores: [] });
+        setEstablishmentsGraphData({ categorias: [], valores: [] });
       }
     } catch (error: any) {
         setError(true);
         console.error("Erro ao buscar os dados:", error);
-        setGraphData({ categorias: [], valores: [] });
+        setEstablishmentsGraphData({ categorias: [], valores: [] });
     } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
+    fetchEstablishments();
   }, []);
+
+  // Opções de Gráfico dos Pedidos
+  useEffect(() => {
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      setError(false);
+
+      const response = await ordersGraph();
+      const data = response.data as { hora: string; quantidade: number }[];
+
+      console.log(`DATA: ${data}`);
+
+      if (Array.isArray(data)) {
+        const categorias = data.map(item => item.hora);
+        const valores = data.map(item => Number(item.quantidade) || 0);
+        setOrdersGraphData({ categorias, valores });
+
+        const total = valores.reduce((sum, v) => sum + v, 0);
+        setTotalPedidos(total);
+
+      } else {
+        setOrdersGraphData({ categorias: [], valores: [] });
+      }
+    } catch (error) {
+      setError(true);
+      console.error("Erro ao buscar pedidos:", error);
+      setOrdersGraphData({ categorias: [], valores: [] });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchOrders();
+}, []);
+
 
   if (loading) {
     return (
@@ -95,7 +152,7 @@ export default function Graph() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <div className="bg-gray-300 rounded-lg shadow-md p-6 flex flex-col justify-between">
             <span className="text-sm text-gray-500">Total de Leads</span>
-            <span className="text-3xl font-bold text-gray-800">{totalLeads || 0}</span>
+            <span className="text-3xl font-bold text-gray-800">{totalEstabelecimentos || 0}</span>
           </div>
           <div className="bg-gray-300 rounded-lg shadow-md p-6 flex flex-col justify-between">
             <span className="text-sm text-gray-500">Município com mais Estabelecimentos</span>
@@ -105,11 +162,21 @@ export default function Graph() {
 
         {/* Gráfico */}
         <div className="bg-gray-300 rounded-lg shadow-md p-6">
-          {hasData ? (
-            <Chart options={optionsPie} series={optionsPie.series} type="pie" height={400} />
+          {hasEstablishmentsData ? (
+            <Chart options={establishmentsOptionsPie} series={establishmentsOptionsPie.series} type="pie" height={400} />
           ) : (
             <div className="flex items-center justify-center h-80 text-gray-500 text-lg">
               Sem dados
+            </div>
+          )}
+        </div>
+
+        <div className="bg-gray-300 rounded-lg shadow-md p-6 mt-8">
+          {hasOrderData ? (
+            <Chart options={ordersOptionsBar} series={ordersOptionsBar.series} type="bar" height={400} />
+          ) : (
+            <div className="flex items-center justify-center h-80 text-gray-500 text-lg">
+              Sem pedidos nas últimas 24h
             </div>
           )}
         </div>
