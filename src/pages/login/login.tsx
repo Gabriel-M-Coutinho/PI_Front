@@ -38,13 +38,13 @@ export default function Login() {
             catch (error) 
             {
                 console.error(error);
-                toast.error("Erro ao realizar login");
+                toast.error("Email ou senha inválidos.");
             }
         }
     };
 
     return (
-        <div>
+        <div className="bg-gradient-to-b from-primary to-[#0d2434]">
             <Header />
             <main>
                 <section className="flex flex-row justify-center items-center h-screen w-full">

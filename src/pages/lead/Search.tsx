@@ -80,12 +80,6 @@ export default function Search() {
   };
 
   // Paginação
-  const goToPage = async (num: number) => {
-    if (num >= 1 && num <= pagination.totalPages) {
-      await fetchLeads(num);
-    }
-  };
-
   const goToNextPage = async () => {
     if (pagination.page < pagination.totalPages) {
       await fetchLeads(pagination.page + 1);
@@ -118,7 +112,7 @@ export default function Search() {
           <input type="text" className="w-full" placeholder="CNAE Principal" value={cnae}
             onChange={(e) => setCnae(e.target.value)} />
 
-            <input type="text" className="w-full" placeholder="CEP (apenas números)" value={cep}
+            <input type="text" className="w-full" placeholder="CEP (apenas números)" maxLength={8} value={cep}
             onChange={(e) => setCep(e.target.value)} />
           </div>  
           

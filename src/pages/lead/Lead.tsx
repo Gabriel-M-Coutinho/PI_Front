@@ -36,22 +36,20 @@ export default function Lead() {
 
   if (!lead) {
     return (<>
-            <Header/>
+        <Header/>
           <p className="text-center mt-10 text-gray-600">
-        Carregando...
-      </p>
-          <Footer/>
+            Carregando...
+          </p>
+        <Footer/>
     </>
-
     );
   }
 
   return (<>
               <Header/>
 
-    <div className="max-w-4xl mx-auto mt-10 p-6 bg-primary shadow-lg rounded-lg border border-gray-200">
+    <div className="bg-gradient-to-b from-primary to-[#0d2434] max-w-4xl mx-auto mt-10 p-6 shadow-lg rounded-lg border border-gray-200">
       <h1 className="text-2xl font-bold mb-6">Informações do Estabelecimento</h1>
-
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Info label="Nome Fantasia" value={lead.nomeFantasia} />

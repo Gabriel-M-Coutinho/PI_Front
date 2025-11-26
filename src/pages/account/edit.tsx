@@ -69,7 +69,7 @@ export default function Account() {
     }
     };
     return (
-        <div>
+        <div className="bg-gradient-to-b from-primary to-[#0d2434]">
             <Header />
 
             <main className="flex flex-col items-center w-full">

@@ -3,7 +3,7 @@
   --text-color: rgb(210, 212, 214);
   --accent-color: #3B82F6;
   --accent-color-hover: #2b62ba;
-  --primary-color: rgb(28, 34, 41);
+  --primary-color: #1c2229;
   --secondary-color: rgb(37, 47, 59);
   --opacity-primary-color: rgba(29, 35, 42, 0.85);
   --bg-color-card: rgb(36, 51, 68);
@@ -18,7 +18,7 @@
 
 body {
   overflow-x: hidden;
-  background-color: var(--primary-color);
+  background-color: #0D2434;
   color: var(--text-color);
   margin: 0px;
   padding: 0px;
@@ -171,7 +171,7 @@ select option {
 }
 
 #botao-principal {
-  background-color: var(--accent-color);
+  background-color: #2B62BA;
   color: white;
   mix-blend-mode: normal;
   border-radius: 10px;
@@ -193,9 +193,12 @@ select option {
       background-color: rgb(77, 15, 15);
   }
 
-#botao-principal:hover,
+#botao-principal:hover {
+  background-color: var(--accent-color);
+}
+
 #botao-principal-var:hover {
-  background-color: var(--accent-color-hover);
+  background-color: var(--primary-color);
 }
 
 #botao-principal-var {
@@ -216,7 +219,7 @@ select option {
 }
 
 #card-foco {
-  background-color: var(--accent-color);
+  background-color: #2B62BA;
   color: var(--text-color);
   border-radius: 10px;
   border-bottom: 2px solid var(--primary-color);

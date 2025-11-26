@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { deleteProfile, getProfile } from "../../api/api";
 import { redirect, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-
+            <ToastContainer/>
 
 export default function Account() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -30,7 +30,7 @@ export default function Account() {
     
     if (!user) return <p>Loading...</p>;
     return (
-        <div>
+        <div className="bg-gradient-to-b from-primary to-[#0d2434]">
             <Header />
 
             <main className="flex flex-col items-center w-full">
@@ -103,9 +103,7 @@ export default function Account() {
                 </div>
             </div>
         )}
-
             <Footer />
-            <ToastContainer/>
         </div>
     );
 }
