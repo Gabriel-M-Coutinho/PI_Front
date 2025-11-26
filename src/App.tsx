@@ -20,6 +20,7 @@ import MyOrders from './pages/account/myOrders.tsx'
 import PlanBasic from './pages/payment/planBasic.tsx'
 import PlanIntermediary from './pages/payment/planIntermediary.tsx'
 import PlanPlus from './pages/payment/planPlus.tsx'
+import { Unauthorized } from './pages/unauthorized/unauthorized.tsx'
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
       <Route path='/planBasic' element={<PlanBasic/>}/>
       <Route path='/planIntermediary' element={<PlanIntermediary/>}/>
       <Route path='/planPlus' element={<PlanPlus/>}/>
+      <Route path='/unauthorized' element={<Unauthorized/>}/>
     </Routes>
   )      
 }
