@@ -23,8 +23,8 @@ api.interceptors.request.use(config => {
 
 export const createUser = (payload:UserDTO) => api.post("/api/User", payload)
 export const login = (payload:LoginDTO) => api.post("/api/Auth/login", payload)
-export const graphLeads = (payload:any) => api.get("/api/Lead/LeadsGraph", payload)
-
+export const establishmentsGraph = () => api.get("/api/Lead/EstablishmentsGraph")
+export const ordersGraph = () => api.get("/api/Lead/OrdersGraph")
 
 export const getLeads = (filters: LeadFilters) => {
   return api.get<ResponseDTO>("/api/Lead", {
