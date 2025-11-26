@@ -1,10 +1,10 @@
 /* VARS */
 :root {
   --text-color: rgb(210, 212, 214);
-  --accent-color: #3B82F6;
-  --accent-color-hover: #2b62ba;
-  --primary-color: #1c2229;
-  --secondary-color: rgb(37, 47, 59);
+  --accent-color: #6366F1;
+  --accent-color-hover: #4f46e5;
+  --primary-color: #161121;
+  --secondary-color: #25263b;
   --opacity-primary-color: rgba(29, 35, 42, 0.85);
   --bg-color-card: rgb(36, 51, 68);
 }
@@ -51,15 +51,15 @@ body {
 
 *::-webkit-scrollbar-thumb {
   border-radius: 20px;
-  background-color: var(--accent-color);
+  background-color: #4f46e5;
 }
 
   *::-webkit-scrollbar-thumb:hover {
-      background-color: var(--accent-color);
+      background-color: #4f46e5;
   }
 
   *::-webkit-scrollbar-thumb:active {
-      background-color: var(--accent-color);
+      background-color: #4f46e5;
   }
 
 /* CLASSES */
@@ -170,8 +170,12 @@ select option {
   border-bottom: 3px solid var(--primary-color);
 }
 
+.color-indigo {
+  background-color: #151521;
+}
+
 #botao-principal {
-  background-color: #2B62BA;
+  background-color: var(--accent-color-hover);
   color: white;
   mix-blend-mode: normal;
   border-radius: 10px;
@@ -212,14 +216,14 @@ select option {
 }
 
 #card {
-  background-color: var(--bg-color-card);
+  background-color: var(--secondary-color);
   color: var(--text-color);
   border-radius: 10px;
   border-bottom: 2px solid var(--primary-color);
 }
 
 #card-foco {
-  background-color: #2B62BA;
+  background-color: var(--accent-color-hover);
   color: var(--text-color);
   border-radius: 10px;
   border-bottom: 2px solid var(--primary-color);

@@ -19,7 +19,7 @@ export default function Header()
 
     return(<>
         <nav id="nav"
-             className="flex justify-between items-center h-16 w-full sm:p-6 p-2 sticky z-50 top-0 left-0 bg-secondary text-text">
+             className="flex justify-between items-center h-16 w-full sm:p-6 p-2 sticky z-50 top-0 left-0 color-indigo text-text">
 
             <div id="logo" className="md:gap-4">
                 <a className="navbar-brand" href="/">
@@ -39,12 +39,12 @@ export default function Header()
                 </a>
             </div>
                        <div id="links" className="flex md:gap-16 gap-6">
-                            <a className="nav-link text-dark hover:text-[var(--accent-color)]" href="/">Início</a>
-                            <a className="nav-link text-dark hover:text-[var(--accent-color)]" href="/search">Buscar</a>                   
-                            <a className="nav-link text-dark hover:text-[var(--accent-color)]" href="/about">Sobre</a>
-                            <a className="nav-link text-dark hover:text-[var(--accent-color)]" href="/plans">Planos</a>
-                            <a className="nav-link text-dark hover:text-[var(--accent-color)]" href="/devs">Devs</a>
-                            <a className="nav-link text-dark hover:text-[var(--accent-color)]" href="/dashboards">Dashboards</a>
+                            <a className="nav-link text-dark hover:text-indigo-500" href="/">Início</a>
+                            <a className="nav-link text-dark hover:text-indigo-500" href="/search">Buscar</a>                   
+                            <a className="nav-link text-dark hover:text-indigo-500" href="/about">Sobre</a>
+                            <a className="nav-link text-dark hover:text-indigo-500" href="/plans">Planos</a>
+                            <a className="nav-link text-dark hover:text-indigo-500" href="/devs">Devs</a>
+                            <a className="nav-link text-dark hover:text-indigo-500" href="/dashboards">Dashboards</a>
                        </div>
   
                         {isloged ?
@@ -73,7 +73,7 @@ export default function Header()
                             </div>
                         </div>: 
                             <div id="user" className="flex items-center gap-4">
-                                <a className="nav-link text-dark hover:text-[var(--accent-color)]" href="/login">Entrar</a>
+                                <a className="nav-link text-dark hover:text-indigo-500" href="/login">Entrar</a>
                             </div>                           
                         }
         </nav>

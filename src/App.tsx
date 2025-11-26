@@ -13,6 +13,7 @@ import Graph from './pages/graphs/graph.tsx'
 import Account from './pages/account/account.tsx'
 import EditAccount from './pages/account/edit.tsx'
 import ProtectedRoute from './middlewares/protect-route.tsx'
+import Support from './pages/secondary/support.tsx'
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
       <Route path='/dashboards' element={<Graph/>}></Route>
       <Route path='/account' element={<Account/>}></Route>
       <Route path='/account/edit' element={<EditAccount/>}></Route>
+      <Route path='/support' element={<Support/>}></Route>
     </Routes>
   )      
 }
