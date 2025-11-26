@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import LeadCard from "./LeadCard";
 import Header from "../components/header";
 import Footer from "../components/footer";
-import { getProfile, searchLeads } from "../../api/api";
+import { getInfoFields, getProfile, searchLeads } from "../../api/api";
 import type { Estabelecimento } from "../../types/types";
 import Home from "../home/Home";
 import { toast } from "react-toastify";
@@ -38,6 +38,19 @@ export default function Search() {
     totalItems: 0,
     totalPages: 0
   });
+
+  const [allCnaes, setAllCnaes] = useState([]);
+    const [allMunicipios, setAllMunicipios] = useState([]);
+  
+    useEffect(() => {
+      const load = async () => {
+        const result = await getInfoFields();
+        setAllCnaes(result.data.cnaes);
+        setAllMunicipios(result.data.municipios);
+      };
+      load();
+    }, []);
+
  const handleBuscaSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
   event.preventDefault();
 
@@ -148,8 +161,17 @@ export default function Search() {
           <input type="text" className="w-full block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="Nome Fantasia" value={nomefantasia}
             onChange={(e) => setNomeFantasia(e.target.value)} />
 
-          <input type="text" className="w-full block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="CNAE Principal" value={cnae}
-            onChange={(e) => setCnae(e.target.value)} />
+          {/*<input type="text" className="w-full block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="CNAE Principal" value={cnae}
+            onChange={(e) => setCnae(e.target.value)} />*/}
+
+            <select className="text-gray-400 border-white-400 w-[60%] focus:outline-none" value={cnae} onChange={(e) => setCnae(e.target.value)}>
+              <option value="">Cnae</option>
+              {allCnaes.map((singleCnae:any) => {
+                return (
+                  <option value={singleCnae._id}>{`${singleCnae._id} | ${singleCnae.descricao}`}</option>
+                )
+              })}
+            </select>
 
             <input type="text" className="w-full block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="CEP (apenas números)" maxLength={8} value={cep}
             onChange={(e) => setCep(e.target.value)} />
@@ -198,6 +220,15 @@ export default function Search() {
 
           <input type="text" className="w-[40%] block rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="Município" value={municipio}
             onChange={(e) => setMunicipio(e.target.value)} />
+
+          <select className="text-gray-400 border-white-400 w-[60%] focus:outline-none" value={municipio} onChange={(e) => setMunicipio(e.target.value)}>
+              <option value="">Municipio</option>
+              {allMunicipios.map((singleMunicipio:any) => {
+                return (
+                  <option value={singleMunicipio._id}>{singleMunicipio.descricao}</option>
+                )
+              })}
+            </select>
 
           <input type="text" className="w-[55%] block rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="Bairro" value={bairro}
             onChange={(e) => setBairro(e.target.value)} />          

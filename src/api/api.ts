@@ -26,6 +26,8 @@ export const login = (payload:LoginDTO) => api.post("/api/Auth/login", payload)
 export const establishmentsGraph = () => api.get("/api/Lead/EstablishmentsGraph")
 export const ordersGraph = () => api.get("/api/Lead/OrdersGraph")
 
+export const getInfoFields = ()=> api.get("/api/Lead/infoFields")
+
 export const getLeads = (filters: LeadFilters) => {
   return api.get<ResponseDTO>("/api/Lead", {
     params: filters
