@@ -6,7 +6,7 @@ export default function Plans(){
     <Header/>
 {/* PRICES - START */}
       <div
-        className="flex flex-col justify-center items-center w-full px-6 py-10 gap-8 text-text bg-gradient-to-l from-primary to-[#080C14]"
+        className="flex flex-col justify-center items-center w-full px-6 py-10 gap-8 text-text bg-gradient-to-l from-primary to-[#090814]"
       >
         <h3 id="precos-titulo">Preços</h3>
         <h1 id="precos-subtitulo" className="-mt-6 mb-4">Planos de assinatura</h1>

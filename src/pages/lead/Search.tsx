@@ -98,7 +98,7 @@ export default function Search() {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-l from-primary to-[#080C14]">
+      <div className="min-h-screen bg-gradient-to-l from-primary to-[#090814]">
         <Header />
 <       h4 className="flex flex-row justify-center mt-10">Busque os Leads:</h4>
 
@@ -107,19 +107,19 @@ export default function Search() {
             <h2 className="flex flex-row justify-center">Filtros</h2>
 
         <div className="max-w-[100%] text-lg justify-start gap-20 w-full flex">
-          <input type="text" className="w-full" placeholder="Nome Fantasia" value={nomefantasia}
+          <input type="text" className="w-full block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="Nome Fantasia" value={nomefantasia}
             onChange={(e) => setNomeFantasia(e.target.value)} />
 
-          <input type="text" className="w-full" placeholder="CNAE Principal" value={cnae}
+          <input type="text" className="w-full block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="CNAE Principal" value={cnae}
             onChange={(e) => setCnae(e.target.value)} />
 
-            <input type="text" className="w-full" placeholder="CEP (apenas números)" maxLength={8} value={cep}
+            <input type="text" className="w-full block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="CEP (apenas números)" maxLength={8} value={cep}
             onChange={(e) => setCep(e.target.value)} />
           </div>  
           
         <div className="max-w-[100%] text-lg justify-start gap-20 w-full flex">
             <select className="text-gray-400 border-white-400 w-[20%] focus:outline-none" value={uf} onChange={(e) => setUf(e.target.value)}>
-              <option value="">Unidade Federativa (UF)</option>
+              <option value="">UF</option>
               <option value="AC">AC</option>
               <option value="AL">AL</option>
               <option value="AP">AP</option>
@@ -158,18 +158,18 @@ export default function Search() {
               <option value="suspensa">Suspensa</option>
             </select>
 
-          <input type="text" placeholder="Município" value={municipio}
+          <input type="text" className="w-[40%] block rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="Município" value={municipio}
             onChange={(e) => setMunicipio(e.target.value)} />
 
-          <input type="text" className="w-[30%]" placeholder="Bairro" value={bairro}
+          <input type="text" className="w-[55%] block rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="Bairro" value={bairro}
             onChange={(e) => setBairro(e.target.value)} />          
             </div>
 
         <div className="max-w-[100%] text-lg justify-start gap-20 flex">
-          <input className="w-[70%]" type="text" placeholder="Capital Social (ex: 10000)" value={capitalSocial}
+          <input className="w-[70%] block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" type="text" placeholder="Capital Social (ex: 10000)" value={capitalSocial}
             onChange={(e) => setCapitalSocial(e.target.value)} />
 
-          <input className="w-[70%]" type="text" placeholder="Data de Abertura (dd/mm/yyyy)" value={dataAbertura}
+          <input className="w-[70%] block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" type="text" placeholder="Data de Abertura (dd/mm/yyyy)" value={dataAbertura}
             onChange={(e) => setDataAbertura(e.target.value)} />
         </div>
 
@@ -180,7 +180,7 @@ export default function Search() {
             <option value="filial">Filial</option>
           </select>
 
-          <input type="text" placeholder="DDD" value={ddd}
+          <input type="text" className="block rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="DDD" value={ddd}
             onChange={(e) => setDdd(e.target.value)} />
 
           <button id="botao-principal" className="mx-auto block py-2 px-1 rounded max-w-[10%] justify-center flex w-full" type="submit">Buscar</button>

@@ -19,7 +19,7 @@ export default function Home({
 
   return (
   <>
-      <div className="min-h-screen bg-gradient-to-l from-primary to-[#080C14]">
+      <div className="min-h-screen bg-gradient-to-l from-primary to-[#090814]">
         <Header />
         <div className="flex flex-col items-center justify-center min-h-screen text-center pb-20">
 

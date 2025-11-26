@@ -5,7 +5,7 @@ export default function Support() {
     return (<>
     <Header/>
         
-<div className="isolate bg-gradient-to-l from-primary to-[#080C14] px-6 sm:py-24">
+<div className="isolate bg-gradient-to-l from-primary to-[#090814] px-6 sm:py-24">
   <div aria-hidden="true" className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
     <div
   style={{

@@ -51,7 +51,7 @@ export default function Register() {
   };
 
   return (
-    <div className="bg-gradient-to-l from-primary to-[#080C14]">
+    <div className="bg-gradient-to-l from-primary to-[#090814]">
       <Header/>
 
       <section className="flex flex-row justify-center items-center h-screen w-full">
