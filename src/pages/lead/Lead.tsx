@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getLeadByCnpj } from "../../api/api";
-import type { Estabelecimento } from "../../types/types";
+import { type FullLead, type Estabelecimento } from "../../types/types";
 import Header from "../components/header";
 import Footer from "../components/footer";
+import { UserIcon, CurrencyDollarIcon, InformationCircleIcon, MapPinIcon, PhoneIcon, GlobeAmericasIcon } from "@heroicons/react/24/solid";
+
 
 export default function Lead() {
   const { id } = useParams();
-  const [lead, setLead] = useState<Estabelecimento | null>(null);
+  const [lead, setLead] = useState<FullLead | null>(null);
   const [error,setError] = useState<string>("");
 
   useEffect(() => {
@@ -45,7 +47,10 @@ export default function Lead() {
     );
   }
 
-  return (<>
+  let dataInicioAtividade = new Date(lead.dataInicioAtividade)
+  let dataSituacaoCadastral = new Date(lead.dataSituacaoCadastral)
+  let dataSituacaoEspecial = new Date(lead.dataSituacaoEspecial)
+  /*return (<>
               <Header/>
 
     <div className="bg-gradient-to-b from-primary to-[#0d2434] max-w-4xl mx-auto mt-10 p-6 shadow-lg rounded-lg border border-gray-200">
@@ -97,6 +102,159 @@ export default function Lead() {
     </div>
     <div className="mt-20"></div>
               <Footer   />
+    </>
+  );*/
+
+  
+    //"NULA",
+    //"ATIVA",
+    //"SUSPENSA",
+    //"INAPTA",
+    //"BAIXADA"
+
+
+  let situacaoCadastralTag;
+  switch (lead.situacaoCadastral) {
+    case "01":
+      situacaoCadastralTag = `<p class="text-gray-300 mb-2 font-medium bg-gray-950 py-2 px-4 rounded border border-gray-300">NULA</p>`;
+      break;
+    case "02":
+      situacaoCadastralTag = `<p class="text-green-300 mb-2 font-medium bg-green-950 py-2 px-4 rounded border border-green-300">ATIVA</p>`;
+      break;
+    case "03":
+      situacaoCadastralTag = `<p class="text-yellow-300 mb-2 font-medium bg-yellow-950 py-2 px-4 rounded border border-yellow-300">SUSPENSA</p>`;
+      break;
+    case "04":
+      situacaoCadastralTag = `<p class="text-orange-300 mb-2 font-medium bg-orange-950 py-2 px-4 rounded border border-orange-300">INAPTA</p>`;
+      break;
+    case "08":
+      situacaoCadastralTag = `<p class="text-red-300 mb-2 font-medium bg-red-950 py-2 px-4 rounded border border-red-300">BAIXADA</p>`;
+      break;
+    default: 
+      situacaoCadastralTag = `<p class="text-green-300 mb-2 font-medium bg-green-950 py-2 px-4 rounded border border-green-300">NULA</p>`;
+  }
+
+  return (
+    <>
+      <Header />
+
+      <div className="max-w-[1500px] mx-auto mt-10 p-8 bg-black text-white shadow-xl rounded-xl border border-gray-700">
+        {/* Header */}
+        <div className="space-y-8">
+          <div>
+            <div className="flex justify-between">
+            <h2 className="text-3xl font-bold mb-2">{lead.nomeFantasia || "CNPJ RECEITA FEDERAL"}</h2>
+            <div dangerouslySetInnerHTML={{ __html: situacaoCadastralTag }} />
+          </div>
+          
+          <h1 className="font-semibold mb-1">
+            {lead.cnpjBase}/{lead.cnpjOrdem}-{lead.cnpjDV} — {lead.matrizFilial === "1" ? "MATRIZ" : "FILIAL"}
+          </h1>
+          </div>
+        
+        
+        {/* Sócios */}
+        {lead.socios.length > 0 && (
+          <div className="mb-10">
+            <h1 className="flex text-xl font-bold mb-4"><UserIcon className="w-6 h-6 mr-2"/>Quadro de Sócios</h1>
+            <table className="w-full border border-gray-700 rounded-lg overflow-hidden">
+              <thead className="bg-gray-800 text-left">
+                <tr>
+                  <th className="p-2 font-semibold border-b border-gray-700">Nome</th>
+                  <th className="p-2 font-semibold border-b border-gray-700">Qualificação</th>
+                </tr>
+              </thead>
+              <tbody>
+                {lead.socios.map((s) => (
+                  <tr key={s._id} className="odd:bg-gray-900 even:bg-gray-800">
+                    <td className="p-2 border-b border-gray-700">{s.nomeSocio}</td>
+                    <td className="p-2 border-b border-gray-700">{s.qualificacaoSocio}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* CNAE */}
+        <div className="mb-10">
+          <h1 className="flex text-xl font-bold mb-4"><CurrencyDollarIcon className="w-6 h-6 mr-2"/> Atividades Econômicas</h1>
+          <table className="w-full border border-gray-700 rounded-lg overflow-hidden">
+            <thead className="bg-gray-800 text-left">
+              <tr>
+                <th className="p-2 font-semibold border-b border-gray-700">Categoria</th>
+                <th className="p-2 font-semibold border-b border-gray-700">Código</th>
+                <th className="p-2 font-semibold border-b border-gray-700">Descrição</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="odd:bg-gray-900 even:bg-gray-800">
+                <td className="p-2 border-b border-gray-700 font-medium">Principal</td>
+                <td className="p-2 border-b border-gray-700">{lead.realCnaePrincipal._id}</td>
+                <td className="p-2 border-b border-gray-700">{lead.realCnaePrincipal.descricao}</td>
+              </tr>
+
+              {lead.realCnaeSecundario.map((c) => (
+                <tr key={c._id} className="odd:bg-gray-900 even:bg-gray-800">
+                  <td className="p-2 border-b border-gray-700">Secundário</td>
+                  <td className="p-2 border-b border-gray-700">{c._id}</td>
+                  <td className="p-2 border-b border-gray-700">{c.descricao}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+          {/* Company Status Block */}
+          
+          <div>
+            <h1 className="flex font-bold text-lg mb-2"><InformationCircleIcon className="w-6 h-6 mr-2"/>Informações Cadastrais</h1>
+            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700 leadGroupFieldFormat">
+              <div className="col-span-2"><strong>Motivo:</strong> <p>{lead.motivoSituacaoCadastral}</p></div>
+              <div className="col-span-2"><strong>Data Início Atividade:</strong> <p>{dataInicioAtividade.toLocaleDateString("en-GB")}</p></div>
+              <div className="col-span-2"><strong>Data Situação Cadastral:</strong> <p>{dataSituacaoCadastral.toLocaleDateString("en-GB") || "-"}</p></div>
+              <div className="col-span-2"><strong>Data Situação Especial:</strong> <p>{dataSituacaoEspecial.toLocaleDateString("en-GB") || "-"}</p></div>
+            </div>
+          </div>
+          {/* Address Block */}
+          
+          <div>
+            <h1 className="flex font-bold text-lg mb-2"><MapPinIcon className="w-6 h-6 mr-2"/>Endereço</h1>
+            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700 leadGroupFieldFormat">
+              <div><strong>Tipo Logradouro</strong><p>{lead.tipoLogradouro}</p></div>
+              <div><strong>Logradouro</strong> <p>{lead.logradouro}</p></div>
+              <div><strong>Número</strong> <p>{lead.numero}</p></div>
+              <div><strong>Complemento</strong> <p>{lead.complemento || "-"}</p></div>
+              <div><strong>Bairro</strong> <p>{lead.bairro}</p></div>
+              <div><strong>CEP</strong> <p>{lead.cep}</p></div>
+              <div><strong>Município</strong> <p>{lead.municipio}</p></div>
+              <div><strong>UF</strong> <p>{lead.uf}</p></div>
+            </div>
+          </div>
+          {/* Contact Block */}
+          
+          <div>
+            <h1 className="flex font-bold text-lg mb-2"><PhoneIcon className="w-6 h-6 mr-2"/>Contato</h1>
+            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700 leadGroupFieldFormat">
+              <div><strong>Telefone 1</strong> <p>{lead.ddd1} {lead.telefone1}</p></div>
+              <div><strong>Telefone 2</strong> <p>{lead.ddd2 ? `${lead.ddd2} ${lead.telefone2}` : "-"}</p></div>
+              <div><strong>Fax</strong> <p>{lead.dddFAX ? `${lead.dddFAX} ${lead.fax}` : "-"}</p></div>
+              <div className="col-span-3"><strong>Email</strong> <p>{lead.correioEletronico}</p></div>
+            </div>
+          </div>
+          {/* International Block */}
+          <div>
+            <h1 className="flex font-bold text-lg mb-2"><GlobeAmericasIcon className="w-6 h-6 mr-2"/>Informações Exteriores</h1>
+            <div className="bg-gray-900 p-4 rounded-lg border border-gray-700 leadGroupFieldFormat">
+              <div className="col-span-2"><strong>Cidade Exterior:</strong> <p>{lead.cidadeExterior || "-"}</p></div>
+              <div><strong>País:</strong> <p>{lead.pais || "-"}</p></div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+      <div className="mt-20" />
+      <Footer />
     </>
   );
 }

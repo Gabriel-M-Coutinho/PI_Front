@@ -1,14 +1,15 @@
 import axios from "axios";
-import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO, Estabelecimento, UserProfile } from "../types/types";
+import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO, Estabelecimento, UserProfile, FullLead } from "../types/types";
 import Cookies from "js-cookie";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "http://localhost:5047",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json"
   }
 });
+
 
 api.interceptors.request.use(config => {
   const token = Cookies.get("token"); // pega o token do cookie
@@ -38,9 +39,10 @@ export const searchLeads = (filters:any) => {
   });
 };
 
-export async function getLeadByCnpj(cnpj: string):Promise<Estabelecimento> {
+export async function getLeadByCnpj(cnpj: string):Promise<FullLead> {
   try {
     const response = await api.get(`/api/lead/${cnpj}`);
+    //console.log(response.data.data);
     return response.data.data;      
   } catch (err: any) {
     throw new Error(err?.response?.data?.message || "Lead não encontrado");
