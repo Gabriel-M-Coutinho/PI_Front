@@ -213,9 +213,9 @@ export default function Lead() {
             <h1 className="flex font-bold text-lg mb-2"><InformationCircleIcon className="w-6 h-6 mr-2"/>Informações Cadastrais</h1>
             <div className="bg-gray-900 p-4 rounded-lg border border-gray-700 leadGroupFieldFormat">
               <div className="col-span-2"><strong>Motivo:</strong> <p>{lead.motivoSituacaoCadastral}</p></div>
-              <div className="col-span-2"><strong>Data Início Atividade:</strong> <p>{dataInicioAtividade.toLocaleDateString("en-GB")}</p></div>
-              <div className="col-span-2"><strong>Data Situação Cadastral:</strong> <p>{dataSituacaoCadastral.toLocaleDateString("en-GB") || "-"}</p></div>
-              <div className="col-span-2"><strong>Data Situação Especial:</strong> <p>{dataSituacaoEspecial.toLocaleDateString("en-GB") || "-"}</p></div>
+              <div className="col-span-2"><strong>Data Início Atividade:</strong> <p>{dataInicioAtividade.toLocaleDateString("en-GB") == "31/12/1" ? "-": dataInicioAtividade.toLocaleDateString("en-GB")}</p></div>
+              <div className="col-span-2"><strong>Data Situação Cadastral:</strong> <p>{dataSituacaoCadastral.toLocaleDateString("en-GB") == "31/12/1" ? "-": dataSituacaoCadastral.toLocaleDateString("en-GB")}</p></div>
+              <div className="col-span-2"><strong>Data Situação Especial:</strong> <p>{dataSituacaoEspecial.toLocaleDateString("en-GB") == "31/12/1" ? "-": dataSituacaoEspecial.toLocaleDateString("en-GB")}</p></div>
             </div>
           </div>
           {/* Address Block */}

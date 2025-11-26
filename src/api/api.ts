@@ -70,12 +70,4 @@ export async function setProfileApi(user:UserDTO){
 }
 
 export const changePassword = async (changePasswordDto:ChangePasswordDTO) => api.post<ChangePasswordDTO>(`/api/Auth/changePassword/`, changePasswordDto)
-
-export async function deleteProfile(){
-  try {
-    await api.delete<UserProfile>(`/api/User/`);
-  } catch (err: any) {
-    console.error(err);
-    throw new Error(err?.response?.data?.message || "Usuário não deletado");
-  }
-}
+export const deleteProfile = (password:string) => api.delete<UserProfile>(`/api/User/${password}`);

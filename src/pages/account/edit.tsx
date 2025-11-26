@@ -5,16 +5,20 @@ import { useEffect, useState } from "react";
 import type { UserDTO, UserProfile } from "../../types/types";
 import { deleteProfile, setProfileApi,  getProfile } from "../../api/api";
 import { useNavigate } from "react-router-dom";
+import PasswordField from "../components/passwordfield";
 
 <ToastContainer/>
 
 export default function Account() {
     const [user, setProfile] = useState<any>();
+    const [newUser, setNewUser] = useState<UserDTO | null>(null);
+    const [confirmModal, setConfirmModal] = useState(false);
     const navigate  = useNavigate();
-
     const cancelEdit = () => {
         navigate("/account")
     }
+
+
 
     useEffect(() => {
         async function load() {
@@ -34,8 +38,6 @@ export default function Account() {
 
     const nome = formData.get("nome")?.toString().trim();
     const email = formData.get("email")?.toString().trim();
-    const password = formData.get("password")?.toString();
-    const password_confirm = formData.get("password_confirm")?.toString();
     const cpfCnpj = formData.get("cpfCnpj")?.toString().replace(/\D/g, "");
 
     // ---- VALIDATIONS ----
@@ -45,29 +47,41 @@ export default function Account() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) return toast.error("Invalid email format.");
 
-    if (!password) return toast.error("Password is required.");
-    if (password.length < 6) return toast.error("Password must be at least 6 characters.");
-
-    if (!password_confirm) return toast.error("Password confirmation is required.");
-    if (password !== password_confirm) return toast.error("Passwords do not match.");
-
     if (!cpfCnpj) return toast.error("CPF/CNPJ is required.");
     if (!(cpfCnpj.length === 11 || cpfCnpj.length === 14))
         return toast.error("CPF/CNPJ must be 11 or 14 digits.");
 
     // ---- SUCCESS ----
-    const user: UserDTO = { fullName: nome, email, cpfCnpj, password };
-    try {
-        await setProfileApi(user).then(()=> navigate("/account"));
-        toast.success("Usuário alterado com Sucesso!");
-        console.log("User created:", user);
-    } 
-    catch (error) 
-    {
-        console.error(error);
-        toast.error("Erro ao alterar Usuário");
-    }
+    const newUser: UserDTO = { fullName: nome, email, cpfCnpj, password: ""};
+    setNewUser(newUser);
+    setConfirmModal(true);
     };
+
+    const handleConfirmSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if(!newUser) return toast.error("Erro, novas informações não foram captadas!");
+        const formData = new FormData(event.currentTarget);
+        const password = formData.get("current-password")?.toString();
+
+        if(!password) return toast.error("Informe a Senha Atual!");
+        newUser.password = password;
+        try {
+            await setProfileApi(newUser).then(()=> {
+                navigate("/account");
+                toast.success("Usuário alterado com Sucesso!");
+            }).catch(err => {
+                err.response.data.map((data: any) =>{
+                    toast.error(data.description);
+                })
+            });
+        } 
+        catch (error) 
+        {
+            console.error(error);
+            toast.error("Erro ao alterar Usuário");
+        }
+    }
     return (
         <div className="bg-gradient-to-b from-primary to-[#0d2434]">
             <Header />
@@ -172,7 +186,31 @@ export default function Account() {
 
             </div>
             </main>
-
+            {confirmModal && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
+                    <div className="bg-gray-800 text-gray-100 px-16 py-12 rounded-lg w-[700px] max-w-[80%] shadow-xl">
+                        <h2 className="text-xl font-semibold mb-4">Confirmar Alterações</h2>
+                        <p className="my-8">Para confirmar as alterações é necessário colocar senha atual</p>
+                        <form action="" onSubmit={(a)=>handleConfirmSubmit(a)}>
+                            <div className="space-y-8 my-12">
+                                <PasswordField label="Senha Atual" name="current-password" id="current-password" />
+                            </div>
+                            <div>
+                            <div className="flex justify-end gap-3">
+                            <button type="button" onClick={() => setConfirmModal(false)} className="py-2 px-5 rounded bg-gray-600 hover:bg-gray-500">
+                                Cancelar
+                            </button>
+                            <button type="submit" className="py-2 px-5 rounded bg-blue-600 hover:bg-blue-500">
+                                Confirmar
+                            </button>
+                            </div>
+                        </div>
+                        </form>
+    
+                        
+                    </div>
+                </div>
+            )}
 
             <Footer />
             
