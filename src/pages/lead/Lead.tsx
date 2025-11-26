@@ -177,7 +177,6 @@ export default function Lead() {
             </table>
           </div>
         )}
-
         {/* CNAE */}
         <div className="mb-10">
           <h1 className="flex text-xl font-bold mb-4"><CurrencyDollarIcon className="w-6 h-6 mr-2"/> Atividades Econômicas</h1>
