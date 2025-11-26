@@ -4,10 +4,12 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
+import { getProfile } from "../../api/api";
 
 export default function Header()
 {
     const [isloged,setIsLoged] = useState<boolean>(false);
+    const [coins,setCoins] = useState(100)
     const navigate  = useNavigate()
     const handleLogout = () => {
         Cookies.remove("token");
@@ -16,12 +18,28 @@ export default function Header()
         toast.success("Deslogado com Sucesso");
     }
 
-    useEffect(()=>{
+useEffect(() => {
+    const checkAuth = async () => {
         const cookie = Cookies.get("token");
         if (cookie) {
             setIsLoged(true);
+            try {
+                const user = await getProfile();
+                setCoins(user.Credits);
+            } catch (err) {
+                console.log(err);
+                Cookies.remove("token");
+                setIsLoged(false);
+            }
+        } else {
+            setIsLoged(false);
         }
-    }, [])
+    }
+
+    checkAuth();
+}, []);
+
+
 
     return(<>
         <nav id="nav"
@@ -58,7 +76,7 @@ export default function Header()
 
                         <div className="flex mr-8">
                             <CurrencyDollarIcon className="w-6 h-6 mr-1.5"/>
-                            <p>900</p>
+                            <p>{coins ? coins: 0}</p>
                         </div>
                         <div id="user" className="flex md:gap-4 icon_user">
                             <a>

@@ -182,6 +182,7 @@ export interface UserProfile {
   accessFailedCount: number;
   version: number;
   createdOn: string;
+  Credits:number;
   claims: Array<{
     type: string;
     value: string;
