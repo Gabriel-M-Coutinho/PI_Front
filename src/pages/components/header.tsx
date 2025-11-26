@@ -10,6 +10,8 @@ export default function Header()
 {
     const [isloged,setIsLoged] = useState<boolean>(false);
     const [coins,setCoins] = useState(100)
+    const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
     const navigate  = useNavigate()
     const handleLogout = () => {
         Cookies.remove("token");
@@ -25,6 +27,12 @@ useEffect(() => {
             setIsLoged(true);
             try {
                 const user = await getProfile();
+
+                if (user.roles && user.roles.includes("Admin")) {
+                    setIsAdmin(true);
+                } else {
+                    setIsAdmin(false);
+                }
 
                 setCoins(user.credits);
             } catch (err) {
@@ -69,7 +77,9 @@ useEffect(() => {
                             <a className="nav-link text-dark hover:text-indigo-500" href="/plans">Planos</a>                   
                             <a className="nav-link text-dark hover:text-indigo-500" href="/about">Sobre</a>
                             <a className="nav-link text-dark hover:text-indigo-500" href="/devs">Devs</a>
-                            <a className="nav-link text-dark hover:text-indigo-500" href="/dashboards">Dashboards</a>
+                            {isAdmin && (
+                                <a className="nav-link text-dark hover:text-indigo-500" href="/dashboards">Dashboards</a>
+                            )}
                        </div>
   
                         {isloged ?
