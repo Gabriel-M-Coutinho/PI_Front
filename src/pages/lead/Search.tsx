@@ -28,7 +28,7 @@ export default function Search() {
 
   const [loading, setLoading] = useState(false);
 
-  const filters: any = {};
+  const [filters, setFilters] = useState<any>({});
   const [quantidadeLeadsModal, setQuantidadeLeadsModal] = useState(false);
 
   const [leads, setLeads] = useState<Estabelecimento[]>([]);
@@ -107,6 +107,7 @@ export default function Search() {
     if (pageSize) filters.pageSize = parseInt(pageSize);
     filters.page = pageNumber;
 
+    setFilters(filters);
     setQuantidadeLeadsModal(true);
   };
 
