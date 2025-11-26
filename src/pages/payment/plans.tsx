@@ -26,10 +26,9 @@ export default function Plans(){
               {/* textos */}
               <span className="text-sm uppercase text-accent font-bold"
                 >plano basico</span>
-              <h2 className="mt-3">R$79,90</h2>
+              <h2 className="mt-3">R$19,90</h2>
               <p className="mt-3 mx-10">
-                <span className="font-bold">100 leads</span> qualificadas com os
-                seus parâmetros
+                <span className="font-bold">900 créditos</span> 
               </p>
             </div>
             {/* botao */}
@@ -54,11 +53,10 @@ export default function Plans(){
             >
               {/* textos */}
               <span className="text-md uppercase font-bold"
-                >plano mestre</span>
-              <h2 className="mt-3 scale-150">R$499,90</h2>
+                >plano plus</span>
+              <h2 className="mt-3 scale-150">R$79,90</h2>
               <p className="mt-3 mx-10">
-                <span className="font-bold">1000 leads</span> qualificadas com os
-                seus parâmetros
+                <span className="font-bold">4300 créditos</span>
               </p>
             </div>
             {/* botao */}
@@ -83,12 +81,11 @@ export default function Plans(){
             >
               {/* textos */}
               <span className="text-sm uppercase text-accent font-bold"
-                >plano avançado</span>
+                >plano intermediário</span>
 
-              <h2 className="mt-3">R$209,90</h2>
+              <h2 className="mt-3">R$39,90</h2>
               <p className="mt-3 mx-10">
-                <span className="font-bold">300 leads</span> qualificadas com os
-                seus parâmetros
+                <span className="font-bold">2000 créditos</span>
               </p>
             </div>
             {/* botao */}

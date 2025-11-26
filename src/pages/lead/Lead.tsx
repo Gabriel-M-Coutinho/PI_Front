@@ -27,7 +27,7 @@ export default function Lead() {
   if (error) {
     return (<>
         <Header/>
-      <div className="text-center mt-10 text-red-600 text-xl font-bold">
+      <div className="max-w-[1500px] min-h-screen mx-auto text-center mt-10 text-red-600 text-xl font-bold">
         Não Sou um Lead
       </div>
       <Footer/>
@@ -39,9 +39,11 @@ export default function Lead() {
   if (!lead) {
     return (<>
         <Header/>
-          <p className="text-center mt-10 text-gray-600">
+        <div className="max-w-[1500px] min-h-screen mx-auto">
+          <p className="min-h-screen text-center mt-10 text-gray-400">
             Carregando...
           </p>
+          </div>
         <Footer/>
     </>
     );
@@ -138,12 +140,12 @@ export default function Lead() {
     <>
       <Header />
 
-      <div className="max-w-[1500px] mx-auto mt-10 p-8 bg-black text-white shadow-xl rounded-xl border border-gray-700">
+      <div className="max-w-[1500px] min-h-screen mx-auto mt-10 p-8 text-white shadow-xl color-indigo rounded-xl border border-gray-700">
         {/* Header */}
         <div className="space-y-8">
           <div>
             <div className="flex justify-between">
-            <h2 className="text-3xl font-bold mb-2">{lead.nomeFantasia || "CNPJ RECEITA FEDERAL"}</h2>
+            <h2 className="text-3xl font-bold mb-2">{lead.nomeFantasia || "Não informado"}</h2>
             <div dangerouslySetInnerHTML={{ __html: situacaoCadastralTag }} />
           </div>
           

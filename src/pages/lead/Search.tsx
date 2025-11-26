@@ -103,7 +103,7 @@ export default function Search() {
 <       h4 className="flex flex-row justify-center mt-10">Busque os Leads:</h4>
 
         {/* FORM DE FILTROS */}
-        <form onSubmit={handleFilter} className=" bg-secondary flex flex-col gap-8 border border-gray-600 m-10 p-14 pt-10 pb-10 rounded-lg">
+        <form onSubmit={handleFilter} className="color-indigo flex flex-col gap-8 border border-gray-600 m-10 p-14 pt-10 pb-10 rounded-lg">
             <h2 className="flex flex-row justify-center">Filtros</h2>
 
         <div className="max-w-[100%] text-lg justify-start gap-20 w-full flex">
@@ -152,7 +152,7 @@ export default function Search() {
           <select className="text-gray-400 border-white-400 w-[40%] focus:outline-none" value={situacaocadastral} onChange={(e) => setSituacaoCadastral(e.target.value)}>
               <option value="">Situação Cadastral</option>
               <option value="ativa">Ativa</option>
-              <option value="inativa">Inativa</option>
+              <option value="inapta">Inapta</option>
               <option value="nula">Nula</option>
               <option value="baixada">Baixada</option>
               <option value="suspensa">Suspensa</option>

@@ -18,7 +18,7 @@
 
 body {
   overflow-x: hidden;
-  background-color: #0D2434;
+  background-color: var(--primary-color);
   color: var(--text-color);
   margin: 0px;
   padding: 0px;
@@ -252,14 +252,14 @@ select option {
 
 .submenu a {
   color: var(--text-color);
-  background-color: #1b2127;
+  background-color: #151521;
   padding: 10px 12px;
   text-decoration: none;
   display: block;
 }
 
   .submenu a:hover {
-      background-color: #232b33;
+      background-color: var(--secondary-color);
       color: var(--text-color);
   }
 
