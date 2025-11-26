@@ -241,3 +241,17 @@ export function formatCNPJ(value: string) {
     .replace(/(\d{3})(\d)/, "$1/$2")
     .replace(/(\d{4})(\d{1,2})$/, "$1-$2");
 }
+export interface Order {
+  id: string;
+  sessionId: string;
+  plan: number;
+  packageName: string;
+  credits: number;
+  price: number;
+  isPaid: boolean;
+  status: string;
+  createdAt: string;
+  paidAt?: string | null;
+  customerEmail?: string | null;
+  customerId: string;
+}

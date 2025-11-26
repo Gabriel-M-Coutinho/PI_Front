@@ -41,6 +41,12 @@ export const searchLeads = (filters:any) => {
   });
 };
 
+export const searchPurchasedLeads= async(filters:any)=>{
+    return api.get<any>("/api/Lead/search-purchased", {
+    params: filters
+  });
+}
+
 export async function getLeadByCnpj(cnpj: string):Promise<FullLead> {
   try {
     const response = await api.get(`/api/lead/${cnpj}`);
@@ -78,3 +84,9 @@ export const createOrder = async (Plan: number) => {
   const response = await api.post("/api/Payments/create-checkout", { Plan });
   return response.data;
 };
+
+
+export const getOrder = async ()=>{
+  const response = await api.get("/api/Payments/customer-orders")
+  return response.data;
+}

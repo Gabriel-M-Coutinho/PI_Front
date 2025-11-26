@@ -78,10 +78,10 @@ export default function Search() {
     setLeads(result.data.data || []);
     setSearchError(false);
     setPagination({
-      page: result.data.page || 1,
-      pageSize: result.data.pageSize || 20,
-      totalItems: result.data.totalItems || 0,
-      totalPages: result.data.totalPages || 0
+      page: 1,
+      pageSize: 20,
+      totalItems: result.data.data.length,
+      totalPages: Math.ceil(result.data.data.length / 20)
     });
 
     toast.success("Busca Realizada com Sucesso");
@@ -89,14 +89,13 @@ export default function Search() {
   } catch (error: any) {
     console.error("Erro ao buscar:", error);
 
-    // ⬅️ Mensagem de erro HTTP/axios
+    // Mensagem de erro HTTP/axios
     toast.error(error?.response?.data?.message || "Erro ao buscar leads");
 
     setLeads([]);
     setSearchError(true);
 
   } finally {
-    // ⬅️ GARANTE que o loading sempre seja desligado
     setLoading(false);
   }
 };
@@ -130,20 +129,30 @@ export default function Search() {
   };
 
   // Paginação
-  const goToNextPage = async () => {
+  const goToNextPage = () => {
     if (pagination.page < pagination.totalPages) {
-      await fetchLeads(pagination.page + 1);
+      setPagination(prev => ({ ...prev, page: prev.page + 1 }));
     }
   };
 
-  const goToPrevPage = async () => {
+  const goToPrevPage = () => {
     if (pagination.page > 1) {
-      await fetchLeads(pagination.page - 1);
+      setPagination(prev => ({ ...prev, page: prev.page - 1 }));
     }
   };
 
-  const goToFirstPage = async () => fetchLeads(1);
-  const goToLastPage = async () => fetchLeads(pagination.totalPages);
+  const goToFirstPage = () => {
+    setPagination(prev => ({ ...prev, page: 1 }));
+  };
+
+  const goToLastPage = () => {
+    setPagination(prev => ({ ...prev, page: prev.totalPages }));
+  };
+
+  const paginatedLeads = leads.slice(
+    (pagination.page - 1) * pagination.pageSize,
+    pagination.page * pagination.pageSize
+  );
 
 
 
@@ -265,7 +274,7 @@ export default function Search() {
 
           {/* Lista de cards */}
           <div className="flex flex-col divide-y divide-gray-200">
-            {leads.map((element: Estabelecimento) => (
+            {paginatedLeads.map((element: Estabelecimento) => (
               <LeadCard
                 key={element._id}
                 cnpj={`${element.cnpjBase}${element.cnpjOrdem}${element.cnpjDV}`}
