@@ -6,6 +6,7 @@ import { createUser } from "../../api/api";
 import type { UserDTO } from "../../types/types";
 import { useNavigate } from "react-router-dom";
 import { InputMask, type MaskOptions } from '@react-input/mask';
+      <ToastContainer/>
 
 export default function Register() {
   const [userType, setUserType] = useState("pf");
@@ -17,13 +18,13 @@ export default function Register() {
   const navigate = useNavigate();
 
     const cpfMaskOptions: MaskOptions = {
-      mask: "999.999.999-99",
-      replacement: { "9": /\d/ }
+      mask: "ccc.ccc.ccc-cc",
+      replacement: { "c": /\d/ }
     };
   
     const cnpjMaskOptions: MaskOptions = {
-      mask: "99.999.999/9999-99",
-      replacement: { "9": /\d/ }
+      mask: "cc.ccc.ccc/cccc-cc",
+      replacement: { "c": /\d/ }
     };
 
   const maskOptions = userType === "pf" ? cpfMaskOptions : cnpjMaskOptions;
@@ -36,23 +37,22 @@ export default function Register() {
     {
       if (senha !== confirmarSenha) 
       {
-        toast.error("Senha e Confirmar senha não correspondem!");
+        toast.error("Senha e Confirmar senha não correspondem.");
         return;
       }
 
-      createUser(user)
-      .then(() => navigate("/login"))
-      .catch(() => toast.error("Erro ao criar usuário"));
+      createUser(user).then(() => navigate("/login"));
+      toast.success("Conta criada com sucesso!")
     } 
     catch (error) 
     {
-      toast.error("Credenciais inválidas!");
+      toast.error("Erro ao criar a conta.");
     }
   };
 
   return (
-    <div>
-      <Header></Header>
+    <div className="bg-gradient-to-b from-primary to-[#0d2434]">
+      <Header/>
 
       <section className="flex flex-row justify-center items-center h-screen w-full">
         <div className="flex flex-col justify-center items-center h-full md:w-1/2 gap-8">
@@ -85,7 +85,7 @@ export default function Register() {
                   checked={userType === "pf"}
                   onChange={(event) => { setUserType(event.target.value); setCpfCnpj("");}}
                 />
-                  PF (Pessoa Física)
+                  PF
                 </label>
                 <label className="flex items-center gap-1">
                 <input
@@ -95,7 +95,7 @@ export default function Register() {
                   checked={userType === "pj"}
                   onChange={(event) => { setUserType(event.target.value); setCpfCnpj("");}}
                 />
-                  PJ (Pessoa Jurídica)
+                  PJ
                 </label>
             </div>
 
@@ -117,7 +117,7 @@ export default function Register() {
             </div>
 
 
-            <button type="submit" id="botao-principal" className="py-3 px-12 rounded">
+            <button type="submit" id="botao-principal" className="py-3 px-6 rounded">
                 Cadastrar
             </button>
 
@@ -151,8 +151,7 @@ export default function Register() {
                 </div>
             </div>
     </section>
-      <Footer></Footer>
-      <ToastContainer></ToastContainer>
+      <Footer/>
     </div>
   );
 };

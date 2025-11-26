@@ -5,9 +5,9 @@ export default function Footer()
                 className="flex flex-col justify-center items-center h-fit w-full p-6 gap-8 bg-secondary text-text border-t-2 border-primary">
        
             <div id="links" className="flex gap-8 pt-5">
-                <a href="/support">Suporte</a>
-                <a href="/about">Sobre</a>
-                <a href="/devs">Devs</a>
+                <a className="nav-link text-dark hover:text-[var(--accent-color)]" href="/support">Suporte</a>
+                <a className="nav-link text-dark hover:text-[var(--accent-color)]" href="/about">Sobre</a>
+                <a className="nav-link text-dark hover:text-[var(--accent-color)]" href="/devs">Devs</a>
             </div>
        
             <div id="icons" className="flex gap-8">

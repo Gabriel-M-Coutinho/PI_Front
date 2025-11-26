@@ -21,9 +21,8 @@ createRoot(document.getElementById('root')!).render(
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="dark"              // Tema colorido para todos os toasts
+        theme='dark'
     />
     </BrowserRouter>
   </StrictMode>,
 )
-7

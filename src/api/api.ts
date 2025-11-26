@@ -1,11 +1,24 @@
 import axios from "axios";
-import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO, Estabelecimento } from "../types/types";
+import type { UserDTO, ResponseDTO, LeadFilters,LoginDTO, Estabelecimento, UserProfile, FullLead } from "../types/types";
+import Cookies from "js-cookie";
 
 const api = axios.create({
   baseURL: "http://localhost:5047",
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json"
   }
+});
+
+
+api.interceptors.request.use(config => {
+  const token = Cookies.get("token"); // pega o token do cookie
+  if (token && config.headers) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
 });
 
 export const createUser = (payload:UserDTO) => api.post("/api/User", payload)
@@ -26,11 +39,40 @@ export const searchLeads = (filters:any) => {
   });
 };
 
-export async function getLeadByCnpj(cnpj: string):Promise<Estabelecimento> {
+export async function getLeadByCnpj(cnpj: string):Promise<FullLead> {
   try {
     const response = await api.get(`/api/lead/${cnpj}`);
+    //console.log(response.data.data);
     return response.data.data;      
   } catch (err: any) {
     throw new Error(err?.response?.data?.message || "Lead não encontrado");
+  }
+}
+
+export async function getProfile(): Promise<UserProfile> {
+  try {
+    const response = await api.get<UserProfile>("/api/User/profile/");
+    return response.data;
+  } catch (err: any) {
+    console.error(err);
+    throw new Error(err?.response?.data?.message || "Usuário não encontrado");
+  }
+}
+
+export async function setProfileApi(user:UserDTO){
+  try {
+    console.log("to aqui");
+    await api.put<UserProfile>(`/api/User/`, user);
+  } catch (err: any) {
+    console.error(err);
+    throw new Error(err?.response?.data?.message || "Usuário não alterado");
+  }
+}
+export async function deleteProfile(){
+  try {
+    await api.delete<UserProfile>(`/api/User/`);
+  } catch (err: any) {
+    console.error(err);
+    throw new Error(err?.response?.data?.message || "Usuário não deletado");
   }
 }
