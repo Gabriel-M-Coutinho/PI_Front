@@ -9,6 +9,7 @@ import About from './pages/secondary/about.tsx'
 import Devs from './pages/secondary/devs.tsx'
 import Graph from './pages/graphs/graph.tsx'
 import ProtectedRoute from './middlewares/protect-route.tsx'
+import { Thanks } from './pages/thanks/thanks.tsx'
 
 function App() {
 
@@ -20,7 +21,11 @@ function App() {
       <Route path="/lead/:id" element={<Lead />} />
       <Route path='/about' element={<About/>}/>
       <Route path='/devs' element={<Devs/>}></Route>
-      <Route path='/dashboards' element={<Graph/>}></Route>
+      <Route path='/dashboards' element={
+        <ProtectedRoute>   <Graph/></ProtectedRoute>
+        
+     }></Route>
+     <Route path='/success' element={<Thanks/>} ></Route>
     </Routes>
   )
 }
