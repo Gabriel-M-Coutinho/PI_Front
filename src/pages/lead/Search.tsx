@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import LeadCard from "./LeadCard";
 import Header from "../components/header";
 import Footer from "../components/footer";
-import { searchLeads } from "../../api/api";
+import { getProfile, searchLeads } from "../../api/api";
 import type { Estabelecimento } from "../../types/types";
 import Home from "../home/Home";
+import { toast } from "react-toastify";
 
 export default function Search() {
   const [nomefantasia, setNomeFantasia] = useState("");
@@ -18,6 +19,7 @@ export default function Search() {
   const [capitalSocial, setCapitalSocial] = useState("");
   const [dataAbertura, setDataAbertura] = useState("");
   const [matrizFilial, setMatrizFilial] = useState("");
+  const [quantity,setQuantity] = useState(0)
 
   const [page, setPage] = useState("");
   const [pageSize, setPageSize] = useState("");
@@ -34,7 +36,7 @@ export default function Search() {
   // Função para chamar a API
   const fetchLeads = async (pageNumber: number = 1) => {
     const filters: any = {};
-
+    if (quantity) filters.quantity = quantity;
     if (nomefantasia) filters.nomeFantasia = nomefantasia;
     if (cnae) filters.cnae = cnae;
     if (situacaocadastral) filters.situacaoCadastral = situacaocadastral;
@@ -96,6 +98,23 @@ export default function Search() {
   const goToFirstPage = async () => fetchLeads(1);
   const goToLastPage = async () => fetchLeads(pagination.totalPages);
 
+  const handleValidateCoins = async (e: any) => {
+  const q = Number(e.target.value);
+  setQuantity(q);
+
+  try {
+    const user = await getProfile();
+
+    if (user.credits < q) {
+      toast.error("Quantidade de coins insuficiente para comprar o lead");
+    } else {
+      toast.success("Coins suficientes!");
+    }
+  } catch (err) {
+    toast.error("Erro ao verificar créditos");
+  }
+};
+
   return (
     <>
       <div className="min-h-screen bg-gradient-to-l from-primary to-[#090814]">
@@ -106,6 +125,12 @@ export default function Search() {
         <form onSubmit={handleFilter} className="color-indigo flex flex-col gap-8 border border-gray-600 m-10 p-14 pt-10 pb-10 rounded-lg">
             <h2 className="flex flex-row justify-center">Filtros</h2>
 
+       <input
+  placeholder="quantidade de leads"
+  type="number"
+  name="quantity"
+  onChange={handleValidateCoins}
+/>
         <div className="max-w-[100%] text-lg justify-start gap-20 w-full flex">
           <input type="text" className="w-full block w-full rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="Nome Fantasia" value={nomefantasia}
             onChange={(e) => setNomeFantasia(e.target.value)} />

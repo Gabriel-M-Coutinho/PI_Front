@@ -1,5 +1,10 @@
+
+
+
 export default function Footer()
 {
+
+
     return(
         <footer id="footer"
                 className="flex flex-col justify-center items-center h-fit w-full p-6 gap-8 color-indigo text-text border-t-2 border-primary">
