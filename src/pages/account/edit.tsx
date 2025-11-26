@@ -41,13 +41,13 @@ export default function Account() {
     const cpfCnpj = formData.get("cpfCnpj")?.toString().replace(/\D/g, "");
 
     // ---- VALIDATIONS ----
-    if (!nome) return toast.error("Name is required.");
-    if (!email) return toast.error("Email is required.");
+    if (!nome) return toast.error("Nome é requirido.");
+    if (!email) return toast.error("Email é requirido");
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) return toast.error("Invalid email format.");
+    if (!emailRegex.test(email)) return toast.error("Formato de email invalido.");
 
-    if (!cpfCnpj) return toast.error("CPF/CNPJ is required.");
+    if (!cpfCnpj) return toast.error("CPF/CNPJ é requirido.");
     if (!(cpfCnpj.length === 11 || cpfCnpj.length === 14))
         return toast.error("CPF/CNPJ must be 11 or 14 digits.");
 
