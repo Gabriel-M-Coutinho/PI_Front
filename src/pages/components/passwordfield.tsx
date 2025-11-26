@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+//tu tem que colocar o icone em import e ai você consegue usar ele
 
 type PasswordFieldProps = {
   label: string;

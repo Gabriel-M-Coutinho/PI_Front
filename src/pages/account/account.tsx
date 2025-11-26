@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import { deleteProfile, getProfile, changePassword } from "../../api/api";
 import { redirect, useNavigate } from "react-router-dom";
-import PasswordField from "./passwordfield";
+import PasswordField from "../components/passwordfield";
 import type { ChangePasswordDTO } from "../../types/types";
 
 import Cookies from "js-cookie";

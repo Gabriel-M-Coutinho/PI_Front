@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 
 export default function Header()
 {
@@ -24,9 +25,9 @@ export default function Header()
 
     return(<>
         <nav id="nav"
-             className="flex justify-between items-center h-16 w-full sm:p-6 p-2 sticky z-50 top-0 left-0 color-indigo text-text">
+             className="relative flex justify-between items-center h-16 w-full sm:p-6 p-2 sticky z-50 top-0 left-0 color-indigo text-text">
 
-            <div id="logo" className="md:gap-4">
+            <div id="logo" className="ml-4 md:gap-4">
                 <a className="navbar-brand" href="/">
                     <svg width="60"
                          height="57"
@@ -53,6 +54,12 @@ export default function Header()
                        </div>
   
                         {isloged ?
+                        <div className="flex">
+
+                        <div className="flex mr-8">
+                            <CurrencyDollarIcon className="w-6 h-6 mr-1.5"/>
+                            <p>900</p>
+                        </div>
                         <div id="user" className="flex md:gap-4 icon_user">
                             <a>
                                 <svg width="24"
@@ -76,10 +83,11 @@ export default function Header()
                                 <a className="nav-link text-dark" href="/account">Conta</a>
                                 <a className="nav-link text-dark back" onClick={handleLogout}>Sair</a>
                             </div>
+                        </div>
                         </div>: 
-                            <div id="user" className="flex items-center gap-4">
-                                <a className="nav-link text-dark hover:text-indigo-500" href="/login">Entrar</a>
-                            </div>                           
+                        <div id="user" className="flex items-center gap-4">
+                            <a className="nav-link text-dark hover:text-indigo-500" href="/login">Entrar</a>
+                        </div>                           
                         }
         </nav>
     </>
