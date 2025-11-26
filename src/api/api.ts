@@ -71,3 +71,6 @@ export async function setProfileApi(user:UserDTO){
 
 export const changePassword = async (changePasswordDto:ChangePasswordDTO) => api.post<ChangePasswordDTO>(`/api/Auth/changePassword/`, changePasswordDto)
 export const deleteProfile = (password:string) => api.delete<UserProfile>(`/api/User/${password}`);
+export const createOrder = (data:{plan:number})=>{
+  api.post("/api/Payment/create-checkout",data);
+}

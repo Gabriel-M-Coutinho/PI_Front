@@ -37,44 +37,55 @@ export default function Search() {
     totalItems: 0,
     totalPages: 0
   });
-  const handleBuscaSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+ const handleBuscaSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
-    const quantity = formData.get("quantidade-leads")?.toString().trim();
-    if (quantity) {
-      filters.quantity = quantity;
-    } else {
-      filters.quantity = 0;
-    }
+  const formData = new FormData(event.currentTarget);
+  const quantity = formData.get("quantidade-leads")?.toString().trim();
+  filters.quantity = quantity ? quantity : 0;
 
-    try {
-      console.log("estou pesuisando leads")
-      setLoading(true);
-      const result = await searchLeads(filters);
-      setLoading(false);
-      console.log("API:", result);
-      setQuantidadeLeadsModal(false)
+  try {
+    setLoading(true);
 
-      if (result.data.success && result.data.data && result.data.data.length > 0) {
-        setLeads(result.data.data);
-        setSearchError(false);
-        setPagination({
-          page: result.data.page || 1,
-          pageSize: result.data.pageSize || 20,
-          totalItems: result.data.totalItems || 0,
-          totalPages: result.data.totalPages || 0
-        });
-        toast.success("Busca Realizada com Sucesso");
-      } else {
-        setLeads([]);
-        setSearchError(true);
-      }
-    } catch (error) {
-      console.error("Erro ao buscar:", error);
+    const result = await searchLeads(filters);
+
+    console.log("API:", result);
+    setQuantidadeLeadsModal(false);
+
+    if (!result.data.success) {
+      // ⬅️ Aqui trata erro vindo do backend mesmo sendo status 200
+      toast.error(result.data.message || "Erro na busca");
       setLeads([]);
+      setSearchError(true);
+      return;
     }
+
+    // Sucesso:
+    setLeads(result.data.data || []);
+    setSearchError(false);
+    setPagination({
+      page: result.data.page || 1,
+      pageSize: result.data.pageSize || 20,
+      totalItems: result.data.totalItems || 0,
+      totalPages: result.data.totalPages || 0
+    });
+
+    toast.success("Busca Realizada com Sucesso");
+
+  } catch (error: any) {
+    console.error("Erro ao buscar:", error);
+
+    // ⬅️ Mensagem de erro HTTP/axios
+    toast.error(error?.response?.data?.message || "Erro ao buscar leads");
+
+    setLeads([]);
+    setSearchError(true);
+
+  } finally {
+    // ⬅️ GARANTE que o loading sempre seja desligado
+    setLoading(false);
   }
+};
   // Função para chamar a API
   const fetchLeads = async (pageNumber: number = 1) => {
     //const filters: any = {};
@@ -119,22 +130,7 @@ export default function Search() {
   const goToFirstPage = async () => fetchLeads(1);
   const goToLastPage = async () => fetchLeads(pagination.totalPages);
 
-  const handleValidateCoins = async (e: any) => {
-  const q = Number(e.target.value);
-  setQuantity(q);
 
-  try {
-    const user = await getProfile();
-
-    if (user.credits < q) {
-      toast.error("Quantidade de coins insuficiente para comprar o lead");
-    } else {
-      toast.success("Coins suficientes!");
-    }
-  } catch (err) {
-    toast.error("Erro ao verificar créditos");
-  }
-};
 
   return (
     <>
