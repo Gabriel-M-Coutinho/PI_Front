@@ -80,8 +80,8 @@ export default function Header()
                                 </svg>
                             </a>
                             <div className="submenu">
-                                <a className="nav-link text-dark" href="/account">Conta</a>
-                                <a className="nav-link text-dark back" onClick={handleLogout}>Sair</a>
+                                <a className="nav-link text-dark color-indigo" href="/account">Conta</a>
+                                <a className="nav-link text-dark color-indigo back" onClick={handleLogout}>Sair</a>
                             </div>
                         </div>
                         </div>: 

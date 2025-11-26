@@ -89,7 +89,7 @@ export default function Account() {
     
     if (!user) return <p>Loading...</p>;
     return (
-        <div className="bg-gradient-to-b from-primary to-[#0d2434]">
+        <div className="bg-gradient-to-l from-primary to-[#090814]">
             <Header />
 
             <main className="flex flex-col items-center w-full">
@@ -115,19 +115,19 @@ export default function Account() {
 
                 <div className="flex justify-between items-start">
                 <p className="text-gray-400 font-medium w-40">Senha</p>
-                <button className="py-2 px-5 rounded bg-gray-600 text-white hover:bg-gray-500"
+                <button className="rounded-lg py-2 px-5 rounded bg-gray-600 text-white hover:bg-gray-500"
                     onClick={editPassword}>
                         Mudar Senha
                     </button>
                 </div>
 
                 <div className="flex justify-end gap-3 pt-6">
-                <button className="py-2 px-7 rounded bg-blue-600 text-white hover:bg-blue-500"
+                <button id="botao-principal" className="rounded-lg py-2 px-7 rounded text-white"
                 onClick={editAccount}>
                     Editar
                 </button>
 
-                <button className="py-2 px-7 rounded bg-red-600 text-white hover:bg-red-500"
+                <button className="rounded-lg py-2 px-7 rounded bg-red-600 text-white hover:bg-red-500"
                 onClick={deleteProcediment}>
                     Excluir
                 </button>
@@ -138,7 +138,7 @@ export default function Account() {
             </main>
             {showDeleteModal && (
             <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
-                <div className="bg-gray-800 text-gray-100 px-16 py-12 rounded-lg w-[700px] max-w-[80%] shadow-xl">
+                <div className="bg-[#25263b] text-gray-100 px-16 py-12 rounded-lg w-[700px] max-w-[80%] shadow-xl">
                     <h2 className="text-xl font-semibold mb-4">Confirmar Exclusão</h2>
                     <p className="my-8">Para deletar sua conta é necessário colocar sua senha</p>
                     <form action="" onSubmit={handleConfirmDeleteSubmit}>
@@ -147,10 +147,10 @@ export default function Account() {
                         </div>
                         <div>
                         <div className="flex justify-end gap-3">
-                        <button type="button" onClick={() => setShowDeleteModal(false)} className="py-2 px-5 rounded bg-gray-600 hover:bg-gray-500">
+                        <button type="button" onClick={() => setShowDeleteModal(false)} className="py-2 px-5 rounded bg-gray-600 hover:bg-gray-500 rounded-lg">
                             Cancelar
                         </button>
-                        <button type="submit" className="py-2 px-5 rounded bg-red-600 hover:bg-red-500">
+                        <button type="submit" className="py-2 px-5 rounded bg-red-600 hover:bg-red-500 rounded-lg">
                             Excluir
                         </button>
                         </div>
@@ -160,7 +160,7 @@ export default function Account() {
             </div>)}
             {showEditPasswordModal && (
             <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
-                <div className="bg-gray-800 text-gray-100 px-16 py-12 rounded-lg w-[700px] max-w-[80%] shadow-xl">
+                <div className="bg-[#25263b] text-gray-100 px-16 py-12 rounded-lg w-[700px] max-w-[80%] shadow-xl">
                     <h2 className="text-xl font-semibold mb-4">Mudar Senha</h2>
                     <form action="" onSubmit={handleSubmitPassword}>
                         <div className="space-y-8 my-12">
@@ -170,10 +170,10 @@ export default function Account() {
                         </div>
                         <div>
                         <div className="flex justify-end gap-3">
-                        <button type="button" onClick={() => setShowEditPasswordModal(false)} className="py-2 px-5 rounded bg-gray-600 hover:bg-gray-500">
+                        <button type="button" onClick={() => setShowEditPasswordModal(false)} className="py-2 px-5 rounded bg-gray-600 hover:bg-gray-500 rounded-lg">
                             Cancelar
                         </button>
-                        <button type="submit" className="py-2 px-5 rounded bg-blue-600 hover:bg-blue-500">
+                        <button type="submit" id="botao-principal" className="py-2 px-5 rounded bg-blue-600 hover:bg-blue-500">
                             Mudar Senha
                         </button>
                         </div>

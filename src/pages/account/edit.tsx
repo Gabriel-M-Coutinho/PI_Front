@@ -83,14 +83,13 @@ export default function Account() {
         }
     }
     return (
-        <div className="bg-gradient-to-b from-primary to-[#0d2434]">
+        <div className="bg-gradient-to-l from-primary to-[#090814]">
             <Header />
 
             <main className="flex flex-col items-center w-full">
             <div className="px-12 my-24 w-full max-w-[900px]">
-
                 
-                <h3 className="font-semibold mb-8 text-gray-100">Conta</h3>
+                <h3 className="font-semibold mb-8 text-gray-100">Editar</h3>
 
                 <form
                 action="/user"
@@ -104,7 +103,7 @@ export default function Account() {
                 <div className="flex flex-col justify-between items-start">
                     <label
                     htmlFor="name"
-                    className="ml-1 mb-2 text-gray-400 font-medium w-40"
+                    className="ml-1 mb-2.5 text-gray-400 font-medium w-40"
                     >
                     Nome
                     </label>
@@ -114,7 +113,7 @@ export default function Account() {
                     name="nome"
                     id="name"
                     defaultValue={user.fullName}
-                    className="w-full bg-gray-800 border border-gray-700 text-gray-100 rounded p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="block w-full rounded-md bg-white/5 px-3.5 py-2 border border-white/10 focus:border-indigo-500 placeholder:text-gray-500"
                     />
                     <p id="error_name"></p>
                 </div>
@@ -123,7 +122,7 @@ export default function Account() {
                 <div className="flex flex-col justify-between items-start">
                     <label
                     htmlFor="email"
-                    className="ml-1 mb-2 text-gray-400 font-medium w-40"
+                    className="ml-1 mb-2.5 text-gray-400 font-medium w-40"
                     >
                     Email
                     </label>
@@ -133,7 +132,7 @@ export default function Account() {
                     name="email"
                     id="email"
                     defaultValue={user.email}
-                    className="w-full bg-gray-800 border border-gray-700 text-gray-100 rounded p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="block w-full rounded-md bg-white/5 px-3.5 py-2 border border-white/10 focus:border-indigo-500 placeholder:text-gray-500"
                     required
                     />
                     <p id="error_email"></p>
@@ -143,7 +142,7 @@ export default function Account() {
                 <div className="flex flex-col justify-between items-start">
                     <label
                     htmlFor="cpf"
-                    className="ml-1 mb-2 text-gray-400 font-medium w-40"
+                    className="ml-1 mb-2.5 text-gray-400 font-medium w-40"
                     >
                     CPF
                     </label>
@@ -154,7 +153,7 @@ export default function Account() {
                     id="cpf"
                     defaultValue={user.cpfCnpj}
                     placeholder="000.000.000-00"
-                    className="w-full bg-gray-800 border border-gray-700 text-gray-100 rounded p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="block w-full rounded-md bg-white/5 px-3.5 py-2 border border-white/10 focus:border-indigo-500 placeholder:text-gray-500"
                     />
                     <p id="error_name"></p>
                 </div>
@@ -167,7 +166,7 @@ export default function Account() {
                     type="button"
                     value="edit"
                     onClick={cancelEdit}
-                    className="py-2 px-7 rounded bg-gray-600 text-white hover:bg-gray-500"
+                    className="rounded-lg py-2 px-7 rounded bg-gray-600 text-white hover:bg-gray-500"
                     >
                     Cancelar
                     </button>
@@ -176,7 +175,8 @@ export default function Account() {
                     type="submit"
                     name="action"
                     value="delete"
-                    className="py-2 px-7 rounded bg-blue-600 text-white hover:bg-blue-500"
+                    className="py-2 px-7 rounded text-white"
+                    id="botao-principal"
                     >
                     Confirmar
                     </button>
@@ -188,7 +188,7 @@ export default function Account() {
             </main>
             {confirmModal && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
-                    <div className="bg-gray-800 text-gray-100 px-16 py-12 rounded-lg w-[700px] max-w-[80%] shadow-xl">
+                    <div className="bg-[#25263b] text-gray-100 px-16 py-12 rounded-lg w-[700px] max-w-[80%] shadow-xl">
                         <h2 className="text-xl font-semibold mb-4">Confirmar Alterações</h2>
                         <p className="my-8">Para confirmar as alterações é necessário colocar senha atual</p>
                         <form action="" onSubmit={(a)=>handleConfirmSubmit(a)}>
@@ -197,10 +197,10 @@ export default function Account() {
                             </div>
                             <div>
                             <div className="flex justify-end gap-3">
-                            <button type="button" onClick={() => setConfirmModal(false)} className="py-2 px-5 rounded bg-gray-600 hover:bg-gray-500">
+                            <button type="button" onClick={() => setConfirmModal(false)} className="rounded-lg py-2 px-5 rounded bg-gray-600 hover:bg-gray-500">
                                 Cancelar
                             </button>
-                            <button type="submit" className="py-2 px-5 rounded bg-blue-600 hover:bg-blue-500">
+                            <button id="botao-principal" type="submit" className="py-2 px-5 rounded bg-blue-600 hover:bg-blue-500">
                                 Confirmar
                             </button>
                             </div>

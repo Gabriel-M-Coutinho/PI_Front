@@ -10,7 +10,8 @@ export default function Home() {
 
     const formData = new FormData(event.currentTarget);
 
-    const cnpj = formData.get("area-pesquisa")?.toString().trim();
+    const cnpj = formData.get("area-pesquisa")?.toString().trim().replace("/","")
+    .replace("-","").replaceAll(".","");
     navigate(`/lead/${cnpj}`)
   }
 
