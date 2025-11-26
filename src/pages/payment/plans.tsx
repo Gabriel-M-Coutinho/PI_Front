@@ -1,7 +1,24 @@
 import Footer from "../components/footer";
 import Header from "../components/header";
+import PlanBasic from "./planBasic";
+import { redirect, useNavigate } from "react-router-dom";
+import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 
 export default function Plans(){
+  const navigate = useNavigate();
+
+  const planBasic = () => {
+    navigate('/planBasic')
+  }
+
+  const planIntermediary = () => {
+    navigate('/planIntermediary')
+  }
+
+  const planPlus = () => {
+    navigate('/planPlus')
+  }
+
     return (<>
     <Header/>
 {/* PRICES - START */}
@@ -18,7 +35,7 @@ export default function Plans(){
           {/* 01 */}
           <div
             id="card"
-            className="flex flex-col justify-center items-center text-center max-w-[350px] min-h-[350px] w-full"
+            className="transition-transform duration-300 hover:scale-105 flex flex-col justify-center items-center text-center max-w-[350px] min-h-[350px] w-full"
           >
             <div
               className="flex flex-col items-center justify-center gap-2 rounded-xl px-6 py-8"
@@ -27,14 +44,16 @@ export default function Plans(){
               <span className="text-sm uppercase text-accent font-bold"
                 >plano basico</span>
               <h2 className="mt-3">R$19,90</h2>
-              <p className="mt-3 mx-10">
-                <span className="font-bold">900 créditos</span> 
+              <p className="mt-3 mx-10 flex">
+                <CurrencyDollarIcon className="w-6 h-6 color-coin mr-1"/>
+                <span className="font-bold mr-1">750 + 50</span>
+                <p>GRÁTIS</p>
               </p>
             </div>
             {/* botao */}
             <div className="pb-6">
               <button
-                type="submit"
+                onClick={planBasic}
                 id="botao-principal"
                 className="py-3 px-12 rounded"
               >
@@ -46,7 +65,7 @@ export default function Plans(){
           {/* 02 */}
           <div
             id="card-foco"
-            className="flex flex-col justify-center items-center text-center max-w-[350px] min-h-[400px] w-full"
+            className="transition-transform duration-300 hover:scale-105 flex flex-col justify-center items-center text-center max-w-[350px] min-h-[400px] w-full"
           >
             <div
               className="flex flex-col items-center justify-center gap-6 rounded-xl px-6 py-8"
@@ -55,14 +74,16 @@ export default function Plans(){
               <span className="text-md uppercase font-bold"
                 >plano plus</span>
               <h2 className="mt-3 scale-150">R$79,90</h2>
-              <p className="mt-3 mx-10">
-                <span className="font-bold">4300 créditos</span>
+              <p className="mt-3 mx-10 flex">
+                <CurrencyDollarIcon className="w-6 h-6 color-coin mr-1"/>
+                <span className="font-bold mr-1">3550 + 150</span>
+                <p>GRÁTIS</p>
               </p>
             </div>
             {/* botao */}
             <div className="pb-6">
               <button
-                type="submit"
+                onClick={planPlus}
                 id="botao-principal-var"
                 className="py-3 px-12 rounded"
               >
@@ -74,7 +95,7 @@ export default function Plans(){
           {/* 03 */}
           <div
             id="card"
-            className="flex flex-col justify-center items-center text-center max-w-[350px] min-h-[350px] w-full"
+            className="transition-transform duration-300 hover:scale-105 flex flex-col justify-center items-center text-center max-w-[350px] min-h-[350px] w-full"
           >
             <div
               className="flex flex-col items-center justify-center gap-2 rounded-xl px-6 py-8"
@@ -84,14 +105,16 @@ export default function Plans(){
                 >plano intermediário</span>
 
               <h2 className="mt-3">R$39,90</h2>
-              <p className="mt-3 mx-10">
-                <span className="font-bold">2000 créditos</span>
+              <p className="mt-3 mx-10 flex">
+                <CurrencyDollarIcon className="w-6 h-6 color-coin mr-1"/>
+                <span className="font-bold mr-1">1700 + 100</span>
+                <p>GRÁTIS</p>
               </p>
             </div>
             {/* botao */}
             <div className="pb-6">
               <button
-                type="submit"
+                onClick={planIntermediary}
                 id="botao-principal"
                 className="py-3 px-12 rounded"
               >

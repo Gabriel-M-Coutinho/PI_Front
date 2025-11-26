@@ -15,6 +15,11 @@ import EditAccount from './pages/account/edit.tsx'
 import ProtectedRoute from './middlewares/protect-route.tsx'
 import Support from './pages/secondary/support.tsx'
 import { Thanks } from './pages/thanks/thanks.tsx'
+import MyLeads from './pages/account/myLeads.tsx'
+import MyOrders from './pages/account/myOrders.tsx'
+import PlanBasic from './pages/payment/planBasic.tsx'
+import PlanIntermediary from './pages/payment/planIntermediary.tsx'
+import PlanPlus from './pages/payment/planPlus.tsx'
 
 function App() {
 
@@ -33,6 +38,11 @@ function App() {
       <Route path='/support' element={<Support/>}></Route>
       <Route path='/dashboards' element={<Graph/>}></Route>
       <Route path='/success' element={<Thanks/>} ></Route>
+      <Route path='/myLeads' element={<MyLeads/>}/>
+      <Route path='/myOrders' element={<MyOrders/>}/>
+      <Route path='/planBasic' element={<PlanBasic/>}/>
+      <Route path='/planIntermediary' element={<PlanIntermediary/>}/>
+      <Route path='/planPlus' element={<PlanPlus/>}/>
     </Routes>
   )      
 }

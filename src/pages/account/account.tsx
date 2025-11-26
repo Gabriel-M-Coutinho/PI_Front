@@ -18,6 +18,14 @@ export default function Account() {
 
   // 1️⃣ Choose which icon to use
 
+    const myLeads = () => {
+        navigate("/myLeads");
+    }
+
+    const myOrders = () => {
+        navigate("/myOrders");
+    }
+
     const editAccount = () => {
         navigate("/account/edit");
     }
@@ -121,19 +129,27 @@ export default function Account() {
                     </button>
                 </div>
 
-                <div className="flex justify-end gap-3 pt-6">
-                <button id="botao-principal" className="rounded-lg py-2 px-7 rounded text-white"
-                onClick={editAccount}>
-                    Editar
-                </button>
+                    <div className="flex justify-end gap-3 pt-6">
+                    <button id="botao-principal" className="rounded-lg py-2 px-7 rounded text-white"
+                    onClick={editAccount}>
+                        Editar
+                    </button>
 
-                <button className="rounded-lg py-2 px-7 rounded bg-red-600 text-white hover:bg-red-500"
-                onClick={deleteProcediment}>
-                    Excluir
-                </button>
-                </div>
-                
+                    <button className="rounded-lg py-2 px-7 rounded bg-red-600 text-white hover:bg-red-500"
+                    onClick={deleteProcediment}>
+                        Excluir
+                    </button>
+                    </div>
             </div>
+            <div className="flex justify-start gap-3 pt-20">
+                    <button onClick={myLeads} className="bg-indigo-800 hover:bg-indigo-700 rounded-lg py-4 px-7 rounded text-white">
+                        Meus Leads
+                    </button>
+
+                    <button onClick={myOrders} className="bg-indigo-800 hover:bg-indigo-700 rounded-lg py-4 px-7 rounded text-white">
+                        Meus Pedidos
+                    </button>
+                    </div>
             </div>
             </main>
             {showDeleteModal && (
