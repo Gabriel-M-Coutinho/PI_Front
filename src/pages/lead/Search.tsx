@@ -58,6 +58,7 @@ export default function Search() {
   const quantity = formData.get("quantidade-leads")?.toString().trim();
   filters.quantity = quantity ? quantity : 0;
 
+  console.log(filters)
   try {
     setLoading(true);
 
@@ -101,25 +102,25 @@ export default function Search() {
 };
   // Função para chamar a API
   const fetchLeads = async (pageNumber: number = 1) => {
-    //const filters: any = {};
-    if (nomefantasia) filters.nomeFantasia = nomefantasia;
-    if (cnae) filters.cnae = cnae;
-    if (situacaocadastral) filters.situacaoCadastral = situacaocadastral;
+    const newFilters: any = {};
+    if (nomefantasia) newFilters.nomeFantasia = nomefantasia;
+    if (cnae) newFilters.cnae = cnae;
+    if (situacaocadastral) newFilters.situacaoCadastral = situacaocadastral;
 
-    if (uf) filters.uf = uf;
-    if (municipio) filters.municipio = municipio;
-    if (bairro) filters.bairro = bairro;
-    if (cep) filters.cep = cep;
-    if (ddd) filters.ddd = ddd;
+    if (uf) newFilters.uf = uf;
+    if (municipio) newFilters.municipio = municipio;
+    if (bairro) newFilters.bairro = bairro;
+    if (cep) newFilters.cep = cep;
+    if (ddd) newFilters.ddd = ddd;
 
-    if (capitalSocial) filters.capitalSocial = capitalSocial;
-    if (dataAbertura) filters.dataAbertura = dataAbertura; // dd/mm/yyyy ou dd/mm/yyyy:dd/mm/yyyy
-    if (matrizFilial) filters.matrizFilial = matrizFilial;
+    if (capitalSocial) newFilters.capitalSocial = capitalSocial;
+    if (dataAbertura) newFilters.dataAbertura = dataAbertura; // dd/mm/yyyy ou dd/mm/yyyy:dd/mm/yyyy
+    if (matrizFilial) newFilters.matrizFilial = matrizFilial;
 
-    if (pageSize) filters.pageSize = parseInt(pageSize);
-    filters.page = pageNumber;
+    if (pageSize) newFilters.pageSize = parseInt(pageSize);
+    newFilters.page = pageNumber;
 
-    setFilters(filters);
+    setFilters(newFilters);
     setQuantidadeLeadsModal(true);
   };
 
@@ -226,9 +227,6 @@ export default function Search() {
               <option value="baixada">Baixada</option>
               <option value="suspensa">Suspensa</option>
             </select>
-
-          <input type="text" className="w-[40%] block rounded-md bg-white/5 px-3.5 py-2 text-base text-white border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" placeholder="Município" value={municipio}
-            onChange={(e) => setMunicipio(e.target.value)} />
 
           <select className="text-gray-400 border-white-400 w-[60%] focus:outline-none" value={municipio} onChange={(e) => setMunicipio(e.target.value)}>
               <option value="">Municipio</option>
