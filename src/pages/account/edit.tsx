@@ -6,6 +6,7 @@ import type { UserDTO, UserProfile } from "../../types/types";
 import { deleteProfile, setProfileApi,  getProfile } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 
+<ToastContainer/>
 
 export default function Account() {
     const [user, setProfile] = useState<any>();
@@ -57,10 +58,9 @@ export default function Account() {
     // ---- SUCCESS ----
     const user: UserDTO = { fullName: nome, email, cpfCnpj, password };
     try {
-        await setProfileApi(user);
+        await setProfileApi(user).then(()=> navigate("/account"));
         toast.success("Usuário alterado com Sucesso!");
         console.log("User created:", user);
-        navigate("/account");
     } 
     catch (error) 
     {
@@ -99,7 +99,7 @@ export default function Account() {
                     type="text"
                     name="nome"
                     id="name"
-                    defaultValue={user.userName}
+                    defaultValue={user.fullName}
                     className="w-full bg-gray-800 border border-gray-700 text-gray-100 rounded p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600"
                     />
                     <p id="error_name"></p>
@@ -125,42 +125,6 @@ export default function Account() {
                     <p id="error_email"></p>
                 </div>
 
-                <div className="flex justify-between space-x-4">
-                    {/* Password */}
-                    <div className="flex flex-grow flex-col justify-between items-start">
-                        <label
-                        htmlFor="password"
-                        className="ml-1 mb-2 text-gray-400 font-medium w-40"
-                        >
-                        Nova Senha
-                        </label>
-
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            className="w-full bg-gray-800 border border-gray-700 text-gray-100 rounded p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                        />
-                        <p id="error_password"></p>
-                    </div>
-
-                    {/* Confirm Password */}
-                    <div className="flex flex-grow flex-col justify-between items-start">
-                        <label
-                        htmlFor="password_confirm"
-                        className="ml-1 mb-2 text-gray-400 font-medium w-40"
-                        >
-                        Confirmar Senha
-                        </label>
-                        <input
-                            type="password"
-                            name="password_confirm"
-                            id="password_confirm"
-                            className="w-full bg-gray-800 border border-gray-700 text-gray-100 rounded p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                        />
-                        <p id="error_pasword_confirm"></p>
-                    </div>
-                </div>
                 {/* CPF */}
                 <div className="flex flex-col justify-between items-start">
                     <label
@@ -211,7 +175,7 @@ export default function Account() {
 
 
             <Footer />
-            <ToastContainer/>
+            
         </div>
     );
 }

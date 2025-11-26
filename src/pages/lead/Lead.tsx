@@ -4,7 +4,7 @@ import { getLeadByCnpj } from "../../api/api";
 import { type FullLead, type Estabelecimento } from "../../types/types";
 import Header from "../components/header";
 import Footer from "../components/footer";
-//import { UserIcon, CurrencyDollarIcon, InformationCircleIcon, MapPinIcon, PhoneIcon, GlobeAmericasIcon } from "@heroicons/react/24/solid";
+import { UserIcon, CurrencyDollarIcon, InformationCircleIcon, MapPinIcon, PhoneIcon, GlobeAmericasIcon } from "@heroicons/react/24/solid";
 
 
 export default function Lead() {
