@@ -117,6 +117,10 @@ button {
   }
 }
 
+.color-coin {
+  color: #ffd900;
+}
+
 input,
 textarea.form-imput {
   background-color: transparent;

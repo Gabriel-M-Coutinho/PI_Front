@@ -25,7 +25,8 @@ useEffect(() => {
             setIsLoged(true);
             try {
                 const user = await getProfile();
-                setCoins(user.Credits);
+
+                setCoins(user.credits);
             } catch (err) {
                 console.log(err);
                 Cookies.remove("token");
@@ -75,8 +76,11 @@ useEffect(() => {
                         <div className="flex">
 
                         <div className="flex mr-8">
-                            <CurrencyDollarIcon className="w-6 h-6 mr-1.5"/>
-                            <p>{coins ? coins: 0}</p>
+                            <a className="flex" href="/plans">
+                                <CurrencyDollarIcon className="w-6 h-6 mr-1 color-coin"/>
+                                <p className="font-semibold">{coins ? coins: 0}</p>
+                            </a>
+   
                         </div>
                         <div id="user" className="flex md:gap-4 icon_user">
                             <a>
