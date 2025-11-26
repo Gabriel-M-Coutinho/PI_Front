@@ -11,6 +11,7 @@ import PasswordField from "../components/passwordfield";
 
 export default function Account() {
     const [user, setProfile] = useState<any>();
+    const [newUser, setNewUser] = useState<UserDTO | null>(null);
     const [confirmModal, setConfirmModal] = useState(false);
     const navigate  = useNavigate();
     const cancelEdit = () => {
@@ -51,41 +52,35 @@ export default function Account() {
         return toast.error("CPF/CNPJ must be 11 or 14 digits.");
 
     // ---- SUCCESS ----
+    const newUser: UserDTO = { fullName: nome, email, cpfCnpj, password: ""};
+    setNewUser(newUser);
     setConfirmModal(true);
-    try {
-            await setProfileApi(user).then(()=> navigate("/account"));
-            toast.success("Usuário alterado com Sucesso!");
-            console.log("User created:", user);
+    };
+
+    const handleConfirmSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if(!newUser) return toast.error("Erro, novas informações não foram captadas!");
+        const formData = new FormData(event.currentTarget);
+        const password = formData.get("current-password")?.toString();
+
+        if(!password) return toast.error("Informe a Senha Atual!");
+        newUser.password = password;
+        try {
+            await setProfileApi(newUser).then(()=> {
+                navigate("/account");
+                toast.success("Usuário alterado com Sucesso!");
+            }).catch(err => {
+                err.response.data.map((data: any) =>{
+                    toast.error(data.description);
+                })
+            });
         } 
         catch (error) 
         {
             console.error(error);
             toast.error("Erro ao alterar Usuário");
         }
-    };
-
-    interface PreUserDTO {
-        nome:string;
-        email:string;
-        cpfCnpj:string;
-    }
-    const handleConfirmSubmit = async (event: React.FormEvent<HTMLFormElement>/*, {nome, email, cpfCnpj}:PreUserDTO*/) => {
-        /*event.preventDefault();
-
-        const formData = new FormData(event.currentTarget);
-        const password = formData.get("current-password")?.toString();
-        if(!password) return;
-        //const user: UserDTO = { fullName: nome, email, cpfCnpj, password:password};
-        try {
-            await setProfileApi(user).then(()=> navigate("/account"));
-            toast.success("Usuário alterado com Sucesso!");
-            console.log("User created:", user);
-        } 
-        catch (error) 
-        {
-            console.error(error);
-            toast.error("Erro ao alterar Usuário");
-        }*/
     }
     return (
         <div className="bg-gradient-to-b from-primary to-[#0d2434]">

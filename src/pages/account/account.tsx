@@ -27,6 +27,22 @@ export default function Account() {
     const deleteProcediment = async () => {
         setShowDeleteModal(true);
     }
+    const handleConfirmDeleteSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
+        const currentPassword = formData.get("current-password")?.toString().trim()
+        if(!currentPassword) return toast.error("informe sua Senha Atual!");
+        await deleteProfile(currentPassword).then(()=>{
+            Cookies.remove("token");
+            navigate("/login");
+            toast.success("Conta excluída com sucesso!");
+        }).catch(err => {
+            console.log(err)
+            toast.error(err.response.data);
+        });
+    }
+
     const handleSubmitPassword = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -122,34 +138,24 @@ export default function Account() {
             </main>
             {showDeleteModal && (
             <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
-                <div className="bg-gray-800 text-gray-100 p-10 py-12 rounded-lg w-[550px] max-w-[80%] shadow-xl">
+                <div className="bg-gray-800 text-gray-100 px-16 py-12 rounded-lg w-[700px] max-w-[80%] shadow-xl">
                     <h2 className="text-xl font-semibold mb-4">Confirmar Exclusão</h2>
-                    <p className="my-8">Tem certeza de que deseja excluir sua conta? Esta ação é irreversível.</p>
-
-                    <div className="flex justify-end gap-3">
-                        <button
-                            onClick={() => setShowDeleteModal(false)}
-                            className="py-2 px-5 rounded bg-gray-600 hover:bg-gray-500"
-                        >
+                    <p className="my-8">Para deletar sua conta é necessário colocar sua senha</p>
+                    <form action="" onSubmit={handleConfirmDeleteSubmit}>
+                        <div className="space-y-8 my-12">
+                            <PasswordField label="Senha Atual" name="current-password" id="current-password" />
+                        </div>
+                        <div>
+                        <div className="flex justify-end gap-3">
+                        <button type="button" onClick={() => setShowDeleteModal(false)} className="py-2 px-5 rounded bg-gray-600 hover:bg-gray-500">
                             Cancelar
                         </button>
-
-                        <button
-                            onClick={async () => {
-                                await deleteProfile().then(()=>{
-                                    Cookies.remove("token");
-                                    navigate("/login");
-                                    toast.success("Conta excluída com sucesso!");
-                                }).catch(err => {
-                                    toast.error("Erro ao excluir conta.");
-                                    console.error(err)
-                                });
-                            }}
-                            className="py-2 px-5 rounded bg-red-600 hover:bg-red-500"
-                        >
+                        <button type="submit" className="py-2 px-5 rounded bg-red-600 hover:bg-red-500">
                             Excluir
                         </button>
+                        </div>
                     </div>
+                    </form>
                 </div>
             </div>)}
             {showEditPasswordModal && (
