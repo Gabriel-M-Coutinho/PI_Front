@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { deleteProfile, getProfile, changePassword } from "../../api/api";
 import { redirect, useNavigate } from "react-router-dom";
 import PasswordField from "../components/passwordfield";
-import type { ChangePasswordDTO } from "../../types/types";
-
+import { type ChangePasswordDTO, formatCNPJ, formatCPF} from "../../types/types";
 import Cookies from "js-cookie";
             <ToastContainer/>
+
 
 export default function Account() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -109,8 +109,8 @@ export default function Account() {
                 </div>
 
                 <div className="flex justify-between items-start">
-                <p className="text-gray-400 font-medium w-40">CPF/CNPJ</p>
-                <p className="text-gray-200">{user.cpfCnpj}</p>
+                <p className="text-gray-400 font-medium w-40">{user.tipo == "PF" ? "CPF" : "CNPJ"}</p>
+                <p className="text-gray-200">{user.tipo == "PF" ? formatCPF(user.cpfCnpj) : formatCNPJ(user.cpfCnpj)}</p>
                 </div>
 
                 <div className="flex justify-between items-start">
