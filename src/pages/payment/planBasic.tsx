@@ -1,8 +1,34 @@
+import { useEffect } from "react";
 import Footer from "../components/footer";
 import Header from "../components/header";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
+import { createOrder } from "../../api/api";
+import { toast, ToastContainer } from "react-toastify";
+<ToastContainer></ToastContainer>
+
+
+
 
 export default function PlanBasic() {
+
+  const handleBuy = async (e:any) => {
+    e.preventDefault()
+  try {
+    const checkout = await createOrder(0);
+
+    if (checkout?.checkoutUrl) {
+      window.location.href = checkout.checkoutUrl;
+    } else {
+      console.error("URL não retornada:", checkout);
+      toast.error("Erro ao gerar checkout");
+    }
+
+  } catch (error) {
+    console.error("Erro ao criar ordem:", error);
+    toast.error("Erro ao processar pagamento");
+  }
+};
+
   return (
     <>
       <div className="min-h-screen bg-gradient-to-l from-primary to-[#090814]">
@@ -95,7 +121,7 @@ export default function PlanBasic() {
                         </div>
                     {/* BOTÃO */}
                     <button
-                        type="submit"
+                        onClick={handleBuy}
                         className="transition-transform duration-300 hover:scale-105 px-16 py-4 rounded-xl text-lg font-semibold 
                                 bg-green-700 hover:bg-green-600 transition-all 
                                 shadow-md hover:shadow-xl"

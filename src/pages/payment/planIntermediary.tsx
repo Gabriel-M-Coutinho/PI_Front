@@ -1,8 +1,28 @@
+import { toast } from "react-toastify";
+import { createOrder } from "../../api/api";
 import Footer from "../components/footer";
 import Header from "../components/header";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 
 export default function PlanIntermediary() {
+
+  const handleBuy = async (e:any) => {
+      e.preventDefault()
+    try {
+      const checkout = await createOrder(1);
+  
+      if (checkout?.checkoutUrl) {
+        window.location.href = checkout.checkoutUrl;
+      } else {
+        console.error("URL não retornada:", checkout);
+        toast.error("Erro ao gerar checkout");
+      }
+  
+    } catch (error) {
+      console.error("Erro ao criar ordem:", error);
+      toast.error("Erro ao processar pagamento");
+    }
+  };
     return(<>
       <div className="min-h-screen bg-gradient-to-l from-primary to-[#090814]">
         <Header />
@@ -94,7 +114,7 @@ export default function PlanIntermediary() {
                         </div>
                     {/* BOTÃO */}
                     <button
-                        type="submit"
+                        onClick={handleBuy}
                         className="transition-transform duration-300 hover:scale-105 px-16 py-4 rounded-xl text-lg font-semibold 
                                 bg-green-700 hover:bg-green-600 transition-all 
                                 shadow-md hover:shadow-xl"
