@@ -42,7 +42,7 @@ export default function Plans(){
             >
               {/* textos */}
               <span className="text-sm uppercase text-accent font-bold"
-                >plano basico</span>
+                >plano básico</span>
               <h2 className="mt-3">R$19,90</h2>
               <p className="mt-3 mx-10 flex">
                 <CurrencyDollarIcon className="w-6 h-6 color-coin mr-1"/>

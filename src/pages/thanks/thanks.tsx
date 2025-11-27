@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import Header from "../components/header";
+import Footer from "../components/footer";
 
 export function Thanks(){
     
@@ -11,7 +13,6 @@ export function Thanks(){
         const sessionId = urlParams.get('session_id');
         
         if (!sessionId) return;
-        
 
         if (hasConfirmed.current) return;
         hasConfirmed.current = true;
@@ -25,12 +26,21 @@ export function Thanks(){
             
             if (result.success) {
                 toast.success("Pagamento realizado com sucesso!");
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 3000);
             } else {
                 toast.error("Pagamento recusado");
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 3000);
             }
         } catch (error) {
             console.error('Erro ao confirmar pagamento:', error);
             toast.error("Erro no servidor. Entre em contato para mais informações.");
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 3000);
         }
     }
 
@@ -39,10 +49,19 @@ export function Thanks(){
     }, []);
 
     return(
-        <div>{hasConfirmed ?            <h1>Obrigado pela compra!</h1> :             <p>Estamos confirmando seu pagamento...</p>}
- 
+        <>
+            <Header/>
 
-            <ToastContainer />
-        </div>
+            <div>
+                {hasConfirmed.current 
+                    ? <h1>Obrigado pela compra! Em breve seus créditos serão adicionados!</h1>
+                    : <p>Estamos confirmando seu pagamento...</p>
+                }
+
+                <ToastContainer />
+            </div>
+
+            <Footer/>
+        </>
     )
 }
