@@ -6,6 +6,7 @@ import { getProfile, searchLeads } from "../../api/api";
 import type { Estabelecimento } from "../../types/types";
 import Home from "../home/Home";
 import { toast } from "react-toastify";
+import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 
 export default function Search() {
   const [nomefantasia, setNomeFantasia] = useState("");
@@ -280,11 +281,18 @@ export default function Search() {
           <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-1">
               <div className="bg-[#25263b] text-gray-100 px-16 py-12 rounded-lg w-[550px] max-w-[80%] shadow-xl">
                   <h2 className="text-xl font-semibold mb-4">Busca</h2>
-                  <p className="my-8">Quantos Leads quer buscar? (Os leads custam Creditos)</p>
+                  <p className="mt-8">Quantos Leads gostaria de buscar?</p>
+                  <div className="flex">
+                    <p className="flex">(
+                    <span>1 lead = </span>
+                    <CurrencyDollarIcon className="w-6 color-coin ml-1"/>
+                    <span>1</span>
+                    )</p>
+                  </div>
                   <form action="" onSubmit={handleBuscaSubmit}>
                       <div className="flex my-12 justify-between">
-                          <label htmlFor="quantidade-leads" className="flex items-center text-lg font-semibold">Quantidade de Leads</label>
-                          <input type="number" name="quantidade-leads" min="0" className="flex w-fit px-4 rounded-md bg-white/5 border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" />
+                          <label htmlFor="quantidade-leads" className="flex items-center text-lg font-semibold">Quantidade de Leads:</label>
+                          <input type="number" name="quantidade-leads" min="0" className="px-4 rounded-md bg-white/5 border border-white/10 focus:border-indigo-500 placeholder:text-gray-500" />
                       </div>
                       <div>
                       <div className="flex justify-end gap-3">
@@ -296,9 +304,7 @@ export default function Search() {
                       </button>
                       </div>
                   </div>
-                  </form>
-
-                  
+                  </form>                  
               </div>
           </div>
         )}
