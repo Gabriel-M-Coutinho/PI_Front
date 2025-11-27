@@ -2,14 +2,19 @@ import { useEffect, useState } from "react";
 import Chart from 'react-apexcharts';
 import { establishmentsGraph, ordersGraph } from "../../api/api";
 import type { MunicipioData, GraphData } from "../../types/types";
+import Cookies from "js-cookie";
 import Header from "../components/header";
 import Footer from "../components/footer";
+import { getProfile } from "../../api/api";
+import { useNavigate } from "react-router-dom";
 
 export default function Graph() {
   const [establishmentsGraphData, setEstablishmentsGraphData] = useState<GraphData>({ categorias: [], valores: [] });
   const [ordersGraphData, setOrdersGraphData] = useState<GraphData>({ categorias: [], valores: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const hasEstablishmentsData = establishmentsGraphData.categorias.length > 0 && establishmentsGraphData.valores.length > 0;
   const hasOrderData = ordersGraphData.categorias.length > 0 && ordersGraphData.valores.length > 0;
@@ -131,6 +136,36 @@ export default function Graph() {
   fetchOrders();
 }, []);
 
+useEffect(() => {
+    const checkAuth = async () => {
+        const cookie = Cookies.get("token");
+        if (cookie) {
+            try {
+                const user = await getProfile();
+
+                if (user.roles && user.role == 0) {
+                    setIsAdmin(true);
+                    console.log("Usuário é ADMIN");
+                } else {
+                    setIsAdmin(false);
+                    console.log("Usuário NÃO é admin");
+                }
+            } catch (err) {
+                console.log(err);
+                Cookies.remove("token");
+                setIsAdmin(false);
+            }
+        } else {
+            setIsAdmin(false);
+        }
+    }
+
+    checkAuth();
+}, []);
+
+  if (!isAdmin) {
+    navigate("/unauthorized");
+  }
 
   if (loading) {
     return (
