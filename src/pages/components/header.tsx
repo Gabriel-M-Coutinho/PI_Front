@@ -27,13 +27,13 @@ useEffect(() => {
             setIsLogged(true);
             try {
                 const user = await getProfile();
-                console.log("ROLES: " + user.roles);
 
-                if (user.roles && user.roles.includes("ADMIN")) {
-                    setIsLogged(true);
+                if (user.roles && user.role == 0) {
                     setIsAdmin(true);
+                    console.log("Usuário é ADMIN");
                 } else {
                     setIsAdmin(false);
+                    console.log("Usuário NÃO é admin");
                 }
 
                 setCoins(user.credits);
@@ -41,9 +41,11 @@ useEffect(() => {
                 console.log(err);
                 Cookies.remove("token");
                 setIsLogged(false);
+                setIsAdmin(false);
             }
         } else {
             setIsLogged(false);
+            setIsAdmin(false);
         }
     }
 
