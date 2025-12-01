@@ -19,14 +19,14 @@ Sistema automatizado para importação, processamento e comercialização de dad
 - **Backup:** Sistema automatizado com retenção
 
 <div>
-  <img src="documentation_img/CSharp.png" alt="Logo CSharp" height="100">
-  <img src="documentation_img/mongodb.png" alt="Logo MongoDB" height="100">
-  <img src="documentation_img/typescript" alt="Logo TypeScript" height="100">
-  <img src="documentation_img/html.png" alt="Logo HTML" height="100">
-  <img src="documentation_img/css.png" alt="Logo CSS" height="100">
-  <img src="documentation_img/react.png" alt="Logo React" height="100">
-  <img src="documentation_img/git.png" alt="Logo Git" height="100">
-  <img src="documentation_img/tailwind.png" alt="Logo Tailwind" height="100">
+  <img src="documentation_img/CSharp.png" alt="Logo CSharp" height="80">
+  <img src="documentation_img/mongodb.png" alt="Logo MongoDB" height="80">
+  <img src="documentation_img/typescript" alt="Logo TypeScript" height="80">
+  <img src="documentation_img/html.png" alt="Logo HTML" height="80">
+  <img src="documentation_img/css.png" alt="Logo CSS" height="80">
+  <img src="documentation_img/react.png" alt="Logo React" height="80">
+  <img src="documentation_img/git.png" alt="Logo Git" height="80">
+  <img src="documentation_img/tailwind.png" alt="Logo Tailwind" height="80">
 </div>
 
 ---
