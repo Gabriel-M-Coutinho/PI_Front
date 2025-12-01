@@ -18,6 +18,16 @@ Sistema automatizado para importação, processamento e comercialização de dad
 - **Banco de Dados:** MongoDB
 - **Backup:** Sistema automatizado com retenção
 
+<div style="display: flex; justify-content: space-between; margin: 20px 50px; height: 150px; width: auto">
+  <img src="documentation_img/CSharp.png" alt="Logo CSharp">
+  <img src="documentation_img/mongodb.png" alt="Logo MongoDB">
+  <img src="documentation_img/typescript" alt="Logo TypeScript">
+  <img src="documentation_img/html.png" alt="Logo HTML">
+  <img src="documentation_img/css.png" alt="Logo CSS">
+  <img src="documentation_img/react.png" alt="Logo React">
+  <img src="documentation_img/git.png" alt="Logo Git">
+  <img src="documentation_img/tailwind.png" alt="Logo Tailwind">
+</div>
 
 ---
 
@@ -47,6 +57,9 @@ Sistema automatizado para importação, processamento e comercialização de dad
 - Export de leads em formatos prontos para CRM
 - Preço acessível por pacotes de leads
 
+<br/>
+<img src="documentation_img/Persona.png" alt="Persona 1" height="400">
+
 ### Persona 2: Analista de Inteligência de Mercado
 **Nome:** Mariana Costa  
 **Idade:** 32 anos  
@@ -73,7 +86,15 @@ Sistema automatizado para importação, processamento e comercialização de dad
 
 ---
 
-## 3. Histórias de Usuário
+## 3. Mapa de Empatia
+Mapa de Empatia da Persona 1
+<br/>
+<br/>
+<img src="documentation_img/Mapa_Empatia.png" alt="Mapa de Empatia" height="500">
+
+---
+
+## 4. Histórias de Usuário
 
 ### HU-001: Busca de Leads por Filtros
 **Como** gerente comercial  
@@ -137,7 +158,12 @@ Sistema automatizado para importação, processamento e comercialização de dad
 
 ---
 
-## 4. Requisitos Funcionais
+## 5. Modelo de Negócio Canvas
+<img src="documentation_img/Modelo_Negocio_Canvas.png" alt="Modelo de Negócio Canvas" height="500">
+
+---
+
+## 6. Requisitos Funcionais
 
 ### RF-001: Importação Automática de Dados
 Sistema deve importar automaticamente dados públicos da Receita Federal diariamente, processando:
@@ -214,11 +240,9 @@ Endpoints REST para integração:
 - Rate limiting (100 requisições/minuto)
 - Documentação Swagger
 
-
-
 ---
 
-## 5. Requisitos Não Funcionais
+## 7. Requisitos Não Funcionais
 
 ### RNF-001: Performance
 - Busca de leads deve retornar resultados em menos de 2 segundos
@@ -268,9 +292,16 @@ Endpoints REST para integração:
 
 ---
 
-## 6. Arquitetura do Sistema
+## 8. Cronograma
+Esse foi o cronograma que seguimos para desenvolvimento da nossa aplicação utilizando metódologias como Scrum e Kanban
+<br />
+<img src="documentation_img/Cronograma.png" alt="Cronograma" height="500">
 
-### 6.1 Arquitetura em Camadas
+---
+
+## 9. Arquitetura do Sistema
+
+### 9.1 Arquitetura em Camadas
 
 ```
 ┌─────────────────────────────────────┐
@@ -314,7 +345,7 @@ Endpoints REST para integração:
 └─────────────────────────────────────┘
 ```
 
-### 6.2 Componentes do Sistema
+### 9.2 Componentes do Sistema
 
 **Worker de Importação:**
 - Serviço background independente
@@ -331,9 +362,9 @@ Endpoints REST para integração:
 
 ---
 
-## 7. Modelo de Dados
+## 10. Modelo de Dados
 
-### 7.1 Coleção: Companies
+### 10.1 Coleção: Companies
 
 ```javascript
 {
@@ -377,7 +408,7 @@ Endpoints REST para integração:
 }
 ```
 
-### 7.2 Coleção: Users
+### 10.2 Coleção: Users
 
 ```javascript
 {
@@ -402,7 +433,7 @@ Endpoints REST para integração:
 }
 ```
 
-### 7.3 Coleção: Transactions
+### 10.3 Coleção: Transactions
 
 ```javascript
 {
@@ -419,7 +450,7 @@ Endpoints REST para integração:
 }
 ```
 
-### 7.4 Coleção: LeadExports
+### 10.4 Coleção: LeadExports
 
 ```javascript
 {
@@ -436,7 +467,7 @@ Endpoints REST para integração:
 }
 ```
 
-### 7.5 Coleção: ImportLogs
+### 10.5 Coleção: ImportLogs
 
 ```javascript
 {
@@ -453,7 +484,7 @@ Endpoints REST para integração:
 }
 ```
 
-### 7.6 Índices Principais
+### 10.6 Índices Principais
 
 ```javascript
 // Companies
@@ -485,9 +516,9 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 
 ---
 
-## 8. Fluxos do Sistema
+## 11. Fluxos do Sistema
 
-### 8.1 Fluxo de Importação Mensal
+### 11.1 Fluxo de Importação Mensal
 
 1. Worker inicia execução (scheduled - 03:00 AM do ultimo dia do mes)
 2. Faz download do arquivo de dados da Receita Federal
@@ -501,7 +532,7 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 6. Registra log de importação
 
 
-### 8.2 Fluxo de Busca e Compra de Leads
+### 11.2 Fluxo de Busca e Compra de Leads
 
 1. Usuário acessa página de busca
 2. Define filtros desejados
@@ -524,9 +555,9 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 
 ---
 
-## 9. Segurança e Conformidade
+## 12. Segurança e Conformidade
 
-### 9.1 Segurança da Aplicação
+### 12.1 Segurança da Aplicação
 
 **Autenticação:**
 - JWT com refresh token
@@ -544,7 +575,7 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 - Sanitização de queries
 
 
-### 9.2 LGPD e Privacidade
+### 12.2 LGPD e Privacidade
 
 **Dados Tratados:**
 - Sistema trabalha com dados públicos de empresas (CNPJ)
@@ -562,7 +593,7 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 - Registro de operações de tratamento
 
 
-### 9.3 Backup e Recuperação
+### 12.3 Backup e Recuperação
 
 **Estratégia de Backup:**
 - Backup incremental a cada 6 horas
@@ -579,14 +610,14 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 
 ---
 
-## 10. Integrações
+## 13. Integrações
 
-### 10.1 Gateway de Pagamento
+### 13.1 Gateway de Pagamento
 - Paypal
 - Webhooks para confirmação automática
 - Suporte a cartão, PIX e boleto
 
-### 10.2 Serviço de Email
+### 13.2 Serviço de Email
 - MimeKit
 - Templates transacionais
 - Tracking de aberturas e cliques
@@ -596,7 +627,7 @@ db.leadExports.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 
 ---
 
-## 11. Roadmap de Desenvolvimento
+## 14. Roadmap de Desenvolvimento
 
 ### Fase 1 - MVP (3 meses)
 - Importação manual de dados
